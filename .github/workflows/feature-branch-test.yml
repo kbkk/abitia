@@ -1,4 +1,4 @@
-name: Greet Everyone
+name: Feature branch
 on:
   push:
     branches-ignore:
@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Show infrastructure
+        id: showinfrastructure
         run: |
           cd infrastructure/aws
 
@@ -19,8 +20,27 @@ jobs:
           npm run build
 
           # todo: npm run cdk diff
-          npm run cdk synth
+          infra=$(npm run cdk synth)
 
+          infra="${infra//'%'/'%25'}"
+          infra="${infra//$'\n'/'%0A'}"
+          infra="${infra//$'\r'/'%0D'}"
+          echo "::set-output name=infra::$infra"
+      - uses: jwalton/gh-find-current-pr@v1.0.2
+        id: finder
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: marocchino/sticky-pull-request-comment@v1.4.0
+        name: Add comment to PR
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          header: Infrastructure
+          number: ${{ steps.finder.outputs.pr }}
+          message: |
+            Infrastructure for commit `${{ github.sha }}`:
+            ```
+            ${{ steps.showinfrastructure.outputs.infra }}
+            ```
   build:
     name: Test
     runs-on: ubuntu-latest
