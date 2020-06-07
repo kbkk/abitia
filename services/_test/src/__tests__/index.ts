@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import {expect} from 'chai';
 
-import {createServer} from '../src';
+import {createServer} from '../index';
 
 describe('integration tests', () => {
     it('should return 200 on /', async () => {
