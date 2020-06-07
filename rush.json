@@ -360,6 +360,10 @@
    */
   "projects": [
     {
+      "packageName": "@abitia/aws-infrastructure",
+      "projectFolder": "infrastructure/aws"
+    },
+    {
       "packageName": "@abitia/eslint-config",
       "projectFolder": "packages/eslint-config"
     },
