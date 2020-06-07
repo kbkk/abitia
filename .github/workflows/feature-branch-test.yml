@@ -5,6 +5,22 @@ on:
       master
 
 jobs:
+  infrastructure:
+    name: Diff infrastructure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Show infrastructure
+      - run: |
+          cd infrastructure/aws
+
+          npm install
+
+          npm run build
+
+          # todo: npm run cdk diff
+          npm run cdk synth
+
   build:
     name: Test
     runs-on: ubuntu-latest
