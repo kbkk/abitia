@@ -38,9 +38,13 @@ jobs:
           number: ${{ steps.finder.outputs.pr }}
           message: |
             Infrastructure for commit `${{ github.sha }}`:
-            ```
-            ${{ steps.showinfrastructure.outputs.infra }}
-            ```
+            <details>
+              <summary>Click to see the log</summary>
+
+              ```yml
+              ${{ steps.showinfrastructure.outputs.infra }}
+              ```
+            </details>
   build:
     name: Test
     runs-on: ubuntu-latest
