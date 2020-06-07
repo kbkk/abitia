@@ -1,0 +1,22 @@
+name: Greet Everyone
+on:
+  push:
+    branches-ignore:
+      master
+
+jobs:
+  build:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        run: |
+          node common/scripts/install-run-rush.js install
+
+          # todo: iterate over services dir
+          cd services/_test
+
+          npm run build
+
+          npm run test
