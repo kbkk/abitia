@@ -1,0 +1,23 @@
+{
+  "name": "abit",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Abit is a playground of mine, the goal is a 2D MMO game, although the main focus currently is developing services\r responsible for auth (Keycloak?), collecting statistics, handling payments, and perhaps an auction house.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kbkk/abit.git"
+  },
+  "author": "Jakub Kisielewski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kbkk/abit/issues"
+  },
+  "homepage": "https://github.com/kbkk/abit#readme",
+  "dependencies": {
+    "@microsoft/rush": "5.24.3"
+  }
+}
