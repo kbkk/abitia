@@ -1,0 +1,13 @@
+{
+  "name": "@abitia/eslint-config",
+  "version": "1.0.0",
+  "description": "ESLint configuration for @abitia",
+  "author": "Jakub Kisielewski",
+  "license": "MIT",
+  "main": "eslint-rules.js",
+  "devDependencies": {
+    "@typescript-eslint/parser": "3.1.0",
+    "@typescript-eslint/eslint-plugin": "3.1.0",
+    "eslint-plugin-import": "2.20.2"
+  }
+}

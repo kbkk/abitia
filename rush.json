@@ -360,6 +360,10 @@
    */
   "projects": [
     {
+      "packageName": "@abitia/eslint-config",
+      "projectFolder": "packages/eslint-config"
+    },
+    {
       "packageName": "@abitia/tsconfig",
       "projectFolder": "packages/tsconfig"
     },
