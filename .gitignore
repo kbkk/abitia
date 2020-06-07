@@ -1,6 +1,9 @@
 # IDEs
 .idea
 
+# Build artifacts
+dist
+
 # Logs
 *.log
 npm-debug.log*

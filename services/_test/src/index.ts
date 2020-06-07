@@ -1,8 +1,11 @@
-import * as fastify from 'fastify'
-import {Server, IncomingMessage, ServerResponse} from 'http'
+import {Server, IncomingMessage, ServerResponse} from 'http';
 
-export function createServer() {
-    const server: fastify.FastifyInstance<Server, IncomingMessage, ServerResponse> = fastify({});
+import * as fastify from 'fastify';
+
+type FastifyServer = fastify.FastifyInstance<Server, IncomingMessage, ServerResponse>;
+
+export function createServer(): FastifyServer {
+    const server: FastifyServer = fastify({});
 
     server.get('/', async (request, reply) => {
         return {message: 'Hello!'};
