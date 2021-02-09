@@ -2,7 +2,8 @@
   "extends": "@abitia/tsconfig",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "experimentalDecorators": true
   },
   "include": [
     "src"
