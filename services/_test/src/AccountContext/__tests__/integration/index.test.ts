@@ -1,6 +1,7 @@
 import {INestApplication} from '@nestjs/common';
 import {Test} from '@nestjs/testing';
 import * as request from 'supertest';
+
 import {AccountContextModule} from "../../AccountContextModule";
 
 describe('Tests', () => {
@@ -25,7 +26,7 @@ describe('Tests', () => {
         expect(body).toEqual({
             id: expect.any(String),
             email: 'jakub@example.com',
-            password: 'LITT UP'
+            password: expect.stringMatching('.{60}')
         });
     });
 

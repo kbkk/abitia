@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post, UsePipes} from "@nestjs/common";
+import {Body, Controller, Post, UsePipes} from "@nestjs/common";
 
 import {ZodValidationPipe} from "../../ZodValidationPipe";
 import {CreateAccountDto} from "../Dto/CreateAccountDto";

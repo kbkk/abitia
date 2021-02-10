@@ -12,7 +12,7 @@ export class CreateAccountService {
     }
 
     public async execute(dto: CreateAccountDto): Promise<Account> {
-        const account = new Account(newAccountId(), dto.email, dto.password);
+        const account = await Account.create(newAccountId(), dto.email, dto.password);
 
         await this.accountRepository.save(account);
 
