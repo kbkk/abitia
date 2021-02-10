@@ -2,19 +2,22 @@ import {Body, Controller, Get, Post, UsePipes} from "@nestjs/common";
 
 import {ZodValidationPipe} from "../../ZodValidationPipe";
 import {CreateAccountDto} from "../Dto/CreateAccountDto";
+import {CreateAccountService} from "../Services/CreateAccountService";
 
 @Controller()
 @UsePipes(ZodValidationPipe)
-export class AppController {
+export class AccountController {
+    public constructor(
+        private readonly createAccountService: CreateAccountService
+    ) {
+    }
+
     @Post('/accounts')
     public createAccount(
         @Body() dto: CreateAccountDto
-    ): string {
-        return 'Hello world';
-    }
+    ): Promise<{id: string; email: string, password: string}> {
+        const account = this.createAccountService.execute(dto);
 
-    @Get()
-    public getHello(): string {
-        return 'Hello world';
+        return account;
     }
 }

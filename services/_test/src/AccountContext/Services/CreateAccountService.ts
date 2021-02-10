@@ -1,10 +1,13 @@
+import {Inject} from "@nestjs/common";
+
 import {CreateAccountDto} from "../Dto/CreateAccountDto";
 import {Account, newAccountId} from "../Entities/Account";
-import {InMemoryAccountRepository} from "../Repositories/InMemoryAccountRepository";
+import {ACCOUNT_REPOSITORY, AccountRepository} from "../Repositories/AccountRepository";
 
 export class CreateAccountService {
     public constructor(
-        private accountRepository: InMemoryAccountRepository
+        @Inject(ACCOUNT_REPOSITORY)
+        private accountRepository: AccountRepository
     ) {
     }
 
