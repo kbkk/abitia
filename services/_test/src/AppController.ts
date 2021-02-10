@@ -1,5 +1,6 @@
 import {Body, Controller, Get, Post, UsePipes} from '@nestjs/common';
 import * as z from 'zod';
+
 import {ZodValidationPipe} from "./ZodValidationPipe";
 import {createZodDto} from "./createZodDto";
 
@@ -13,7 +14,7 @@ class HelloWorldDto extends createZodDto(helloWorldDtoSchema) {}
 export class AppController {
     @Post()
     @UsePipes(ZodValidationPipe)
-    postHello(
+    public postHello(
         @Body() dto: HelloWorldDto
     ): string {
         console.log(dto.hello);
@@ -21,7 +22,7 @@ export class AppController {
     }
 
     @Get()
-    getHello(): string {
+    public getHello(): string {
         return 'Hello world';
     }
 }
