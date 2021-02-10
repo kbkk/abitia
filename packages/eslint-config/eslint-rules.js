@@ -163,16 +163,6 @@ module.exports = {
                     }
                 ],
 
-                // RATIONALE:         Parameter properties provide a shorthand such as "constructor(public title: string)"
-                //                    that avoids the effort of declaring "title" as a field.  This TypeScript feature makes
-                //                    code easier to write, but arguably sacrifices readability:  In the notes for
-                //                    "@typescript-eslint/member-ordering" we pointed out that fields are central to
-                //                    a class's design, so we wouldn't want to bury them in a constructor signature
-                //                    just to save some typing.
-                //
-                // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-                "@typescript-eslint/no-parameter-properties": "error",
-
                 // RATIONALE:         When left in shipping code, unused variables often indicate a mistake.  Dead code
                 //                    may impact performance.
                 //
