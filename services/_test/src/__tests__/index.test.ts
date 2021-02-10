@@ -19,13 +19,9 @@ describe('Tests', () => {
     it(`/GET cats`, async () => {
         const {body} = await request(app.getHttpServer())
             .post('/')
-            .send({hello: 'world'})
+            .send({hello: 123});
 
         console.log(body);
-
-        await request(app.getHttpServer())
-            .post('/hello2')
-            .send({world: 'hello'})
     });
 
     afterAll(async () => {
