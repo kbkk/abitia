@@ -17,6 +17,8 @@ export class ZodValidationPipe implements PipeTransform {
                     .join(',');
                 throw new UnprocessableEntityException(`Input validation failed: ${message}`);
             }
+
+            return parseResult.data;
         }
 
         return value;
