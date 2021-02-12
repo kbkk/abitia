@@ -1,7 +1,7 @@
 import {Inject, Injectable} from "@nestjs/common";
 
 import {CreateAuctionDto} from "../Dto/CreateAuctionDto";
-import {Auction, newAuctionId} from "../Entities/Auction";
+import {Auction, AuctionTypes, newAuctionId} from "../Entities/Auction";
 import {AUCTION_REPOSITORY, AuctionRepository} from "../Repositories/AuctionRepository";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class CreateAuctionService {
             newAuctionId(),
             dto.item,
             dto.price,
-            dto.type,
+            dto.type as AuctionTypes,
             'sellerId'
         );
 
