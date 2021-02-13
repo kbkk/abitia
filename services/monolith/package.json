@@ -1,5 +1,5 @@
 {
-  "name": "@abitia/test-service",
+  "name": "@abitia/monolith-service",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
