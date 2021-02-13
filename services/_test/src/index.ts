@@ -1,14 +1,14 @@
-import {once} from "events";
+import { once } from 'events';
 
-import {NestFactory} from '@nestjs/core';
-import {ExpressAdapter} from "@nestjs/platform-express";
+import { NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
 
-import {AccountContextModule} from "./AccountContext/AccountContextModule";
-import {AuctionContextModule} from "./AuctionContext/AuctionContextModule";
+import { AccountContextModule } from './AccountContext/AccountContextModule';
+import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async function bootstrap() {
-    const factoryOptions = {abortOnError: true};
+    const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
 
     const accountContext = await NestFactory.create(AccountContextModule, express, factoryOptions);

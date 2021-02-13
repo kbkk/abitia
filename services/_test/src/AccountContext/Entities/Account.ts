@@ -1,6 +1,6 @@
-import {Entity, PrimaryKey, Property} from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 const SALT_ROUNDS = 12;
 
@@ -11,7 +11,7 @@ const hashPassword = (password: string): Promise<string> => bcrypt.hash(password
 
 @Entity()
 export class Account {
-    @PrimaryKey({type: 'string'})
+    @PrimaryKey({ type: 'string' })
     public readonly id: AccountId;
 
     @Property()

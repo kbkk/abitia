@@ -1,8 +1,8 @@
-import {Injectable} from "@nestjs/common";
+import { Injectable } from '@nestjs/common';
 
-import {Auction} from "../Entities/Auction";
+import { Auction } from '../Entities/Auction';
 
-import {AuctionRepository} from "./AuctionRepository";
+import { AuctionRepository } from './AuctionRepository';
 
 @Injectable()
 export class InMemoryAuctionRepository implements AuctionRepository {

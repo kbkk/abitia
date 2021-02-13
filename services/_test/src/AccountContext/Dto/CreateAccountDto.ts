@@ -1,6 +1,6 @@
-import * as z from "zod";
+import * as z from 'zod';
 
-import {createZodDto} from "../../createZodDto";
+import { createZodDto } from '../../createZodDto';
 
 const createAccountDtoSchema = z.object({
     email: z.string().min(5),

@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from 'zod';
 
 export type ZodDtoStatic<T> = {
     new (): T;

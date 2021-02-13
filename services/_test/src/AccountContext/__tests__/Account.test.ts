@@ -1,5 +1,5 @@
-import {InMemoryAccountRepository} from "../Repositories/InMemoryAccountRepository";
-import {CreateAccountService} from "../Services/CreateAccountService";
+import { InMemoryAccountRepository } from '../Repositories/InMemoryAccountRepository';
+import { CreateAccountService } from '../Services/CreateAccountService';
 
 describe('Account', () => {
     it('should create an account',async () => {

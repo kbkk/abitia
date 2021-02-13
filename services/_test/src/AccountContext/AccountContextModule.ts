@@ -1,10 +1,10 @@
-import {MikroOrmModule} from "@mikro-orm/nestjs";
-import {Module} from "@nestjs/common";
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Module } from '@nestjs/common';
 
-import {AccountController} from "./Controllers/AccountController";
-import {ACCOUNT_REPOSITORY} from "./Repositories/AccountRepository";
-import {SqliteAccountRepository} from "./Repositories/SqliteAccountRepository";
-import {CreateAccountService} from "./Services/CreateAccountService";
+import { AccountController } from './Controllers/AccountController';
+import { ACCOUNT_REPOSITORY } from './Repositories/AccountRepository';
+import { SqliteAccountRepository } from './Repositories/SqliteAccountRepository';
+import { CreateAccountService } from './Services/CreateAccountService';
 
 @Module({
     imports: [

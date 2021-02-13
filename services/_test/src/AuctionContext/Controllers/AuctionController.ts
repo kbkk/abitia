@@ -1,8 +1,8 @@
-import {Body, Controller, Post, UsePipes} from "@nestjs/common";
+import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 
-import {ZodValidationPipe} from "../../ZodValidationPipe";
-import {CreateAuctionDto} from "../Dto/CreateAuctionDto";
-import {CreateAuctionService} from "../Services/CreateAuctionService";
+import { ZodValidationPipe } from '../../ZodValidationPipe';
+import { CreateAuctionDto } from '../Dto/CreateAuctionDto';
+import { CreateAuctionService } from '../Services/CreateAuctionService';
 
 @Controller()
 @UsePipes(ZodValidationPipe)

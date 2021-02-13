@@ -1,8 +1,8 @@
-import {INestApplication} from '@nestjs/common';
-import {Test} from '@nestjs/testing';
+import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import {AccountContextModule} from "../../AccountContextModule";
+import { AccountContextModule } from '../../AccountContextModule';
 
 describe('Tests', () => {
     let app: INestApplication;
@@ -17,10 +17,10 @@ describe('Tests', () => {
         await app.init();
     });
 
-    it(`POST /accounts`, async () => {
-        const {body} = await request(app.getHttpServer())
+    it('POST /accounts', async () => {
+        const { body } = await request(app.getHttpServer())
             .post('/accounts')
-            .send({email: 'jakub@example.com', password: 'LITT UP'})
+            .send({ email: 'jakub@example.com', password: 'LITT UP' })
             .expect(201);
 
         expect(body).toEqual({

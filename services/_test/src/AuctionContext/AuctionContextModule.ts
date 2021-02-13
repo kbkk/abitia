@@ -1,10 +1,10 @@
-import {MikroOrmModule} from "@mikro-orm/nestjs";
-import {Module} from "@nestjs/common";
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { Module } from '@nestjs/common';
 
-import {AuctionController} from "./Controllers/AuctionController";
-import {AUCTION_REPOSITORY} from "./Repositories/AuctionRepository";
-import {InMemoryAuctionRepository} from "./Repositories/InMemoryAuctionRepository";
-import {CreateAuctionService} from "./Services/CreateAuctionService";
+import { AuctionController } from './Controllers/AuctionController';
+import { AUCTION_REPOSITORY } from './Repositories/AuctionRepository';
+import { InMemoryAuctionRepository } from './Repositories/InMemoryAuctionRepository';
+import { CreateAuctionService } from './Services/CreateAuctionService';
 
 @Module({
     imports: [

@@ -1,11 +1,11 @@
-import {Body, Controller, Get, Post, UsePipes} from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 import * as z from 'zod';
 
-import {ZodValidationPipe} from "./ZodValidationPipe";
-import {createZodDto} from "./createZodDto";
+import { ZodValidationPipe } from './ZodValidationPipe';
+import { createZodDto } from './createZodDto';
 
 const helloWorldDtoSchema = z.object({
-   hello: z.string()
+    hello: z.string()
 });
 
 class HelloWorldDto extends createZodDto(helloWorldDtoSchema) {}

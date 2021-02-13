@@ -1,4 +1,4 @@
-import {Auction, newAuctionId} from "../Auction";
+import { Auction, newAuctionId } from '../Auction';
 
 describe('Auction', () => {
     it('should create a new Auction object', () => {
@@ -11,12 +11,12 @@ describe('Auction', () => {
         );
 
         expect(auction).toEqual({
-            "createdAt": expect.any(Date),
-            "id": expect.any(String),
-            "item": "testItem",
-            "price": 1000,
-            "seller": "testSeller",
-            "type": "buy-it-now",
+            'createdAt': expect.any(Date),
+            'id': expect.any(String),
+            'item': 'testItem',
+            'price': 1000,
+            'seller': 'testSeller',
+            'type': 'buy-it-now',
         });
     });
 });

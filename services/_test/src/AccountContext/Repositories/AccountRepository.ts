@@ -1,4 +1,4 @@
-import {Account} from "../Entities/Account";
+import { Account } from '../Entities/Account';
 
 export interface AccountRepository {
     save(newAccount: Account): Promise<void>;
