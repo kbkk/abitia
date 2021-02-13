@@ -368,8 +368,8 @@
       "projectFolder": "packages/tsconfig"
     },
     {
-      "packageName": "@abitia/test-service",
-      "projectFolder": "services/_test"
+      "packageName": "@abitia/monolith-service",
+      "projectFolder": "services/monolith"
     }
     // {
     //   /**
