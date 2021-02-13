@@ -368,6 +368,10 @@
       "projectFolder": "packages/tsconfig"
     },
     {
+      "packageName": "@abitia/zod-dto",
+      "projectFolder": "packages/zod-dto"
+    },
+    {
       "packageName": "@abitia/monolith-service",
       "projectFolder": "services/monolith"
     }

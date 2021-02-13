@@ -15,6 +15,7 @@ export class ZodValidationPipe implements PipeTransform {
                 const message =  error.errors
                     .map(error => `${error.path.join('.')}: ${error.message}`)
                     .join(', ');
+
                 throw new UnprocessableEntityException(`Input validation failed: ${message}`);
             }
 
