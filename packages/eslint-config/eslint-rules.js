@@ -23,6 +23,9 @@ module.exports = {
 
         // Force single quotes around strings
         "quotes": ["error", "single"],
+
+        // Force a newline at the end of file
+        "eol-last": ["error", "always"],
     },
 
     overrides: [
