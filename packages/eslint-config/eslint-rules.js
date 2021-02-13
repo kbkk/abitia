@@ -14,6 +14,20 @@ module.exports = {
         "import"
     ],
 
+    rules: {
+        // Spaces around { curly: "braces" }
+        "object-curly-spacing": ["error", "always"],
+
+        // Indent code with 4 spaces
+        "indent": ["error", 4],
+
+        // Force single quotes around strings
+        "quotes": ["error", "single"],
+
+        // Force a newline at the end of file
+        "eol-last": ["error", "always"],
+    },
+
     overrides: [
         {
             // Declare an override that applies to TypeScript files only
@@ -30,6 +44,11 @@ module.exports = {
             },
 
             rules: {
+                // Leave a trailing comma
+                // RATIONALE: Better git diffs
+                "comma-dangle": "off",
+                "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
+
                 "import/order": [
                     "error",
                     {
@@ -162,16 +181,6 @@ module.exports = {
                         "allowDefinitionFiles": false
                     }
                 ],
-
-                // RATIONALE:         Parameter properties provide a shorthand such as "constructor(public title: string)"
-                //                    that avoids the effort of declaring "title" as a field.  This TypeScript feature makes
-                //                    code easier to write, but arguably sacrifices readability:  In the notes for
-                //                    "@typescript-eslint/member-ordering" we pointed out that fields are central to
-                //                    a class's design, so we wouldn't want to bury them in a constructor signature
-                //                    just to save some typing.
-                //
-                // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-                "@typescript-eslint/no-parameter-properties": "error",
 
                 // RATIONALE:         When left in shipping code, unused variables often indicate a mistake.  Dead code
                 //                    may impact performance.
