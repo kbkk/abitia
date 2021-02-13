@@ -1,6 +1,6 @@
+import { ZodValidationPipe } from '@abitia/zod-dto';
 import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 
-import { ZodValidationPipe } from '../../ZodValidationPipe';
 import { CreateAuctionDto } from '../Dto/CreateAuctionDto';
 import { CreateAuctionService } from '../Services/CreateAuctionService';
 

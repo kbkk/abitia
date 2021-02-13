@@ -1,6 +1,6 @@
+import { ZodValidationPipe } from '@abitia/zod-dto';
 import { Body, Controller, Post, UsePipes } from '@nestjs/common';
 
-import { ZodValidationPipe } from '../../ZodValidationPipe';
 import { CreateAccountDto } from '../Dto/CreateAccountDto';
 import { CreateAccountService } from '../Services/CreateAccountService';
 
