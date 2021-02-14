@@ -17,7 +17,8 @@ describe('Account', () => {
         expect(createdAccount).toEqual({
             id: expect.any(String),
             email: 'jakub@test.pl',
-            password: 'niebieski8'
+            confirmed: false,
+            password: expect.any(String),
         });
     });
 });

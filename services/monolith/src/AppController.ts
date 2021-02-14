@@ -16,7 +16,6 @@ export class AppController {
     public postHello(
         @Body() dto: HelloWorldDto
     ): string {
-        console.log(dto.hello);
         return 'Hello world';
     }
 

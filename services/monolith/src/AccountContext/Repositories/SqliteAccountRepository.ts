@@ -14,6 +14,7 @@ export class SqliteAccountRepository implements AccountRepository {
 
     public async save(newAccount: Account): Promise<void> {
         await this.em.persist(newAccount);
+        await this.em.flush();
     }
 
     // todo: id: AccountId

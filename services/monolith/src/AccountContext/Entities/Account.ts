@@ -14,11 +14,17 @@ export class Account {
     @PrimaryKey({ type: 'string' })
     public readonly id: AccountId;
 
-    @Property()
+    @Property({ type: 'string' })
     public readonly email: string;
 
-    @Property()
+    @Property({ type: 'string' })
     public readonly password: string;
+    
+    @Property({ type: 'string', nullable: true })
+    public readonly confirmationCode?: string;
+
+    @Property({ type: 'boolean' })
+    public readonly confirmed: boolean;
 
     private constructor(
         id: AccountId,
@@ -28,10 +34,19 @@ export class Account {
         this.id = id;
         this.email = email;
         this.password = password;
+        this.confirmed = false;
     }
 
     public async updatePassword(password: string): Promise<void> {
         (this.password as string) = await hashPassword(password);
+    }
+
+    public setConfirmationCode(code: string): void {
+        (this.confirmationCode as string) = code;
+    }
+
+    public markAsConfirmed(): void {
+        (this.confirmed as boolean) = true;
     }
 
     public static async create(
