@@ -398,7 +398,8 @@ module.exports = {
                 "no-unsafe-finally": "error",
 
                 // RATIONALE:         Catches a common coding mistake.
-                "no-unused-expressions": "error",
+                "no-unused-expressions": "off",
+                "@typescript-eslint/no-unused-expressions": "error",
 
                 // STANDARDIZED BY:   eslint\conf\eslint-recommended.js
                 "no-unused-labels": "error",
