@@ -11,7 +11,7 @@ import { CreateAuctionService } from './Services/CreateAuctionService';
         MikroOrmModule.forRoot({
             entities: ['../../dist/AuctionContext/Entities/*.js'],
             entitiesTs: ['../../src/AuctionContext/Entities/*.ts'],
-            dbName: 'my-db-name.sqlite3',
+            dbName: 'auction-context.sqlite3',
             type: 'sqlite',
             baseDir: __dirname,
         }),
