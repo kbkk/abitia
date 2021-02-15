@@ -1,8 +1,8 @@
 export const LOGGER = 'LOGGER';
 
 export interface Logger {
-    error(message: string, ...args: unknown[]): void;
-    log(message: string, ...args: unknown[]): void;
-    warn(message: string, ...args: unknown[]): void;
-    debug(message: string, ...args: unknown[]): void;
+    error(message: string, obj?: Record<string, unknown>): void;
+    log(message: string, obj?: Record<string, unknown>): void;
+    warn(message: string, obj?: Record<string, unknown>): void;
+    debug(message: string, obj?: Record<string, unknown>): void;
 }

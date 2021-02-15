@@ -7,6 +7,26 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
+import { NestJsLoggerAdapter } from './Core/Logger';
+
+/**
+ * Nest.js doesn't allow overwriting its ExceptionZone
+ * The default exception zone kills the process in case any Error is thrown during the initialization process,
+ * which doesn't fit us as e.g. INestApplication.get(<service>) throws if the requested <service> cannot be found.
+ */
+export class MonolithNestFactory {
+    public static create(module, serverOrOptions, options): Promise<INestApplication> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const ob = NestFactory as any;
+        ob.__proto__.createExceptionZone = (receiver, prop) => {
+            return (...args) => {
+                const result = receiver[prop](...args);
+                return result;
+            };
+        };
+        return NestFactory.create(module, serverOrOptions, options);
+    }
+}
 
 async function createModule(
     module: unknown,
@@ -14,7 +34,7 @@ async function createModule(
     httpAdapter: AbstractHttpAdapter,
     factoryOptions: NestApplicationOptions
 ): Promise<INestApplication> {
-    const nestApp = await NestFactory.create(module, httpAdapter, factoryOptions);
+    const nestApp = await MonolithNestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
 
     const orm = nestApp.get(MikroORM);
@@ -22,6 +42,13 @@ async function createModule(
     await generator.dropSchema();
     await generator.createSchema();
     await generator.updateSchema();
+
+    try {
+        const logger = nestApp.get(NestJsLoggerAdapter);
+        nestApp.useLogger(logger);
+    } catch (error) {
+        console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
+    }
 
     return nestApp;
 }

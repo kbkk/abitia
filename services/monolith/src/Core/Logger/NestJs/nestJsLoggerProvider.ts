@@ -1,7 +1,7 @@
 import { LOGGER } from '../Logger';
-import { NestJsLogger } from '../NestJsLogger';
+import { PinoLogger } from '../PinoLogger';
 
 export const nestJsLoggerProvider = {
     provide: LOGGER,
-    useClass: NestJsLogger,
+    useClass: PinoLogger,
 };
