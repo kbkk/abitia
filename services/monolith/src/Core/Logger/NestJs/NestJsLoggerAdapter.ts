@@ -12,23 +12,28 @@ export class NestJsLoggerAdapter implements LoggerService {
     ) {
     }
 
-    public verbose(message: string, context?: string, ...args: unknown[]): void {
-        this.logger.debug(message, { args });
+    public verbose(message: string, context?: string): void {
+        this.logger.debug(this._formatMessage(message, context));
     }
 
-    public debug(message: string, context?: string, ...args: unknown[]): void {
-        this.logger.debug(message, { args });
+    public debug(message: string, context?: string): void {
+        this.logger.debug(this._formatMessage(message, context));
     }
 
-    public log(message: string, context?: string, ...args: unknown[]): void {
-        this.logger.log(message, { args });
+    public log(message: string, context?: string): void {
+        this.logger.log(this._formatMessage(message, context));
     }
 
-    public warn(message: string, context?: string, ...args: unknown[]): void {
-        this.logger.warn(message, { args });
+    public warn(message: string, context?: string): void {
+        this.logger.warn(this._formatMessage(message, context));
     }
 
-    public error(message: string, trace?: string, context?: string, ...args: unknown[]): void {
-        this.logger.error(message, { trace, context, args });
+    public error(message: string, trace?: string, context?: string): void {
+        this.logger.error(this._formatMessage(message, context), { trace });
+    }
+
+    private _formatMessage(message: string, context?: string): string {
+        const prefix = context ? `[${context}] ` : '';
+        return prefix + message;
     }
 }
