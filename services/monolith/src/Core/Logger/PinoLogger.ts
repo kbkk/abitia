@@ -19,7 +19,7 @@ export class PinoLogger implements Logger {
         this._doLog('error', message, obj);
     }
 
-    public log(message: string, obj?: Record<string, unknown>): void {
+    public info(message: string, obj?: Record<string, unknown>): void {
         this._doLog('info', message, obj);
     }
 

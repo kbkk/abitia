@@ -21,7 +21,7 @@ export class NestJsLoggerAdapter implements LoggerService {
     }
 
     public log(message: string, context?: string): void {
-        this.logger.log(this._formatMessage(message, context));
+        this.logger.info(this._formatMessage(message, context));
     }
 
     public warn(message: string, context?: string): void {
