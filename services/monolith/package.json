@@ -25,7 +25,9 @@
     "@mikro-orm/sqlite": "~4.4.2",
     "@mikro-orm/core": "~4.4.2",
     "@mikro-orm/nestjs": "~4.2.0",
-    "bcrypt": "~5.0.0"
+    "bcrypt": "~5.0.0",
+    "pino": "~6.11.1",
+    "pino-pretty": "~4.5.0"
   },
   "devDependencies": {
     "@abitia/eslint-config": "~1.0.0",
@@ -42,6 +44,7 @@
     "ts-jest": "~26.5.1",
     "supertest": "~6.1.3",
     "@types/supertest": "~2.0.10",
-    "@types/bcrypt": "~3.0.0"
+    "@types/bcrypt": "~3.0.0",
+    "@types/pino": "~6.3.5"
   }
 }

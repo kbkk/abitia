@@ -2,7 +2,7 @@ import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
-import { nestJsLoggerProvider } from '../Core/Logger';
+import { NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
 
 import { AccountController } from './Controllers/AccountController';
 import { SendAccountCreatedEmail } from './EventHandlers/SendAccountCreatedEmail';
@@ -41,8 +41,9 @@ export class AccountContextModule {
                     provide: ACCOUNT_REPOSITORY,
                     useClass: SqliteAccountRepository
                 },
-                nestJsLoggerProvider,
-                nestJsInMemoryEventBusProvider
+                ...nestJsLoggerProvider,
+                nestJsInMemoryEventBusProvider,
+                NestJsLoggerAdapter
             ]
         };
     }

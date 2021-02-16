@@ -3,10 +3,34 @@ import { once } from 'events';
 import { MikroORM } from '@mikro-orm/core';
 import { INestApplication, NestApplicationOptions } from '@nestjs/common';
 import { AbstractHttpAdapter, NestFactory } from '@nestjs/core';
+import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 import { ExpressAdapter } from '@nestjs/platform-express';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
+import { NestJsLoggerAdapter } from './Core/Logger';
+
+/**
+ * Nest.js doesn't allow overwriting its ExceptionZone
+ * The default exception zone kills the process in case any Error is thrown during the initialization process,
+ * which doesn't fit us as e.g. INestApplication.get(<service>) throws if the requested <service> cannot be found.
+ */
+export class MonolithNestFactory extends NestFactoryStatic {
+    public constructor() {
+        super();
+
+        // createExceptionZone is private, force override
+        // eslint-disable-next-line dot-notation
+        this['createExceptionZone'] = (receiver, prop) => {
+            return (...args) => {
+                const result = receiver[prop!](...args);
+                return result;
+            };
+        };
+    }
+}
+
+const nestFactory = new MonolithNestFactory();
 
 async function createModule(
     module: unknown,
@@ -14,7 +38,7 @@ async function createModule(
     httpAdapter: AbstractHttpAdapter,
     factoryOptions: NestApplicationOptions
 ): Promise<INestApplication> {
-    const nestApp = await NestFactory.create(module, httpAdapter, factoryOptions);
+    const nestApp = await nestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
 
     const orm = nestApp.get(MikroORM);
@@ -22,6 +46,13 @@ async function createModule(
     await generator.dropSchema();
     await generator.createSchema();
     await generator.updateSchema();
+
+    try {
+        const logger = nestApp.get(NestJsLoggerAdapter);
+        nestApp.useLogger(logger);
+    } catch (error) {
+        console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
+    }
 
     return nestApp;
 }
