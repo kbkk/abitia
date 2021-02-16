@@ -27,6 +27,8 @@ export class CreateAccountService {
             new AccountCreatedEvent(account.id)
         );
 
+        this.logger.info(`Created account ${account.id}`);
+
         return account;
     }
 }
