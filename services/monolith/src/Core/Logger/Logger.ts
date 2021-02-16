@@ -1,5 +1,3 @@
-export const LOGGER = 'LOGGER';
-
 export interface Logger {
     error(message: string, obj?: Record<string, unknown>): void;
     log(message: string, obj?: Record<string, unknown>): void;

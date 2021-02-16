@@ -1,14 +1,16 @@
-import * as pinoFactory from 'pino';
+import { Logger as PinoInstance } from 'pino';
 
 import { Logger } from './Logger';
-
-// Todo: register pino itself in DI container
-const pino = pinoFactory({ prettyPrint: true });
 
 /**
  * Logger implementation based on pino.js
  */
 export class PinoLogger implements Logger {
+    public constructor(
+        private readonly pino: PinoInstance
+    ) {
+    }
+
     public debug(message: string, obj?: Record<string, unknown>): void {
         this._doLog('debug', message, obj);
     }
@@ -27,9 +29,9 @@ export class PinoLogger implements Logger {
 
     private _doLog(logType: string, message: string, obj?: Record<string, unknown>): void {
         if(obj) {
-            pino[logType](obj, message);
+            this.pino[logType](obj, message);
         } else {
-            pino[logType](message);
+            this.pino[logType](message);
         }
     }
 }

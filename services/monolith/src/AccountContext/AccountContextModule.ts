@@ -41,7 +41,7 @@ export class AccountContextModule {
                     provide: ACCOUNT_REPOSITORY,
                     useClass: SqliteAccountRepository
                 },
-                nestJsLoggerProvider,
+                ...nestJsLoggerProvider,
                 nestJsInMemoryEventBusProvider,
                 NestJsLoggerAdapter
             ]
