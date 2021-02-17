@@ -47,6 +47,15 @@ module.exports = {
             },
 
             rules: {
+                // Force spaces before function parens
+                // RATIONALE: code style consistency
+                "space-before-function-paren": "off",
+                "@typescript-eslint/space-before-function-paren": ["error", {
+                    "anonymous": "never",
+                    "named": "never",
+                    "asyncArrow": "always"
+                }],
+
                 // Leave a trailing comma
                 // RATIONALE: Better git diffs
                 "comma-dangle": "off",
