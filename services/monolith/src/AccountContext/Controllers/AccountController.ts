@@ -16,7 +16,7 @@ export class AccountController {
 
     @Post('/accounts')
     public async createAccount(
-        @Body() dto: CreateAccountDto
+        @Body() dto: CreateAccountDto,
     ): Promise<{id: string; email: string;}> {
         const account = await this.createAccountService.execute(dto);
 
@@ -30,7 +30,7 @@ export class AccountController {
     @Get('/accounts/:accountId/confirm')
     public async confirmAccountEmail(
         @Param('accountId') accountId,
-        @Query('code') confirmationCode
+        @Query('code') confirmationCode,
     ): Promise<{success: boolean}> {
         const result = await this.confirmAccountService.execute(accountId, confirmationCode);
 

@@ -13,7 +13,7 @@ import { CreateAccountService } from './Services/CreateAccountService';
 
 interface AccountContextModuleOptions {
     mikroOrmOptions?: MikroOrmModuleSyncOptions;
-} 
+}
 
 @Module({})
 export class AccountContextModule {
@@ -27,7 +27,7 @@ export class AccountContextModule {
                     dbName: 'account-context.sqlite3',
                     type: 'sqlite',
                     baseDir: __dirname,
-                    ...mikroOrmOptions
+                    ...mikroOrmOptions,
                 }),
             ],
             controllers: [
@@ -39,12 +39,12 @@ export class AccountContextModule {
                 SendAccountCreatedEmail,
                 {
                     provide: ACCOUNT_REPOSITORY,
-                    useClass: SqliteAccountRepository
+                    useClass: SqliteAccountRepository,
                 },
                 ...nestJsLoggerProvider,
                 nestJsInMemoryEventBusProvider,
-                NestJsLoggerAdapter
-            ]
+                NestJsLoggerAdapter,
+            ],
         };
     }
 }

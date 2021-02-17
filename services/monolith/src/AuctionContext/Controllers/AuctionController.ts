@@ -8,13 +8,13 @@ import { CreateAuctionService } from '../Services/CreateAuctionService';
 @UsePipes(ZodValidationPipe)
 export class AuctionController {
     public constructor(
-        private readonly createAuctionService: CreateAuctionService
+        private readonly createAuctionService: CreateAuctionService,
     ) {
     }
 
     @Post('/auctions')
     public createAuction(
-        @Body() dto: CreateAuctionDto
+        @Body() dto: CreateAuctionDto,
     ): Promise<{id: string;}> {
         const auction = this.createAuctionService.execute(dto);
 

@@ -14,7 +14,7 @@ export class CreateAccountService {
         @Inject(EVENT_BUS)
         private readonly eventBus: EventBus,
         @Inject(LOGGER)
-        private readonly logger: Logger
+        private readonly logger: Logger,
     ) {
     }
 
@@ -22,9 +22,9 @@ export class CreateAccountService {
         const account = await Account.create(newAccountId(), dto.email, dto.password);
 
         await this.accountRepository.save(account);
-        
+
         this.eventBus.publish(
-            new AccountCreatedEvent(account.id)
+            new AccountCreatedEvent(account.id),
         );
 
         this.logger.info(`Created account ${account.id}`);

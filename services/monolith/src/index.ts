@@ -2,7 +2,7 @@ import { once } from 'events';
 
 import { MikroORM } from '@mikro-orm/core';
 import { INestApplication, NestApplicationOptions } from '@nestjs/common';
-import { AbstractHttpAdapter, NestFactory } from '@nestjs/core';
+import { AbstractHttpAdapter } from '@nestjs/core';
 import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 import { ExpressAdapter } from '@nestjs/platform-express';
 
@@ -36,7 +36,7 @@ async function createModule(
     module: unknown,
     httpPrefix: string,
     httpAdapter: AbstractHttpAdapter,
-    factoryOptions: NestApplicationOptions
+    factoryOptions: NestApplicationOptions,
 ): Promise<INestApplication> {
     const nestApp = await nestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
@@ -75,6 +75,6 @@ async function createModule(
 
     const server = express.listen(3000);
     await once(server, 'listening');
-    
+
     console.log('Nest.js app server started');
 })();

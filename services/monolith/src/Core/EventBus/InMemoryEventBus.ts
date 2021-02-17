@@ -5,12 +5,12 @@ import { EventBus, EventBusSubscriber } from './EventBus';
 
 export class InMemoryEventBus implements EventBus {
     private subscribers: Record<string, EventBusSubscriber<unknown>[]> = {};
-    
+
     public constructor(
-        private readonly logger?: Logger
+        private readonly logger?: Logger,
     ) {
     }
-    
+
     public publish(event: Event): void {
         // Run subscribers in a fire&forget manner
         this

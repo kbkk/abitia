@@ -7,7 +7,7 @@ describe('Auction', () => {
             'testItem',
             1000,
             'buy-it-now',
-            'testSeller'
+            'testSeller',
         );
 
         expect(auction).toEqual({

@@ -19,7 +19,7 @@ export class Account {
 
     @Property({ type: 'string' })
     public readonly password: string;
-    
+
     @Property({ type: 'string', nullable: true })
     public readonly confirmationCode?: string;
 
@@ -57,7 +57,7 @@ export class Account {
         return new Account(
             id,
             email,
-            await hashPassword(password)
+            await hashPassword(password),
         );
     }
 }

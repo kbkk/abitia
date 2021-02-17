@@ -4,7 +4,7 @@ import * as z from 'zod';
 
 
 const helloWorldDtoSchema = z.object({
-    hello: z.string()
+    hello: z.string(),
 });
 
 class HelloWorldDto extends createZodDto(helloWorldDtoSchema) {}
@@ -14,7 +14,7 @@ export class AppController {
     @Post()
     @UsePipes(ZodValidationPipe)
     public postHello(
-        @Body() dto: HelloWorldDto
+        @Body() dto: HelloWorldDto,
     ): string {
         return 'Hello world';
     }

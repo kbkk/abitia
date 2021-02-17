@@ -10,7 +10,7 @@ describe('Account', () => {
 
         const result = await svc.execute({
             email: 'jakub@test.pl',
-            password: 'niebieski8'
+            password: 'niebieski8',
         });
 
         const createdAccount = await repo.findById(result.id);

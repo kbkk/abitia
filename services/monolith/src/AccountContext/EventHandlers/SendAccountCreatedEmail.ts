@@ -17,7 +17,7 @@ export class SendAccountCreatedEmail {
     ) {
         this.eventBus.subscribe(AccountCreatedEvent, this.handle.bind(this));
     }
-    
+
     private async handle(event: AccountCreatedEvent): Promise<void> {
         const account = await this.accountRepository.findById(event.accountId);
 

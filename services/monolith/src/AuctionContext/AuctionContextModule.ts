@@ -23,9 +23,9 @@ import { CreateAuctionService } from './Services/CreateAuctionService';
         CreateAuctionService,
         {
             provide: AUCTION_REPOSITORY,
-            useClass: InMemoryAuctionRepository
-        }
-    ]
+            useClass: InMemoryAuctionRepository,
+        },
+    ],
 })
 export class AuctionContextModule {
 }

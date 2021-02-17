@@ -20,7 +20,7 @@ export class SqliteAccountRepository implements AccountRepository {
     // todo: id: AccountId
     public async findById(id: string): Promise<Account | undefined> {
         const account = await this.em.findOne(Account, { id }) ?? undefined;
-        
+
         return account;
     }
 }

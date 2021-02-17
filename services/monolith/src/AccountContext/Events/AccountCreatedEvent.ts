@@ -3,7 +3,7 @@ import { AccountId } from '../Entities/Account';
 
 export class AccountCreatedEvent extends Event {
     public constructor(
-        public readonly accountId: AccountId
+        public readonly accountId: AccountId,
     ) {
         super();
     }

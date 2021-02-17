@@ -8,7 +8,7 @@ import { AUCTION_REPOSITORY, AuctionRepository } from '../Repositories/AuctionRe
 export class CreateAuctionService {
     public constructor(
         @Inject(AUCTION_REPOSITORY)
-        private auctionRepository: AuctionRepository
+        private auctionRepository: AuctionRepository,
     ) {
     }
 
@@ -18,7 +18,7 @@ export class CreateAuctionService {
             dto.item,
             dto.price,
             dto.type as AuctionTypes,
-            'sellerId'
+            'sellerId',
         );
 
         await this.auctionRepository.save(auction);

@@ -13,9 +13,9 @@ describe('Tests', () => {
             imports: [
                 AccountContextModule.forRoot({
                     mikroOrmOptions: {
-                        dbName: ':memory:'
-                    }
-                })
+                        dbName: ':memory:',
+                    },
+                }),
             ],
         })
             .compile();

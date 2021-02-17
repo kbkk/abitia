@@ -7,7 +7,7 @@ import { Logger } from './Logger';
  */
 export class PinoLogger implements Logger {
     public constructor(
-        private readonly pino: PinoInstance
+        private readonly pino: PinoInstance,
     ) {
     }
 
