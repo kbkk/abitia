@@ -26,6 +26,9 @@ module.exports = {
 
         // Force a newline at the end of file
         "eol-last": ["error", "always"],
+
+        // Remove trailing spaces
+        "no-trailing-spaces": "error",
     },
 
     overrides: [
