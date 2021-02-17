@@ -50,7 +50,7 @@ module.exports = {
                 // Leave a trailing comma
                 // RATIONALE: Better git diffs
                 "comma-dangle": "off",
-                "@typescript-eslint/comma-dangle": ["error", "only-multiline"],
+                "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
 
                 "import/order": [
                     "error",
