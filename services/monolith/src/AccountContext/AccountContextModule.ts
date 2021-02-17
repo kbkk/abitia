@@ -4,6 +4,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
 
+import { AccountContextGateway } from './AccountContextGateway';
 import { AccountContextConfig } from './Configs/AccountContextConfig';
 import { AccountController } from './Controllers/AccountController';
 import { AuthController } from './Controllers/AuthController';
@@ -39,6 +40,7 @@ export class AccountContextModule {
                 AuthController,
             ],
             providers: [
+                AccountContextGateway,
                 CreateAuthTokenService,
                 ConfirmAccountService,
                 CreateAccountService,
