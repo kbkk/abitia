@@ -67,7 +67,7 @@ async function createModule(
 
     // Todo: this may break.
     // Initializing a single nest module registers a 404 handler and modules registered after that one
-    // will not register they controllers correctly https://github.com/nestjs/nest/issues/4269
+    // will not register their controllers correctly https://github.com/nestjs/nest/issues/4269
     await Promise.all([
         accountContext.init(),
         auctionContext.init(),
