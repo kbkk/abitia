@@ -4,6 +4,7 @@ dependencies:
   '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
   '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
   '@nestjs/platform-express': 7.6.11_@nestjs+core@7.6.11
+  '@nestjs/swagger': 4.7.13_59a2db8685d90883ead7c8d9e652e179
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
   '@rush-temp/eslint-config': file:projects/eslint-config.tgz_eslint@7.20.0
   '@rush-temp/monolith-service': file:projects/monolith-service.tgz
@@ -30,6 +31,7 @@ dependencies:
   rimraf: 3.0.2
   rxjs: 6.6.3
   supertest: 6.1.3
+  swagger-ui-express: 4.1.6
   ts-jest: 26.5.1_jest@26.6.3
   ts-node: 9.1.1
   uuid: 8.3.2
@@ -765,6 +767,29 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-Knjzy755Er2Nainv/kNqnfQVz8JnCFmqOZbMOZ4IYHzUcfM+Qt/w5rAQQRwRjmpqbyCte4FcVVbv0cU2jBOb/Q==
+  /@nestjs/mapped-types/0.3.0_af60845e0e2cd5e96abf5956b5d4e9f8:
+    dependencies:
+      '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
+      reflect-metadata: 0.1.13
+    dev: false
+    peerDependencies:
+      '@nestjs/common': ^7.0.8
+      class-transformer: ^0.2.0 || ^0.3.0
+      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0
+      reflect-metadata: ^0.1.12
+    resolution:
+      integrity: sha512-AdWVTOg3AhAEcVhPGgUJiLbLXb7L5Pe7vc20YQ0oOXP/KD/nJj0I3BcytVdBhzmgepol67BdivNUvo27Hx3Ndw==
+  /@nestjs/mapped-types/0.3.0_reflect-metadata@0.1.13:
+    dependencies:
+      reflect-metadata: 0.1.13
+    dev: false
+    peerDependencies:
+      '@nestjs/common': ^7.0.8
+      class-transformer: ^0.2.0 || ^0.3.0
+      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0
+      reflect-metadata: ^0.1.12
+    resolution:
+      integrity: sha512-AdWVTOg3AhAEcVhPGgUJiLbLXb7L5Pe7vc20YQ0oOXP/KD/nJj0I3BcytVdBhzmgepol67BdivNUvo27Hx3Ndw==
   /@nestjs/platform-express/7.6.11_10f9c32d5705e6d2dea73f1d25c08abc:
     dependencies:
       '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
@@ -794,6 +819,51 @@ packages:
       '@nestjs/core': ^7.0.0
     resolution:
       integrity: sha512-YNlkhoNfu9QswnIQ0Syzzbxy7CKR3kp4+t8SDX4Pz5ZvJ/5NDQzUHTEg3QUoh8L4IG2/nXHC/gUICQP/fuovJw==
+  /@nestjs/swagger/4.7.13_59a2db8685d90883ead7c8d9e652e179:
+    dependencies:
+      '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
+      '@nestjs/mapped-types': 0.3.0_reflect-metadata@0.1.13
+      lodash: 4.17.20
+      path-to-regexp: 3.2.0
+      reflect-metadata: 0.1.13
+      swagger-ui-express: 4.1.6
+    dev: false
+    peerDependencies:
+      '@nestjs/common': ^6.8.0 || ^7.0.0
+      '@nestjs/core': ^6.8.0 || ^7.0.0
+      fastify-swagger: '*'
+      reflect-metadata: ^0.1.12
+      swagger-ui-express: '*'
+    peerDependenciesMeta:
+      fastify-swagger:
+        optional: true
+      swagger-ui-express:
+        optional: true
+    resolution:
+      integrity: sha512-KqFjkx6NOhRVRU4EBu42es/SjopqDwnAfgBCUPer+rKoMUCDMp/hF6dRoH7Z874whPho9pzGcAXBNMxo4/AGdg==
+  /@nestjs/swagger/4.7.13_81a1937ed9aace8fb18846d898b8f16a:
+    dependencies:
+      '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
+      '@nestjs/core': 7.6.11_0e19164952550ab190c74adb1ba236de
+      '@nestjs/mapped-types': 0.3.0_af60845e0e2cd5e96abf5956b5d4e9f8
+      lodash: 4.17.20
+      path-to-regexp: 3.2.0
+      reflect-metadata: 0.1.13
+      swagger-ui-express: 4.1.6
+    dev: false
+    peerDependencies:
+      '@nestjs/common': ^6.8.0 || ^7.0.0
+      '@nestjs/core': ^6.8.0 || ^7.0.0
+      fastify-swagger: '*'
+      reflect-metadata: ^0.1.12
+      swagger-ui-express: '*'
+    peerDependenciesMeta:
+      fastify-swagger:
+        optional: true
+      swagger-ui-express:
+        optional: true
+    resolution:
+      integrity: sha512-KqFjkx6NOhRVRU4EBu42es/SjopqDwnAfgBCUPer+rKoMUCDMp/hF6dRoH7Z874whPho9pzGcAXBNMxo4/AGdg==
   /@nestjs/testing/7.6.11_5493a482b6326ce7617b54c4270e8fab:
     dependencies:
       '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
@@ -6160,6 +6230,20 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-zoE5/e+dnEijk6ASB6/qrK+oYdm2do1hjoLWrqUC/8WEIW1gbxFcKuBof7sW8ArN6e+AYvsE8HBGiVRWL/F5CA==
+  /swagger-ui-dist/3.43.0:
+    dev: false
+    resolution:
+      integrity: sha512-PtE+g23bNbYv8qqAVoPBqNQth8hU5Sl5ZsQ7gHXlO5jlCt31dVTiKI9ArHIT1b23ZzUYTnKsFgPYYFoiWyNCAw==
+  /swagger-ui-express/4.1.6:
+    dependencies:
+      swagger-ui-dist: 3.43.0
+    dev: false
+    engines:
+      node: '>= v0.10.32'
+    peerDependencies:
+      express: '>=4.0.0'
+    resolution:
+      integrity: sha512-Xs2BGGudvDBtL7RXcYtNvHsFtP1DBFPMJFRxHe5ez/VG/rzVOEjazJOOSc/kSCyxreCTKfJrII6MJlL9a6t8vw==
   /symbol-tree/3.2.4:
     dev: false
     resolution:
@@ -6828,6 +6912,7 @@ packages:
       '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
       '@nestjs/core': 7.6.11_0e19164952550ab190c74adb1ba236de
       '@nestjs/platform-express': 7.6.11_10f9c32d5705e6d2dea73f1d25c08abc
+      '@nestjs/swagger': 4.7.13_81a1937ed9aace8fb18846d898b8f16a
       '@nestjs/testing': 7.6.11_ed6e60f1b18d44b976a1a0f51d940b9c
       '@types/bcrypt': 3.0.0
       '@types/jest': 26.0.20
@@ -6846,6 +6931,7 @@ packages:
       rimraf: 3.0.2
       rxjs: 6.6.3
       supertest: 6.1.3
+      swagger-ui-express: 4.1.6
       ts-jest: 26.5.1_jest@26.6.3+typescript@4.1.5
       ts-node: 9.1.1_typescript@4.1.5
       typescript: 4.1.5
@@ -6854,7 +6940,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-6L/SG5V81iHS7loaQrluZv82SgRB85sLxSDxfZB6qWftSMcJMAOgrgPhaVziokMPBmLjEt+nVP3Pl8gZI7bJCQ==
+      integrity: sha512-9iDGVQUn7VR783MJW61IB6gytTYA3NzaUH8f7uUvKe2goAZR3LGr4LLDkE13RWOxPIhdiOl76Ga5HHA4GozJLw==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -6878,7 +6964,7 @@ packages:
       reflect-metadata: '*'
       rxjs: '*'
     resolution:
-      integrity: sha512-lKZ9amC5efkTwHThhGfyF9nT8a11aL8ytqYUsrQzqmbDzOWk6RbRnjYTR8v/0sRtP3hmli78kFCIPOj9QIYh3Q==
+      integrity: sha512-Flh0hn6H/GMAIMpo3xxyMoGhhhdrxfN8iQlkiAAvSem/6xsrBsuk96/Gr7bFwOlPS82ok7pGpi/ztAUFw3jJig==
       tarball: file:projects/zod-dto.tgz
     version: 0.0.0
 registry: ''
@@ -6888,6 +6974,7 @@ specifiers:
   '@mikro-orm/sqlite': ~4.4.2
   '@nestjs/core': ^7.5.1
   '@nestjs/platform-express': ^7.5.1
+  '@nestjs/swagger': ~4.7.13
   '@nestjs/testing': ~7.6.11
   '@rush-temp/eslint-config': file:./projects/eslint-config.tgz
   '@rush-temp/monolith-service': file:./projects/monolith-service.tgz
@@ -6914,6 +7001,7 @@ specifiers:
   rimraf: ^3.0.2
   rxjs: ^6.6.3
   supertest: ~6.1.3
+  swagger-ui-express: ~4.1.6
   ts-jest: ~26.5.1
   ts-node: ~9.1.1
   uuid: ~8.3.2

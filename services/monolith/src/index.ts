@@ -5,10 +5,12 @@ import { INestApplication, NestApplicationOptions } from '@nestjs/common';
 import { AbstractHttpAdapter } from '@nestjs/core';
 import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 import { ExpressAdapter } from '@nestjs/platform-express';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
 import { NestJsLoggerAdapter } from './Core/Logger';
+import './openapi-experiment';
 
 /**
  * Nest.js doesn't allow overwriting its ExceptionZone
@@ -64,6 +66,15 @@ async function createModule(
 
     const accountContext = await createModule(AccountContextModule.forRoot(), '/AccountContext', express, factoryOptions);
     const auctionContext = await createModule(AuctionContextModule, '/AuctionContext', express, factoryOptions);
+
+    const config = new DocumentBuilder()
+        .setTitle('Cats example')
+        .setDescription('The cats API description')
+        .setVersion('1.0')
+        .addTag('cats')
+        .build();
+    const document = SwaggerModule.createDocument(auctionContext, config);
+    SwaggerModule.setup('api', auctionContext, document);
 
     // Todo: this may break.
     // Initializing a single nest module registers a 404 handler and modules registered after that one
