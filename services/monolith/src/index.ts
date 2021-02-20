@@ -1,5 +1,6 @@
 import { once } from 'events';
 
+import { patchNestjsSwagger } from '@abitia/zod-dto';
 import { MikroORM } from '@mikro-orm/core';
 import { INestApplication, NestApplicationOptions } from '@nestjs/common';
 import { AbstractHttpAdapter } from '@nestjs/core';
@@ -10,7 +11,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
 import { NestJsLoggerAdapter } from './Core/Logger';
-import './openapi-experiment';
+
+patchNestjsSwagger();
 
 /**
  * Nest.js doesn't allow overwriting its ExceptionZone
