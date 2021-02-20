@@ -41,6 +41,7 @@ async function createModule(
     httpPrefix: string,
     httpAdapter: AbstractHttpAdapter,
     factoryOptions: NestApplicationOptions,
+    openApiDocBuilder: DocumentBuilder,
 ): Promise<INestApplication> {
     const nestApp = await nestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
@@ -58,6 +59,14 @@ async function createModule(
         console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
     }
 
+    const config = new DocumentBuilder()
+        .setTitle('Cats example')
+        .setDescription('The cats API description')
+        .setVersion('1.0')
+        .build();
+    const document = SwaggerModule.createDocument(nestApp, openApiDocBuilder.build());
+    SwaggerModule.setup(`${httpPrefix}/api`, nestApp, document);
+
     return nestApp;
 }
 
@@ -66,17 +75,27 @@ async function createModule(
     const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
 
-    const accountContext = await createModule(AccountContextModule.forRoot(), '/AccountContext', express, factoryOptions);
-    const auctionContext = await createModule(AuctionContextModule, '/AuctionContext', express, factoryOptions);
+    const accountOpenApi = new DocumentBuilder()
+        .setTitle('Monolith accounts API')
+        .setVersion('1.0');
+    const accountContext = await createModule(
+        AccountContextModule.forRoot(),
+        '/AccountContext',
+        express,
+        factoryOptions,
+        accountOpenApi,
+    );
 
-    const config = new DocumentBuilder()
-        .setTitle('Cats example')
-        .setDescription('The cats API description')
-        .setVersion('1.0')
-        .addTag('cats')
-        .build();
-    const document = SwaggerModule.createDocument(auctionContext, config);
-    SwaggerModule.setup('api', auctionContext, document);
+    const auctionsOpenApi = new DocumentBuilder()
+        .setTitle('Monolith auctions API')
+        .setVersion('1.0');
+    const auctionContext = await createModule(
+        AuctionContextModule,
+        '/AuctionContext',
+        express,
+        factoryOptions,
+        auctionsOpenApi,
+    );
 
     // Todo: this may break.
     // Initializing a single nest module registers a 404 handler and modules registered after that one
