@@ -23,4 +23,10 @@ export class InMemoryAccountRepository implements AccountRepository {
 
         return Promise.resolve(account);
     }
+
+    public findByEmail(email:string): Promise<Account | undefined> {
+        const account = this.accounts.find(account => account.email === email);
+
+        return Promise.resolve(account);
+    }
 }

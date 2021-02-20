@@ -23,4 +23,10 @@ export class SqliteAccountRepository implements AccountRepository {
 
         return account;
     }
+
+    public async findByEmail(email: string): Promise<Account | undefined> {
+        const account = await this.em.findOne(Account, { email }) ?? undefined;
+
+        return account;
+    }
 }
