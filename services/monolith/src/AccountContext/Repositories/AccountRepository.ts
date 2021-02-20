@@ -4,6 +4,8 @@ export interface AccountRepository {
     save(newAccount: Account): Promise<void>;
 
     findById(id: string): Promise<Account | undefined>;
+
+    findByEmail(email: string): Promise<Account | undefined>;
 }
 
 export const ACCOUNT_REPOSITORY = 'AccountRepository';
