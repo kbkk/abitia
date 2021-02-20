@@ -23,6 +23,7 @@
     "@types/jest": "~26.0.20"
   },
   "peerDependencies": {
-    "@nestjs/common": "7.x"
+    "@nestjs/common": "7.x",
+    "@nestjs/swagger": "4.7.x"
   }
 }
