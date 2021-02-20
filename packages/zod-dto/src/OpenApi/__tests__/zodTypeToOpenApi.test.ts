@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { ZodTypeAny } from 'zod';
 
+import { buildOpenApi } from '../openApiBuilder';
 import { zodTypeToOpenApi } from '../zodTypeToOpenApi';
 
 const testTuple = z.tuple([
@@ -114,4 +115,19 @@ describe('scalar types', () => {
             });
         });
     }
+});
+
+describe('user-defined openapi metadata', () => {
+    it('should prioritize user-defined properties over zod inferred schema', () => {
+        const schema = buildOpenApi()
+            .type('number')
+            .zod()
+            .string();
+
+        const openApiObject = zodTypeToOpenApi(schema);
+        expect(openApiObject).toEqual({
+            type: 'number',
+            required: true,
+        });
+    });
 });

@@ -1,8 +1,14 @@
-import { ZodDef, ZodTypeAny, ZodTypes } from 'zod';
+import { ZodDef, ZodTypeAny, ZodTypeDef, ZodTypes } from 'zod';
+
+import { OpenApiBuilderProperties } from './types';
 
 export interface OpenApiElement {
     [key: string]: unknown;
     type: string;
+}
+
+export interface ZodTypeDefOpenApi extends ZodTypeDef {
+    openApi: OpenApiBuilderProperties;
 }
 
 export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
@@ -12,6 +18,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
         return {
             required: true,
             ...element,
+            ...(zodDef as ZodTypeDefOpenApi).openApi,
         };
     };
 
