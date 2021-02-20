@@ -14,6 +14,7 @@ import { CreateAuctionService } from './Services/CreateAuctionService';
             dbName: 'auction-context.sqlite3',
             type: 'sqlite',
             baseDir: __dirname,
+            tsNode: typeof jest !== 'undefined',
         }),
     ],
     controllers: [
