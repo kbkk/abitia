@@ -5,6 +5,8 @@ import * as request from 'supertest';
 
 import { AccountContextModule } from '../../AccountContextModule';
 
+const JWT_REGEX = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
+
 describe('Tests', () => {
     let app: INestApplication;
 
@@ -57,6 +59,24 @@ describe('Tests', () => {
 
         expect(body).toEqual({
             success: true,
+        });
+    });
+
+    it('Should be able to create an access token (POST /accounts/me/tokens)', async () => {
+        const credentials = { email: 'jakub2@example.com', password: 'LITT UP' };
+
+        await request(app.getHttpServer())
+            .post('/accounts')
+            .send(credentials)
+            .expect(201);
+
+        const { body } = await request(app.getHttpServer())
+            .post('/accounts/me/tokens')
+            .send(credentials)
+            .expect(201);
+
+        expect(body).toEqual({
+            token: expect.stringMatching(JWT_REGEX),
         });
     });
 
