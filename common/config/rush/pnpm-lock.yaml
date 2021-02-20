@@ -4,12 +4,11 @@ dependencies:
   '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
   '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
   '@nestjs/platform-express': 7.6.11_@nestjs+core@7.6.11
-  '@nestjs/swagger': 4.7.13_59a2db8685d90883ead7c8d9e652e179
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
   '@rush-temp/eslint-config': file:projects/eslint-config.tgz_eslint@7.20.0
   '@rush-temp/monolith-service': file:projects/monolith-service.tgz
   '@rush-temp/tsconfig': file:projects/tsconfig.tgz
-  '@rush-temp/zod-dto': file:projects/zod-dto.tgz_0c773f197e7bb0df0bedc332ad8bc35d
+  '@rush-temp/zod-dto': file:projects/zod-dto.tgz_9857aaeb1f9a855b4f0c4039880021a6
   '@rushstack/eslint-patch': 1.0.6
   '@types/bcrypt': 3.0.0
   '@types/jest': 26.0.20
@@ -24,6 +23,7 @@ dependencies:
   eslint: 7.20.0
   eslint-plugin-import: 2.22.1_eslint@7.20.0
   jest: 26.6.3_ts-node@9.1.1
+  jose: 3.6.2
   node-fetch: 2.6.0
   pino: 6.11.1
   pino-pretty: 4.5.0
@@ -779,17 +779,6 @@ packages:
       reflect-metadata: ^0.1.12
     resolution:
       integrity: sha512-AdWVTOg3AhAEcVhPGgUJiLbLXb7L5Pe7vc20YQ0oOXP/KD/nJj0I3BcytVdBhzmgepol67BdivNUvo27Hx3Ndw==
-  /@nestjs/mapped-types/0.3.0_reflect-metadata@0.1.13:
-    dependencies:
-      reflect-metadata: 0.1.13
-    dev: false
-    peerDependencies:
-      '@nestjs/common': ^7.0.8
-      class-transformer: ^0.2.0 || ^0.3.0
-      class-validator: ^0.11.1 || ^0.12.0 || ^0.13.0
-      reflect-metadata: ^0.1.12
-    resolution:
-      integrity: sha512-AdWVTOg3AhAEcVhPGgUJiLbLXb7L5Pe7vc20YQ0oOXP/KD/nJj0I3BcytVdBhzmgepol67BdivNUvo27Hx3Ndw==
   /@nestjs/platform-express/7.6.11_10f9c32d5705e6d2dea73f1d25c08abc:
     dependencies:
       '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
@@ -819,28 +808,6 @@ packages:
       '@nestjs/core': ^7.0.0
     resolution:
       integrity: sha512-YNlkhoNfu9QswnIQ0Syzzbxy7CKR3kp4+t8SDX4Pz5ZvJ/5NDQzUHTEg3QUoh8L4IG2/nXHC/gUICQP/fuovJw==
-  /@nestjs/swagger/4.7.13_59a2db8685d90883ead7c8d9e652e179:
-    dependencies:
-      '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
-      '@nestjs/mapped-types': 0.3.0_reflect-metadata@0.1.13
-      lodash: 4.17.20
-      path-to-regexp: 3.2.0
-      reflect-metadata: 0.1.13
-      swagger-ui-express: 4.1.6
-    dev: false
-    peerDependencies:
-      '@nestjs/common': ^6.8.0 || ^7.0.0
-      '@nestjs/core': ^6.8.0 || ^7.0.0
-      fastify-swagger: '*'
-      reflect-metadata: ^0.1.12
-      swagger-ui-express: '*'
-    peerDependenciesMeta:
-      fastify-swagger:
-        optional: true
-      swagger-ui-express:
-        optional: true
-    resolution:
-      integrity: sha512-KqFjkx6NOhRVRU4EBu42es/SjopqDwnAfgBCUPer+rKoMUCDMp/hF6dRoH7Z874whPho9pzGcAXBNMxo4/AGdg==
   /@nestjs/swagger/4.7.13_81a1937ed9aace8fb18846d898b8f16a:
     dependencies:
       '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
@@ -3729,7 +3696,7 @@ packages:
       jest-validate: 26.6.2
       micromatch: 4.0.2
       pretty-format: 26.6.2
-      ts-node: 9.1.1
+      ts-node: 9.1.1_typescript@4.1.5
     dev: false
     engines:
       node: '>= 10.14.2'
@@ -4109,6 +4076,10 @@ packages:
       node: '>= 0.6.0'
     resolution:
       integrity: sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
+  /jose/3.6.2:
+    dev: false
+    resolution:
+      integrity: sha512-JzqHr6UqydWv25HwLzRdBJgMetiPkDBE/WJSyJjhNwN3+GmcHu4yoUgRle0NNViCdfAYMf9DuOG8o+mUW/DXdg==
   /joycon/2.2.5:
     dev: false
     engines:
@@ -6924,6 +6895,7 @@ packages:
       bcrypt: 5.0.0
       eslint: 7.20.0
       jest: 26.6.3_ts-node@9.1.1
+      jose: 3.6.2
       node-fetch: 2.6.1
       pino: 6.11.1
       pino-pretty: 4.5.0
@@ -6940,7 +6912,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-9iDGVQUn7VR783MJW61IB6gytTYA3NzaUH8f7uUvKe2goAZR3LGr4LLDkE13RWOxPIhdiOl76Ga5HHA4GozJLw==
+      integrity: sha512-IW0q+wzS1QIkwdXtbzeuCZ1p8MhBoQSlGKq3tm7yXRxoSaQITmeVWh80Xa99TZDehKpF3gkffRnqxhW4hhf+RA==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -6950,21 +6922,28 @@ packages:
       integrity: sha512-Q4ByOUgiMGNYz+goSRW+jLps8ckcJrPL87nPePU4TVsvLXOSXc+5sOtgDdVXY9nPnhWlRfvS1Tj8BcFgjo2u/Q==
       tarball: file:projects/tsconfig.tgz
     version: 0.0.0
-  file:projects/zod-dto.tgz_0c773f197e7bb0df0bedc332ad8bc35d:
+  file:projects/zod-dto.tgz_9857aaeb1f9a855b4f0c4039880021a6:
     dependencies:
       '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
+      '@nestjs/swagger': 4.7.13_81a1937ed9aace8fb18846d898b8f16a
+      '@types/jest': 26.0.20
       '@types/node': 14.14.25
       eslint: 7.20.0
+      jest: 26.6.3_ts-node@9.1.1
+      ts-jest: 26.5.1_jest@26.6.3+typescript@4.1.5
       typescript: 4.1.5
       zod: 3.0.0-alpha.4
     dev: false
     id: file:projects/zod-dto.tgz
     name: '@rush-temp/zod-dto'
     peerDependencies:
+      '@nestjs/core': '*'
       reflect-metadata: '*'
       rxjs: '*'
+      swagger-ui-express: '*'
+      ts-node: '*'
     resolution:
-      integrity: sha512-Flh0hn6H/GMAIMpo3xxyMoGhhhdrxfN8iQlkiAAvSem/6xsrBsuk96/Gr7bFwOlPS82ok7pGpi/ztAUFw3jJig==
+      integrity: sha512-tvyr/qk9BB5sUZVlNpzyC9SLFP1Wu31WA1knM0aKcDx9610sDvU4Gkjzyk5992mZldo2ZqmV8VstD3xm26TfVw==
       tarball: file:projects/zod-dto.tgz
     version: 0.0.0
 registry: ''
@@ -6974,7 +6953,6 @@ specifiers:
   '@mikro-orm/sqlite': ~4.4.2
   '@nestjs/core': ^7.5.1
   '@nestjs/platform-express': ^7.5.1
-  '@nestjs/swagger': ~4.7.13
   '@nestjs/testing': ~7.6.11
   '@rush-temp/eslint-config': file:./projects/eslint-config.tgz
   '@rush-temp/monolith-service': file:./projects/monolith-service.tgz
@@ -6994,6 +6972,7 @@ specifiers:
   eslint: ~7.20.0
   eslint-plugin-import: 2.22.1
   jest: ~26.6.3
+  jose: ~3.6.2
   node-fetch: ~2.6.0
   pino: ~6.11.1
   pino-pretty: ~4.5.0
