@@ -5,11 +5,13 @@ import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
 
 import { AccountController } from './Controllers/AccountController';
+import { AuthController } from './Controllers/AuthController';
 import { SendAccountCreatedEmail } from './EventHandlers/SendAccountCreatedEmail';
 import { ACCOUNT_REPOSITORY } from './Repositories/AccountRepository';
 import { SqliteAccountRepository } from './Repositories/SqliteAccountRepository';
 import { ConfirmAccountService } from './Services/ConfirmAccountService';
 import { CreateAccountService } from './Services/CreateAccountService';
+import { CreateAuthTokenService } from './Services/CreateAuthTokenService';
 
 interface AccountContextModuleOptions {
     mikroOrmOptions?: MikroOrmModuleSyncOptions;
@@ -28,12 +30,15 @@ export class AccountContextModule {
                     type: 'sqlite',
                     baseDir: __dirname,
                     ...mikroOrmOptions,
+                    tsNode: typeof jest !== 'undefined',
                 }),
             ],
             controllers: [
                 AccountController,
+                AuthController,
             ],
             providers: [
+                CreateAuthTokenService,
                 ConfirmAccountService,
                 CreateAccountService,
                 SendAccountCreatedEmail,
