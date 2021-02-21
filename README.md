@@ -6,7 +6,7 @@ Abitia is a playground of mine, currently revolving around the modular monolith 
 
 ```
 abitia
-│   README.md <- You're here!
+│   README.md # You're here!
 │
 └───packages
 │   └───eslint-config # common eslint config
