@@ -39,6 +39,13 @@ export class CreateAuthTokenService {
             };
         }
 
+        if(!account.confirmed) {
+            return {
+                success: false,
+                message: 'Please confirm the account first',
+            };
+        }
+
         const isEqual = await bcrypt.compare(dto.password, account.password);
 
         if(!isEqual) {

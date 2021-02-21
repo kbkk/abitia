@@ -75,10 +75,17 @@ describe('Tests', () => {
     it('Should be able to create an access token (POST /accounts/me/tokens)', async () => {
         const credentials = { email: 'jakub2@example.com', password: 'LITT UP' };
 
-        await request(app.getHttpServer())
+        const { body: createdAccount } = await request(app.getHttpServer())
             .post('/accounts')
             .send(credentials)
             .expect(201);
+
+        const { id, confirmationCode } = (await accountRepository.findById(createdAccount.id))!;
+
+        await request(app.getHttpServer())
+            .get(`/accounts/${id}/confirm?code=${confirmationCode}`)
+            .send()
+            .expect(200);
 
         const { body } = await request(app.getHttpServer())
             .post('/accounts/me/tokens')
