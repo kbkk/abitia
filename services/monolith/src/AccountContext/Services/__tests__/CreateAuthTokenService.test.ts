@@ -1,6 +1,7 @@
 import jwtVerify from 'jose/jwt/verify';
 
 import { TestLogger } from '../../../Core/Testing';
+import { AccountContextConfig } from '../../Configs/AccountContextConfig';
 import { Account, newAccountId } from '../../Entities/Account';
 import { InMemoryAccountRepository } from '../../Repositories/InMemoryAccountRepository';
 import {
@@ -12,6 +13,7 @@ import {
 describe('CreateAuthTokenService', () => {
     let account: Account;
     let service: CreateAuthTokenService;
+    const jwtSecretKey = 'testKey-testKey-testKey-testKey-';
 
     beforeAll(async () => {
         account = await Account.create(
@@ -24,7 +26,10 @@ describe('CreateAuthTokenService', () => {
 
         await repo.save(account);
 
-        service = new CreateAuthTokenService(repo, new TestLogger());
+        const config = AccountContextConfig.create({
+            jwtSecretKey: jwtSecretKey,
+        });
+        service = new CreateAuthTokenService(repo, new TestLogger(), config);
     });
 
     it('should create a jwt token given valid credentials',async () => {
@@ -33,7 +38,7 @@ describe('CreateAuthTokenService', () => {
             password: 'niebieski8',
         }) as CreateAuthTokenResultSuccess;
 
-        const key = Buffer.from('testKey-testKey-testKey-testKey-');
+        const key = Buffer.from(jwtSecretKey);
         const { payload } = await jwtVerify(result.token, key);
 
         expect(payload.accountId).toBe(account.id);

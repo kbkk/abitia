@@ -4,6 +4,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
 
+import { AccountContextConfig } from './Configs/AccountContextConfig';
 import { AccountController } from './Controllers/AccountController';
 import { AuthController } from './Controllers/AuthController';
 import { SendAccountCreatedEmail } from './EventHandlers/SendAccountCreatedEmail';
@@ -45,6 +46,10 @@ export class AccountContextModule {
                 {
                     provide: ACCOUNT_REPOSITORY,
                     useClass: SqliteAccountRepository,
+                },
+                {
+                    provide: AccountContextConfig,
+                    useFactory: AccountContextConfig.fromEnv,
                 },
                 ...nestJsLoggerProvider,
                 nestJsInMemoryEventBusProvider,

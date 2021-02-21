@@ -1,4 +1,5 @@
 import { once } from 'events';
+import * as path from 'path';
 
 import { patchNestjsSwagger } from '@abitia/zod-dto';
 import { MikroORM } from '@mikro-orm/core';
@@ -7,6 +8,7 @@ import { AbstractHttpAdapter } from '@nestjs/core';
 import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { config as configureDotenv } from 'dotenv';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
@@ -59,11 +61,6 @@ async function createModule(
         console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
     }
 
-    const config = new DocumentBuilder()
-        .setTitle('Cats example')
-        .setDescription('The cats API description')
-        .setVersion('1.0')
-        .build();
     const document = SwaggerModule.createDocument(nestApp, openApiDocBuilder.build());
     SwaggerModule.setup(`${httpPrefix}/api`, nestApp, document);
 
@@ -72,6 +69,12 @@ async function createModule(
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 (async function bootstrap() {
+    const { error } = configureDotenv({ path: path.resolve(__dirname, '..', '.env'), debug: true });
+    if(error) {
+        console.error('Failed to load the .env file');
+        throw error;
+    }
+
     const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
 

@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import SignJWT from 'jose/jwt/sign';
 
 import { LOGGER, Logger } from '../../Core/Logger';
+import { AccountContextConfig } from '../Configs/AccountContextConfig';
 import { CreateAuthTokenDto } from '../Dto/CreateAuthTokenDto';
 import { ACCOUNT_REPOSITORY, AccountRepository } from '../Repositories/AccountRepository';
 
@@ -24,6 +25,7 @@ export class CreateAuthTokenService {
         private readonly accountRepository: AccountRepository,
         @Inject(LOGGER)
         private readonly logger: Logger,
+        private readonly config: AccountContextConfig,
     ) {
     }
 
@@ -48,7 +50,7 @@ export class CreateAuthTokenService {
 
         this.logger.info(`Created auth token for account ${account.id}`);
 
-        const key = Buffer.from('testKey-testKey-testKey-testKey-');
+        const key = Buffer.from(this.config.jwtSecretKey);
         const jwt = await new SignJWT({ 'accountId': account.id })
             .setProtectedHeader({ alg: 'HS256' })
             .setIssuedAt()

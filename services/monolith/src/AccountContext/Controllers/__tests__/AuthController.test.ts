@@ -3,7 +3,9 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
 import { AccountContextModule } from '../../AccountContextModule';
+import { AccountContextConfig } from '../../Configs/AccountContextConfig';
 import { CreateAuthTokenService } from '../../Services/CreateAuthTokenService';
+import { createTestConfig } from '../../__tests__/utils';
 
 type PublicInterface<T> = {[K in keyof T]: T[K]};
 
@@ -27,6 +29,8 @@ describe('AuthController', () => {
         })
             .overrideProvider(CreateAuthTokenService)
             .useValue(createAuthTokenService)
+            .overrideProvider(AccountContextConfig)
+            .useValue(createTestConfig())
             .compile();
 
         app = moduleRef.createNestApplication();

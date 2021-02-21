@@ -4,6 +4,8 @@ import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
 import { AccountContextModule } from '../../AccountContextModule';
+import { AccountContextConfig } from '../../Configs/AccountContextConfig';
+import { createTestConfig } from '../utils';
 
 const JWT_REGEX = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
 
@@ -20,6 +22,8 @@ describe('Tests', () => {
                 }),
             ],
         })
+            .overrideProvider(AccountContextConfig)
+            .useValue(createTestConfig())
             .compile();
 
         app = moduleRef.createNestApplication();
