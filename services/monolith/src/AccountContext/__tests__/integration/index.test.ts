@@ -5,12 +5,14 @@ import * as request from 'supertest';
 
 import { AccountContextModule } from '../../AccountContextModule';
 import { AccountContextConfig } from '../../Configs/AccountContextConfig';
+import { ACCOUNT_REPOSITORY, AccountRepository } from '../../Repositories/AccountRepository';
 import { createTestConfig } from '../utils';
 
 const JWT_REGEX = /^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
 
 describe('Tests', () => {
     let app: INestApplication;
+    let accountRepository: AccountRepository;
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -28,6 +30,8 @@ describe('Tests', () => {
 
         app = moduleRef.createNestApplication();
         await app.init();
+
+        accountRepository = app.get(ACCOUNT_REPOSITORY);
     });
 
     beforeEach(async () => {
@@ -56,8 +60,10 @@ describe('Tests', () => {
             .send({ email: 'jakub@example.com', password: 'LITT UP' })
             .expect(201);
 
+        const { id, confirmationCode } = (await accountRepository.findById(createdAccount.id))!;
+
         const { body } = await request(app.getHttpServer())
-            .get(`/accounts/${createdAccount.id}/confirm?code=123123`)
+            .get(`/accounts/${id}/confirm?code=${confirmationCode}`)
             .send()
             .expect(200);
 

@@ -1,3 +1,5 @@
+import * as crypto from 'crypto';
+
 import { Inject, Injectable } from '@nestjs/common';
 
 import { EVENT_BUS, EventBus } from '../../Core/EventBus';
@@ -25,7 +27,8 @@ export class SendAccountCreatedEmail {
             throw new Error(`Could not find account ${event.accountId}`);
         }
 
-        account.setConfirmationCode('123123');
+        const code = crypto.randomBytes(16).toString('hex');
+        account.setConfirmationCode(code);
 
         await this.accountRepository.save(account);
 
