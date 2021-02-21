@@ -20,6 +20,7 @@ dependencies:
   '@typescript-eslint/eslint-plugin': 4.15.0_3d284fbfd72dee80211a015474bb836f
   '@typescript-eslint/parser': 4.15.0_eslint@7.20.0
   bcrypt: 5.0.0
+  dotenv: 8.2.0
   eslint: 7.20.0
   eslint-plugin-import: 2.22.1_eslint@7.20.0
   jest: 26.6.3_ts-node@9.1.1
@@ -2190,6 +2191,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-yxJ2mFy/sibVQlu5qHjOkf9J3K6zgmCxgJ94u2EdvDOV09H+32LtRswEcUsmUWN72pVLOEnTSRaIVVzVQgS0dg==
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /ecc-jsbn/0.1.2:
     dependencies:
       jsbn: 0.1.1
@@ -6893,6 +6900,7 @@ packages:
       '@types/supertest': 2.0.10
       '@types/uuid': 8.3.0
       bcrypt: 5.0.0
+      dotenv: 8.2.0
       eslint: 7.20.0
       jest: 26.6.3_ts-node@9.1.1
       jose: 3.6.2
@@ -6912,7 +6920,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-IW0q+wzS1QIkwdXtbzeuCZ1p8MhBoQSlGKq3tm7yXRxoSaQITmeVWh80Xa99TZDehKpF3gkffRnqxhW4hhf+RA==
+      integrity: sha512-ThudVaFRD9AU2ohEcFZ3nk8/x0AfAq6UwEDqvlbszVOYDl4q/bC3scOPVFvh38vERe6li2c4VSXs8RmmlN5IyQ==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -6969,6 +6977,7 @@ specifiers:
   '@typescript-eslint/eslint-plugin': 4.15.0
   '@typescript-eslint/parser': 4.15.0
   bcrypt: ~5.0.0
+  dotenv: ~8.2.0
   eslint: ~7.20.0
   eslint-plugin-import: 2.22.1
   jest: ~26.6.3
