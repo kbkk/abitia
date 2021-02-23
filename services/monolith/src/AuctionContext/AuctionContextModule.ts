@@ -1,10 +1,15 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 
+import { applyOrmMapping } from '../Core/OrmMappings';
+
 import { AuctionController } from './Controllers/AuctionController';
+import { AuctionMapping } from './Entities/OrmMappings/AuctionMapping';
 import { AUCTION_REPOSITORY } from './Repositories/AuctionRepository';
 import { InMemoryAuctionRepository } from './Repositories/InMemoryAuctionRepository';
 import { CreateAuctionService } from './Services/CreateAuctionService';
+
+applyOrmMapping(AuctionMapping);
 
 @Module({
     imports: [

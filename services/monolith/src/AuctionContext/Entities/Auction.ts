@@ -1,4 +1,3 @@
-import { Entity, PrimaryKey, Property, TimeType } from '@mikro-orm/core';
 import { v4 as uuid } from 'uuid';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -6,24 +5,17 @@ export type AuctionId = string & { __brand: 'AuctionId' }
 
 export type AuctionTypes = 'buy-it-now' | 'auction';
 
-@Entity()
 export class Auction {
-    @PrimaryKey({ type: 'string' })
     public readonly id: AuctionId;
 
-    @Property({ type: 'string' })
     public readonly item: string;
 
-    @Property({ type: 'number' })
     public readonly price: number;
 
-    @Property({ type: 'string' })
     public readonly type: AuctionTypes;
 
-    @Property({ type: 'string' })
     public readonly seller: string;
 
-    @Property({ type: TimeType })
     public readonly createdAt: Date;
 
     private constructor(
