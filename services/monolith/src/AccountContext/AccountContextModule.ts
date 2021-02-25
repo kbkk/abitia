@@ -57,6 +57,9 @@ export class AccountContextModule {
                 nestJsInMemoryEventBusProvider,
                 NestJsLoggerAdapter,
             ],
+            exports: [
+                AccountContextGateway,
+            ],
         };
     }
 }
