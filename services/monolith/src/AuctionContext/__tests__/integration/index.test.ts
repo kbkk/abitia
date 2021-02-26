@@ -2,6 +2,8 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
+import { AccountGuard } from '../../../Core/Auth';
+import { TestAccountAuthModule, TestAccountGuard, VALID_AUTH_HEADER } from '../../../Core/Testing';
 import { AuctionContextModule } from '../../AuctionContextModule';
 
 describe('Tests', () => {
@@ -9,8 +11,10 @@ describe('Tests', () => {
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({
-            imports: [AuctionContextModule],
+            imports: [AuctionContextModule.forRoot(TestAccountAuthModule.forRoot())],
         })
+            .overrideGuard(AccountGuard)
+            .useClass(TestAccountGuard)
             .compile();
 
         app = moduleRef.createNestApplication();
@@ -20,6 +24,7 @@ describe('Tests', () => {
     it('POST /auctions', async () => {
         const { body } = await request(app.getHttpServer())
             .post('/auctions')
+            .set('Authorization', VALID_AUTH_HEADER)
             .send({ item: 'testItem', price: 2137 })
             .expect(201);
 
