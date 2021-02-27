@@ -1,7 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import jwtVerify from 'jose/jwt/verify';
 import * as z from 'zod';
-
 
 import { AccountContextConfig } from './Configs/AccountContextConfig';
 import { Account } from './Entities/Account';
@@ -27,12 +25,5 @@ export class AccountContextGateway {
 
     public findAccountById(accountId: string): Promise<Account | undefined> {
         return this.accountRepository.findById(accountId);
-    }
-
-    public async decodeAuthToken(token: string): Promise<TokenPayload>  {
-        const key = Buffer.from(this.config.jwtSecretKey);
-        const { payload } = await jwtVerify(token, key);
-
-        return tokenPayload.parse(payload);
     }
 }
