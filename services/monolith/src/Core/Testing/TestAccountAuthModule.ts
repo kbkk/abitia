@@ -1,33 +1,18 @@
-import { CanActivate, DynamicModule, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { DynamicModule } from '@nestjs/common';
 
+import { AccountContextGateway, TokenPayload } from '../../AccountContext';
 import { AccountGuard } from '../Auth';
-import { RequestWithAccount } from '../Auth/NestJs/types';
 
-export const VALID_AUTH_HEADER = 'Bearer validAuthToken';
+const VALID_AUTH_TOKEN = 'validAuthToken';
+export const VALID_AUTH_HEADER = `Bearer ${VALID_AUTH_TOKEN}`;
 
-export class TestAccountGuard implements CanActivate {
-    public async canActivate(
-        context: ExecutionContext,
-    ): Promise<boolean> {
-        const request = context.switchToHttp().getRequest<RequestWithAccount>();
-
-        const authHeader = request.headers.authorization;
-
-        if(!authHeader) {
-            throw new ForbiddenException('Missing Authorization header');
+export class TestAccountModuleGateway {
+    public async decodeAuthToken(token: string): Promise<TokenPayload> {
+        if(token !== VALID_AUTH_TOKEN) {
+            throw new Error('[test mode] Invalid auth token');
         }
 
-        if(!authHeader.startsWith('Bearer ')) {
-            throw new ForbiddenException('Auth token must start with "Bearer "');
-        }
-
-        if(authHeader !== VALID_AUTH_HEADER) {
-            throw new ForbiddenException('Could not verify the auth token');
-        }
-
-        request.account = { accountId: 'c0ffee12-aaaa-bbbb-cccc-ddddeeeeffff' };
-
-        return true;
+        return  { accountId: 'c0ffee12-aaaa-bbbb-cccc-ddddeeeeffff' };
     }
 }
 
@@ -37,11 +22,13 @@ export class TestAccountAuthModule {
             module: TestAccountAuthModule,
             providers: [
                 {
-                    provide: AccountGuard,
-                    useClass: TestAccountGuard,
+                    provide: AccountContextGateway,
+                    useClass: TestAccountModuleGateway,
                 },
+                AccountGuard,
             ],
             exports: [
+                AccountContextGateway,
                 AccountGuard,
             ],
         };

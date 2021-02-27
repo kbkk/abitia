@@ -2,8 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { AccountGuard } from '../../../Core/Auth';
-import { TestAccountAuthModule, TestAccountGuard, VALID_AUTH_HEADER } from '../../../Core/Testing';
+import { TestAccountAuthModule, VALID_AUTH_HEADER } from '../../../Core/Testing';
 import { AuctionContextModule } from '../../AuctionContextModule';
 
 describe('Tests', () => {
@@ -13,8 +12,6 @@ describe('Tests', () => {
         const moduleRef = await Test.createTestingModule({
             imports: [AuctionContextModule.forRoot(TestAccountAuthModule.forRoot())],
         })
-            .overrideGuard(AccountGuard)
-            .useClass(TestAccountGuard)
             .compile();
 
         app = moduleRef.createNestApplication();
