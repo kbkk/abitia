@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { TokenPayload } from '../../../AccountContext';
+import { TokenPayload } from '../types';
 
 export type RequestWithAccount = Request & {
     account: TokenPayload,
