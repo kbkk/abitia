@@ -1,10 +1,12 @@
 import { ZodValidationPipe } from '@abitia/zod-dto';
 import { Body, Controller, Post, UseGuards, UsePipes } from '@nestjs/common';
 
-import { TokenPayload } from '../../AccountContext';
 import { AccountGuard, CurrentAccount } from '../../Core/Auth';
-import { CreateAuctionDto } from '../Dto/CreateAuctionDto';
+import { TokenPayload } from '../../Core/Auth/types';
+import { CreateAuctionCommand } from '../Services/Commands/CreateAuctionCommand';
 import { CreateAuctionService } from '../Services/CreateAuctionService';
+
+import { CreateAuctionDto } from './Dto/CreateAuctionDto';
 
 @Controller()
 @UsePipes(ZodValidationPipe)
@@ -20,7 +22,11 @@ export class AuctionController {
         @Body() dto: CreateAuctionDto,
         @CurrentAccount() account: TokenPayload,
     ): Promise<{id: string;}> {
-        const auction = this.createAuctionService.execute(dto);
+        const command = CreateAuctionCommand.create({
+            ...dto,
+            sellerId: account.accountId,
+        });
+        const auction = this.createAuctionService.execute(command);
 
         return auction;
     }

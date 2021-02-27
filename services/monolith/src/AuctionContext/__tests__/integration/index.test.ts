@@ -5,7 +5,7 @@ import * as request from 'supertest';
 import { AuctionContextModule } from '../../AuctionContextModule';
 import { createTestToken, createTestConfig } from '../utils';
 
-describe('Tests', () => {
+describe('AuctionContext Integration Tests', () => {
     let app: INestApplication;
     const accountId = 'c0ffee12-aaaa-bbbb-cccc-ddddeeeeffff';
 
@@ -22,7 +22,7 @@ describe('Tests', () => {
         await app.init();
     });
 
-    it('POST /auctions', async () => {
+    it('POST /auctions - Should create an auction', async () => {
         const authToken = await createTestToken(accountId);
         const { body } = await request(app.getHttpServer())
             .post('/auctions')
@@ -35,7 +35,7 @@ describe('Tests', () => {
             'id': expect.any(String),
             'item': 'testItem',
             'price': 2137,
-            'seller': 'sellerId',
+            'seller': accountId,
             'type': 'buy-it-now',
         });
     });
