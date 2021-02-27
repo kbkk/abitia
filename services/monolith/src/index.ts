@@ -10,10 +10,8 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config as configureDotenv } from 'dotenv';
 
-import { AccountContextGateway } from './AccountContext';
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
-import { AccountAuthModule } from './Core/Auth';
 import { NestJsLoggerAdapter } from './Core/Logger';
 
 patchNestjsSwagger();
@@ -91,14 +89,11 @@ async function createModule(
         accountOpenApi,
     );
 
-    const accountContextGateway = accountContext.get(AccountContextGateway);
-    const authModule = AccountAuthModule.forRoot(accountContextGateway);
-
     const auctionsOpenApi = new DocumentBuilder()
         .setTitle('Monolith auctions API')
         .setVersion('1.0');
     const auctionContext = await createModule(
-        AuctionContextModule.forRoot(authModule),
+        AuctionContextModule.forRoot(),
         '/AuctionContext',
         express,
         factoryOptions,

@@ -2,15 +2,19 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { TestAccountAuthModule, VALID_AUTH_HEADER } from '../../../Core/Testing';
 import { AuctionContextModule } from '../../AuctionContextModule';
+import { createTestToken, createTestConfig } from '../utils';
 
 describe('Tests', () => {
     let app: INestApplication;
+    const accountId = 'c0ffee12-aaaa-bbbb-cccc-ddddeeeeffff';
 
     beforeAll(async () => {
+        const ctxModule = AuctionContextModule.forRoot({
+            configFactory: createTestConfig,
+        });
         const moduleRef = await Test.createTestingModule({
-            imports: [AuctionContextModule.forRoot(TestAccountAuthModule.forRoot())],
+            imports: [ctxModule],
         })
             .compile();
 
@@ -19,9 +23,10 @@ describe('Tests', () => {
     });
 
     it('POST /auctions', async () => {
+        const authToken = await createTestToken(accountId);
         const { body } = await request(app.getHttpServer())
             .post('/auctions')
-            .set('Authorization', VALID_AUTH_HEADER)
+            .set('Authorization', `Bearer ${authToken}`)
             .send({ item: 'testItem', price: 2137 })
             .expect(201);
 

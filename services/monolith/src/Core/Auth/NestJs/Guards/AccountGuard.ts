@@ -1,12 +1,15 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, ForbiddenException, Inject } from '@nestjs/common';
+import jwtVerify from 'jose/jwt/verify';
 
-import { AccountContextGateway } from '../../../../AccountContext';
+import { AuthModuleConfig, tokenPayloadSchema } from '../../types';
+import { AUTH_MODULE_CONFIG } from '../constants';
 import { RequestWithAccount } from '../types';
 
 @Injectable()
 export class AccountGuard implements CanActivate {
     public constructor(
-        private readonly accountContextGateway: AccountContextGateway,
+        @Inject(AUTH_MODULE_CONFIG)
+        private readonly config: AuthModuleConfig,
     ) {}
 
     public async canActivate(
@@ -27,8 +30,10 @@ export class AccountGuard implements CanActivate {
         const token = authHeader.slice(7);
 
         try {
-            const decoded = await this.accountContextGateway.decodeAuthToken(token);
-            request.account = decoded;
+            const key = Buffer.from(this.config.jwtSecret);
+            const { payload } = await jwtVerify(token, key);
+
+            request.account = tokenPayloadSchema.parse(payload);
         } catch (error) {
             throw new ForbiddenException('Could not verify the auth token');
         }

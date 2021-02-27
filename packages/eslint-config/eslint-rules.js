@@ -119,7 +119,7 @@ module.exports = {
                     {
                         allowExpressions: true,
                         allowTypedFunctionExpressions: true,
-                        allowHigherOrderFunctions: false,
+                        allowHigherOrderFunctions: true,
                     },
                 ],
 
