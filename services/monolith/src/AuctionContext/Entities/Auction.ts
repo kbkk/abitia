@@ -1,10 +1,14 @@
-import { Entity, PrimaryKey, Property, TimeType } from '@mikro-orm/core';
+import { Collection, Entity, LoadStrategy, OneToMany, PrimaryKey, Property, QueryOrder } from '@mikro-orm/core';
 import { v4 as uuid } from 'uuid';
+
+import { Bid } from './Bid';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type AuctionId = string & { __brand: 'AuctionId' }
 
 export type AuctionTypes = 'buy-it-now' | 'auction';
+
+class PlaceBidError extends Error {}
 
 @Entity()
 export class Auction {
@@ -23,8 +27,23 @@ export class Auction {
     @Property({ type: 'string' })
     public readonly seller: string;
 
-    @Property({ type: TimeType })
+    @OneToMany({
+        entity: () => Bid,
+        mappedBy: 'auction',
+        orphanRemoval: true,
+        strategy: LoadStrategy.JOINED,
+        orderBy: { createdAt: QueryOrder.DESC },
+    })
+    public readonly bids = new Collection<Bid>(this);
+
+    @Property({ type: 'Date' })
     public readonly createdAt: Date;
+
+    @Property({ version: true })
+    public version: number = 1;
+
+    @Property({ type: 'number' })
+    public version2: number = 1;
 
     private constructor(
         id: AuctionId,
@@ -57,6 +76,21 @@ export class Auction {
             seller,
             new Date(),
         );
+    }
+
+    public placeBid(newBid: Bid): void {
+        const bids = this.bids.getItems();
+        const [highestBid] = bids;
+
+        if(highestBid) {
+            if (highestBid.price >= newBid.price) {
+                throw new PlaceBidError(
+                    `The placed bid should be higher than highest bid (${highestBid.price})`,
+                );
+            }
+        }
+
+        this.bids.add(newBid);
     }
 }
 
