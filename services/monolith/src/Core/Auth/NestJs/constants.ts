@@ -1,0 +1,1 @@
+export const AUTH_MODULE_CONFIG = 'AUTH_MODULE_CONFIG';

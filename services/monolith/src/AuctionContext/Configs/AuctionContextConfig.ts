@@ -7,29 +7,28 @@ const configDtoSchema = z.object({
 
 type ConfigProperties = z.infer<typeof configDtoSchema>
 
-export class AccountContextConfig extends createZodDto(configDtoSchema) {
+export class AuctionContextConfig extends createZodDto(configDtoSchema) {
     /**
-     * Use AccountContextConfig.create to instantiate
+     * Use AuctionContextConfig.create to instantiate
      * @private
      */
     private constructor() {
         super();
     }
 
-    public static create(properties: ConfigProperties): AccountContextConfig {
-        // Todo: Better error messages
+    public static create(properties: ConfigProperties): AuctionContextConfig {
         const parsedProperties = configDtoSchema.parse(properties);
 
         const config = Object.assign(
-            new AccountContextConfig(),
+            new AuctionContextConfig(),
             parsedProperties,
         );
 
         return config;
     }
 
-    public static fromEnv(): AccountContextConfig {
-        return AccountContextConfig.create({
+    public static fromEnv(): AuctionContextConfig {
+        return AuctionContextConfig.create({
             jwtSecretKey: process.env.JWT_SECRET_KEY!,
         });
     }

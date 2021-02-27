@@ -93,7 +93,7 @@ async function createModule(
         .setTitle('Monolith auctions API')
         .setVersion('1.0');
     const auctionContext = await createModule(
-        AuctionContextModule,
+        AuctionContextModule.forRoot(),
         '/AuctionContext',
         express,
         factoryOptions,
