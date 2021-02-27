@@ -1,2 +1,2 @@
 export * from './AccountContextModule';
-export { TokenPayload, AccountContextGateway } from './AccountContextGateway';
+export { AccountContextGateway } from './AccountContextGateway';
