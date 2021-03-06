@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 const createAuctionCommandSchema = z.object({
     item: z.string().min(5),
-    price: z.number().int(),
+    startingPrice: z.number().int(),
     type: z.enum(['buy-it-now', 'auctions']),
     sellerId: z.string().uuid(),
 });

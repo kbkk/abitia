@@ -2,12 +2,14 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
+import { nestJsLoggerProvider } from '../Core/Logger';
 
 import { AuctionContextConfig } from './Configs/AuctionContextConfig';
 import { AuctionController } from './Controllers/AuctionController';
 import { AUCTION_REPOSITORY } from './Repositories/AuctionRepository';
-import { InMemoryAuctionRepository } from './Repositories/InMemoryAuctionRepository';
+import { SqliteAuctionRepository } from './Repositories/SqliteAuctionRepository';
 import { CreateAuctionService } from './Services/CreateAuctionService';
+import { PlaceAuctionBidService } from './Services/PlaceAuctionBidService';
 
 export class AuctionContextConfigModule {
     public static forRoot(factory?: () => AuctionContextConfig): DynamicModule {
@@ -58,10 +60,12 @@ export class AuctionContextModule {
                 AuctionController,
             ],
             providers: [
+                PlaceAuctionBidService,
                 CreateAuctionService,
+                ...nestJsLoggerProvider,
                 {
                     provide: AUCTION_REPOSITORY,
-                    useClass: InMemoryAuctionRepository,
+                    useClass: SqliteAuctionRepository,
                 },
             ],
         };
