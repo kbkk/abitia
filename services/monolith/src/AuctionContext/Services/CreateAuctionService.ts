@@ -17,7 +17,7 @@ export class CreateAuctionService {
         const auction = Auction.create(
             newAuctionId(),
             command.item,
-            command.price,
+            command.startingPrice,
             command.type as AuctionTypes,
             command.sellerId,
         );

@@ -19,7 +19,7 @@ export class Auction {
     public readonly item: string;
 
     @Property({ type: 'number' })
-    public readonly price: number;
+    public readonly startingPrice: number;
 
     @Property({ type: 'string' })
     public readonly type: AuctionTypes;
@@ -48,14 +48,14 @@ export class Auction {
     private constructor(
         id: AuctionId,
         item: string,
-        price: number,
+        startingPrice: number,
         type: AuctionTypes,
         seller: string,
         createdAt: Date,
     ) {
         this.id = id;
         this.item = item;
-        this.price = price;
+        this.startingPrice = startingPrice;
         this.type = type;
         this.seller = seller;
         this.createdAt = createdAt;
@@ -64,14 +64,14 @@ export class Auction {
     public static create(
         id: AuctionId,
         item: string,
-        price: number,
+        startingPrice: number,
         type: AuctionTypes,
         seller: string,
     ): Auction {
         return new Auction(
             id,
             item,
-            price,
+            startingPrice,
             type,
             seller,
             new Date(),
