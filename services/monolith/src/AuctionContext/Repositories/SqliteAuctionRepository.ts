@@ -13,8 +13,7 @@ export class SqliteAuctionRepository implements AuctionRepository {
     }
 
     public async save(auction: Auction): Promise<void> {
-        // todo: hack hack, force ORM to mark entity as dirty
-        auction.version2++;
+        auction.incrementVersion();
         await this.em.persist(auction);
         await this.em.flush();
     }

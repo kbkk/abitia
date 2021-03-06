@@ -39,11 +39,11 @@ export class Auction {
     @Property({ type: 'Date' })
     public readonly createdAt: Date;
 
-    @Property({ version: true })
-    public version: number = 1;
+    @Property({ type: 'Date' })
+    public readonly updatedAt: Date;
 
-    @Property({ type: 'number' })
-    public version2: number = 1;
+    @Property({ version: true })
+    public readonly version: number;
 
     private constructor(
         id: AuctionId,
@@ -91,6 +91,10 @@ export class Auction {
         }
 
         this.bids.add(newBid);
+    }
+
+    public incrementVersion(): void {
+        (this.updatedAt as Date) = new Date();
     }
 }
 
