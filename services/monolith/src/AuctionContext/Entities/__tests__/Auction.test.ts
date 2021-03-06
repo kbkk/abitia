@@ -37,12 +37,10 @@ describe('Auction', () => {
             createdAt: expect.any(Date),
             id: expect.any(String),
             item: 'testItem',
-            price: 1000,
+            startingPrice: 1000,
             seller: 'testSeller',
             type: 'buy-it-now',
             bids: expect.any(Collection),
-            version: 1,
-            version2: 1,
         });
     });
 
@@ -74,6 +72,12 @@ describe('Auction', () => {
             const run = (): void => auction.placeBid(createBid(900));
 
             expect(run).toThrow('The placed bid should be higher than highest bid (1000)');
+        });
+
+        it('should not be able to place a bid below the starting price', () => {
+            const run = (): void => auction.placeBid(createBid(999));
+
+            expect(run).toThrow('The placed bid should be higher than auction starting price (1000)');
         });
     });
 });

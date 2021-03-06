@@ -90,6 +90,12 @@ export class Auction {
             }
         }
 
+        if(this.startingPrice > newBid.price) {
+            throw new PlaceBidError(
+                `The placed bid should be higher than auction starting price (${this.startingPrice})`,
+            );
+        }
+
         this.bids.add(newBid);
     }
 
