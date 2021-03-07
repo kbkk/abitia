@@ -3,6 +3,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule } from '@nestjs/common';
 
 import { MikroOrmOutbox } from '../MikroOrm/MikroOrmOutbox';
+import { MikroOrmOutboxWorker } from '../MikroOrm/MikroOrmOutboxWorker';
 import { OutboxMessageEntity } from '../MikroOrm/OutboxMessageEntity';
 
 import { OUTBOX } from './constants';
@@ -18,6 +19,13 @@ export class OutboxModule {
             ],
             providers: [
                 {
+                    provide: MikroOrmOutboxWorker,
+                    useFactory: (em: EntityManager) => (
+                        new MikroOrmOutboxWorker(em)
+                    ),
+                    inject: [EntityManager],
+                },
+                {
                     provide: OUTBOX,
                     useFactory: (em: EntityManager) => (
                         new MikroOrmOutbox(em)
@@ -26,6 +34,7 @@ export class OutboxModule {
                 },
             ],
             exports: [
+                MikroOrmOutboxWorker,
                 OUTBOX,
             ],
         };

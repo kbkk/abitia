@@ -15,6 +15,9 @@ export class OutboxMessageEntity {
     @PrimaryKey({ type: 'string' })
     public readonly eventPayload: string;
 
+    @Property({ type: 'Date', nullable: true })
+    public readonly processedAt: Date;
+
     public constructor(
         id: string,
         eventName: string,
@@ -24,6 +27,10 @@ export class OutboxMessageEntity {
         this.createdAt = new Date();
         this.eventName = eventName;
         this.eventPayload = eventPayload;
+    }
+
+    public markAsProcessed(): void {
+        (this.processedAt as Date) = new Date();
     }
 }
 
