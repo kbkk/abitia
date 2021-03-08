@@ -1,6 +1,7 @@
 import { EntityManager } from '@mikro-orm/core';
 
 import { Event, EventBus } from '../../EventBus';
+import { Logger } from '../../Logger';
 
 import { OutboxMessageEntity } from './OutboxMessageEntity';
 
@@ -28,6 +29,10 @@ export class MikroOrmOutboxWorker {
 
     public constructor(
         globalEm: EntityManager,
+        private readonly logger: Logger,
+        private readonly options = {
+            fetchDelay: 250,
+        },
     ) {
         this.em = globalEm.fork();
     }
@@ -38,12 +43,16 @@ export class MikroOrmOutboxWorker {
 
         // eslint-disable-next-line no-constant-condition
         while(this.running) {
-            this.processingPromise = this.processMessages();
-            await this.processingPromise;
+            try {
+                this.processingPromise = this.processMessages();
+                await this.processingPromise;
+            } catch (error) {
+                this.logger.error('Failed to process outbox messages', { error });
+            }
 
             // Check again, no point in wasting time when stopped
             if(this.running) {
-                await sleep(250);
+                await sleep(this.options.fetchDelay);
             }
         }
     }
