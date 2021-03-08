@@ -24,7 +24,7 @@ const dummyMessage = new OutboxMessageEntity(
 
 const logger = new TestLogger();
 
-const worker = new MikroOrmOutboxWorker(entityManagerMock, logger, { fetchDelay: 50 });
+const worker = new MikroOrmOutboxWorker(entityManagerMock, eventBusMock, logger, { fetchDelay: 50 });
 
 beforeEach(() => {
     jest.resetAllMocks();
@@ -65,7 +65,7 @@ it('should continue processing if an error occurred', async () => {
         .mockResolvedValue([]);
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    worker.start(eventBusMock);
+    worker.start();
 
     await waitUntil({
         condition: () => entityManagerMock.find.mock.calls.length > 2,
@@ -86,7 +86,7 @@ it('should pickup outbox messages and publish them to event bus', async () => {
         .mockResolvedValue([]);
 
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    worker.start(eventBusMock);
+    worker.start();
     await worker.stop();
 
     const calledWith = eventBusMock.publish.mock.calls[0][0];

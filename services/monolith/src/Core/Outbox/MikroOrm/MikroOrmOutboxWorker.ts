@@ -23,13 +23,13 @@ const adaptMessageToEvent = (message: OutboxMessageEntity): Event => {
 
 export class MikroOrmOutboxWorker {
     private readonly em: EntityManager;
-    private eventBus: EventBus;
     private running = false;
     private processingPromise?: Promise<unknown>;
 
     public constructor(
         globalEm: EntityManager,
-        private readonly logger: Logger,
+        private readonly eventBus: EventBus,
+        private readonly logger?: Logger,
         private readonly options = {
             fetchDelay: 250,
         },
@@ -37,8 +37,7 @@ export class MikroOrmOutboxWorker {
         this.em = globalEm.fork();
     }
 
-    public async start(eventBus: EventBus): Promise<void> {
-        this.eventBus = eventBus;
+    public async start(): Promise<void> {
         this.running = true;
 
         // eslint-disable-next-line no-constant-condition
@@ -47,7 +46,7 @@ export class MikroOrmOutboxWorker {
                 this.processingPromise = this.processMessages();
                 await this.processingPromise;
             } catch (error) {
-                this.logger.error('Failed to process outbox messages', { error });
+                this.logger?.error('Failed to process outbox messages', { error });
             }
 
             // Check again, no point in wasting time when stopped
