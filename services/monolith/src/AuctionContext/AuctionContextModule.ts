@@ -2,8 +2,8 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
-import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
-import { nestJsLoggerProvider } from '../Core/Logger';
+import { EVENT_BUS, EventBus, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
+import { Logger, LOGGER, nestJsLoggerProvider } from '../Core/Logger';
 import { intermediateModule } from '../Core/NestJs';
 import { OutboxMessageEntity } from '../Core/Outbox/MikroOrm/OutboxMessageEntity';
 import { OutboxModule } from '../Core/Outbox/NestJs/OutboxModule';
@@ -50,7 +50,14 @@ export class AuctionContextModule {
                     tsNode: typeof jest !== 'undefined',
                     debug: true,
                 }),
-                OutboxModule.withMikroOrmAsync(loggerModule, eventBusModule),
+                OutboxModule.withMikroOrmAsync({
+                    imports: [loggerModule,  eventBusModule],
+                    useFactory: (logger: Logger, eventBus: EventBus) => ({
+                        logger,
+                        eventBus,
+                    }),
+                    inject: [EVENT_BUS, LOGGER],
+                }),
             ],
             controllers: [
                 AuctionController,
