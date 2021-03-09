@@ -50,7 +50,7 @@ export class AuctionContextModule {
                     tsNode: typeof jest !== 'undefined',
                     debug: true,
                 }),
-                OutboxModule.withMikroOrmAsync([loggerModule, eventBusModule]),
+                OutboxModule.withMikroOrmAsync(loggerModule, eventBusModule),
             ],
             controllers: [
                 AuctionController,

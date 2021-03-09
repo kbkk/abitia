@@ -11,11 +11,12 @@ import { OutboxMessageEntity } from '../MikroOrm/OutboxMessageEntity';
 import { OUTBOX } from './constants';
 
 export class OutboxModule {
-    public static withMikroOrmAsync(imports: DynamicModule[]): DynamicModule {
+    public static withMikroOrmAsync(loggerModule: DynamicModule, eventBusModule: DynamicModule): DynamicModule {
         return {
             module: OutboxModule,
             imports: [
-                ...imports,
+                loggerModule,
+                eventBusModule,
                 MikroOrmModule.forFeature({
                     entities: [OutboxMessageEntity],
                 }),

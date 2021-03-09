@@ -23,7 +23,10 @@ const dynamicCtor = (name: string): Type => {
 
 let uniqueId = 0;
 
-export const intermediateModule = (providers: Provider | Provider[], imports: DynamicModule | DynamicModule[] = []): DynamicModule => {
+export const intermediateModule = (
+    providers: Provider | Provider[],
+    imports: DynamicModule | DynamicModule[] = [],
+): DynamicModule => {
     if(!Array.isArray(providers)){
         providers = [providers];
     }
