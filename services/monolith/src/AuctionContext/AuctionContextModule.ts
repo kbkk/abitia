@@ -41,6 +41,14 @@ export class AuctionContextModule {
                     }),
                     inject: [AuctionContextConfig],
                 }),
+                OutboxModule.withMikroOrmAsync({
+                    imports: [loggerModule,  eventBusModule],
+                    useFactory: (eventBus: EventBus, logger: Logger) => ({
+                        logger,
+                        eventBus,
+                    }),
+                    inject: [EVENT_BUS, LOGGER],
+                }),
                 MikroOrmModule.forRoot({
                     entities: ['../../dist/AuctionContext/Entities/*.js', OutboxMessageEntity],
                     entitiesTs: ['../../src/AuctionContext/Entities/*.ts', OutboxMessageEntity],
@@ -48,15 +56,6 @@ export class AuctionContextModule {
                     type: 'sqlite',
                     baseDir: __dirname,
                     tsNode: typeof jest !== 'undefined',
-                    debug: true,
-                }),
-                OutboxModule.withMikroOrmAsync({
-                    imports: [loggerModule,  eventBusModule],
-                    useFactory: (logger: Logger, eventBus: EventBus) => ({
-                        logger,
-                        eventBus,
-                    }),
-                    inject: [EVENT_BUS, LOGGER],
                 }),
             ],
             controllers: [

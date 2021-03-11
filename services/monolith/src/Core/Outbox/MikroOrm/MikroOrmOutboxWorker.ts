@@ -21,8 +21,14 @@ const adaptMessageToEvent = (message: OutboxMessageEntity): Event => {
     return payload;
 };
 
+type MikroOrmOutboxWorkerOptions = {
+    fetchDelay: number;
+    debug: boolean;
+}
+
 export class MikroOrmOutboxWorker {
     private readonly em: EntityManager;
+    private readonly options: MikroOrmOutboxWorkerOptions
     private running = false;
     private processingPromise?: Promise<unknown>;
 
@@ -30,10 +36,13 @@ export class MikroOrmOutboxWorker {
         globalEm: EntityManager,
         private readonly eventBus: EventBus,
         private readonly logger?: Logger,
-        private readonly options = {
-            fetchDelay: 250,
-        },
+        options: Partial<MikroOrmOutboxWorkerOptions> = {},
     ) {
+        this.options = Object.assign({
+            fetchDelay: 250,
+            debug: false,
+        }, options);
+
         this.em = globalEm.fork();
     }
 
@@ -65,6 +74,10 @@ export class MikroOrmOutboxWorker {
         const messages = await this.em.find(OutboxMessageEntity, {
             processedAt: null,
         });
+
+        if(this.options.debug && messages.length) {
+            this.logger?.debug(`Processing ${messages.length} outbox messages`);
+        }
 
         for(const message of messages) {
             const event = adaptMessageToEvent(message);

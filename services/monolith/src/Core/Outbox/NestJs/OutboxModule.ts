@@ -13,6 +13,7 @@ import { OUTBOX } from './constants';
 const OUTBOX_MODULE_CONFIG = 'OUTBOX_MODULE_CONFIG';
 
 type OutboxModuleConfig = {
+    debug?: boolean;
     logger: Logger;
     eventBus: EventBus;
 }
@@ -41,17 +42,17 @@ export class OutboxModule {
                 this.createAsyncOptionsProvider(options),
                 {
                     provide: MikroOrmOutboxWorker,
-                    useFactory: (em: EntityManager, config: OutboxModuleConfig) => (
-                        new MikroOrmOutboxWorker(em, config.eventBus, config.logger)
+                    useFactory: (em: EntityManager, { eventBus, logger, debug }: OutboxModuleConfig) => (
+                        new MikroOrmOutboxWorker(em, eventBus, logger, { debug })
                     ),
                     inject: [EntityManager, OUTBOX_MODULE_CONFIG],
                 },
                 {
                     provide: OUTBOX,
-                    useFactory: (em: EntityManager) => (
-                        new MikroOrmOutbox(em)
+                    useFactory: (em: EntityManager, { logger, debug }: OutboxModuleConfig) => (
+                        new MikroOrmOutbox(em, logger, { debug })
                     ),
-                    inject: [EntityManager],
+                    inject: [EntityManager, OUTBOX_MODULE_CONFIG],
                 },
             ],
             exports: [
