@@ -1,8 +1,10 @@
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { DynamicModule, Module } from '@nestjs/common';
 
-import { nestJsInMemoryEventBusProvider } from '../Core/EventBus';
-import { NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
+import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
+import { LOGGER, Logger, NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
+import { intermediateModule } from '../Core/NestJs';
+import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox/';
 
 import { AccountContextGateway } from './AccountContextGateway';
 import { AccountContextConfig } from './Configs/AccountContextConfig';
@@ -17,17 +19,31 @@ import { CreateAuthTokenService } from './Services/CreateAuthTokenService';
 
 interface AccountContextModuleOptions {
     mikroOrmOptions?: MikroOrmModuleSyncOptions;
+    eventBusCoordinator: EventBusCompositeCoordinator,
 }
 
 @Module({})
 export class AccountContextModule {
-    public static forRoot({ mikroOrmOptions } : AccountContextModuleOptions = {}): DynamicModule {
+    public static forRoot({ mikroOrmOptions, eventBusCoordinator } : AccountContextModuleOptions): DynamicModule {
+        const loggerModule = intermediateModule(nestJsLoggerProvider);
+        const eventBusModule = intermediateModule(nestJsInMemoryEventBusProvider, loggerModule);
+
         return {
             module: AccountContextModule,
             imports: [
+                loggerModule,
+                eventBusModule,
+                OutboxModule.withMikroOrmAsync({
+                    imports: [loggerModule,  eventBusModule],
+                    useFactory: (eventBus: EventBus, logger: Logger) => ({
+                        logger,
+                        eventBus: eventBusCoordinator,
+                    }),
+                    inject: [EVENT_BUS, LOGGER],
+                }),
                 MikroOrmModule.forRoot({
-                    entities: ['../../dist/AccountContext/Entities'],
-                    entitiesTs: ['../../src/AccountContext/Entities'],
+                    entities: ['../../dist/AccountContext/Entities', OutboxMessageEntity],
+                    entitiesTs: ['../../src/AccountContext/Entities', OutboxMessageEntity],
                     dbName: 'account-context.sqlite3',
                     type: 'sqlite',
                     baseDir: __dirname,
@@ -40,6 +56,7 @@ export class AccountContextModule {
                 AuthController,
             ],
             providers: [
+                RegisterOutboxWorker,
                 AccountContextGateway,
                 CreateAuthTokenService,
                 ConfirmAccountService,
@@ -53,8 +70,6 @@ export class AccountContextModule {
                     provide: AccountContextConfig,
                     useFactory: AccountContextConfig.fromEnv,
                 },
-                ...nestJsLoggerProvider,
-                nestJsInMemoryEventBusProvider,
                 NestJsLoggerAdapter,
             ],
             exports: [

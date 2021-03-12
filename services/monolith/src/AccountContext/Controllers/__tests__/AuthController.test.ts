@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
+import { EventBusCompositeCoordinator } from '../../../Core/EventBus';
 import { AccountContextModule } from '../../AccountContextModule';
 import { AccountContextConfig } from '../../Configs/AccountContextConfig';
 import { CreateAuthTokenService } from '../../Services/CreateAuthTokenService';
@@ -24,6 +25,7 @@ describe('AuthController', () => {
                     mikroOrmOptions: {
                         dbName: ':memory:',
                     },
+                    eventBusCoordinator: new EventBusCompositeCoordinator(),
                 }),
             ],
         })

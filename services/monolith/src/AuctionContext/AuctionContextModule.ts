@@ -2,13 +2,11 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
-import { EVENT_BUS, EventBus, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
+import { EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { Logger, LOGGER, nestJsLoggerProvider } from '../Core/Logger';
 import { intermediateModule } from '../Core/NestJs';
-import { OutboxMessageEntity } from '../Core/Outbox/MikroOrm/OutboxMessageEntity';
-import { OutboxModule } from '../Core/Outbox/NestJs/OutboxModule';
+import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox';
 
-import { RegisterOutboxWorker } from './BackgroundTasks/RegisterOutboxWorker';
 import { AuctionContextConfig } from './Configs/AuctionContextConfig';
 import { AuctionController } from './Controllers/AuctionController';
 import { AUCTION_REPOSITORY } from './Repositories/AuctionRepository';
@@ -18,10 +16,11 @@ import { PlaceAuctionBidService } from './Services/PlaceAuctionBidService';
 
 type AuctionContextModuleOptions = {
     configFactory?: () => AuctionContextConfig
+    eventBusCoordinator: EventBusCompositeCoordinator,
 }
 
 export class AuctionContextModule {
-    public static forRoot(options?: AuctionContextModuleOptions): DynamicModule {
+    public static forRoot(options: AuctionContextModuleOptions): DynamicModule {
         const configModule = intermediateModule({
             provide: AuctionContextConfig,
             useFactory: options?.configFactory ?? AuctionContextConfig.fromEnv,
@@ -42,12 +41,12 @@ export class AuctionContextModule {
                     inject: [AuctionContextConfig],
                 }),
                 OutboxModule.withMikroOrmAsync({
-                    imports: [loggerModule,  eventBusModule],
-                    useFactory: (eventBus: EventBus, logger: Logger) => ({
+                    imports: [loggerModule],
+                    useFactory: (logger: Logger) => ({
                         logger,
-                        eventBus,
+                        eventBus: options.eventBusCoordinator,
                     }),
-                    inject: [EVENT_BUS, LOGGER],
+                    inject: [LOGGER],
                 }),
                 MikroOrmModule.forRoot({
                     entities: ['../../dist/AuctionContext/Entities/*.js', OutboxMessageEntity],

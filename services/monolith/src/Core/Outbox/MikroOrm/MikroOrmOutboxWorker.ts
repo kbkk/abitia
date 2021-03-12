@@ -71,9 +71,10 @@ export class MikroOrmOutboxWorker {
     }
 
     private async processMessages(): Promise<void> {
+        this.em.clear();
         const messages = await this.em.find(OutboxMessageEntity, {
             processedAt: null,
-        });
+        }, { limit: 5 });
 
         if(this.options.debug && messages.length) {
             this.logger?.debug(`Processing ${messages.length} outbox messages`);

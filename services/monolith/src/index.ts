@@ -12,6 +12,7 @@ import { config as configureDotenv } from 'dotenv';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
+import { EVENT_BUS, EventBus, EventBusCompositeCoordinator } from './Core/EventBus';
 import { NestJsLoggerAdapter } from './Core/Logger';
 
 patchNestjsSwagger();
@@ -37,6 +38,7 @@ export class MonolithNestFactory extends NestFactoryStatic {
 }
 
 const nestFactory = new MonolithNestFactory();
+const eventBusCoordinator = new EventBusCompositeCoordinator();
 
 async function createModule(
     module: unknown,
@@ -61,6 +63,14 @@ async function createModule(
         console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
     }
 
+    try {
+        const eventBus = nestApp.get<EventBus>(EVENT_BUS);
+
+        eventBusCoordinator.registerChild(eventBus);
+    } catch (error) {
+        console.log(`[${httpPrefix}] Failed to find EventBus, registration skipped.`);
+    }
+
     const document = SwaggerModule.createDocument(nestApp, openApiDocBuilder.build());
     SwaggerModule.setup(`${httpPrefix}/api`, nestApp, document);
 
@@ -82,7 +92,7 @@ async function createModule(
         .setTitle('Monolith accounts API')
         .setVersion('1.0');
     const accountContext = await createModule(
-        AccountContextModule.forRoot(),
+        AccountContextModule.forRoot({ eventBusCoordinator }),
         '/AccountContext',
         express,
         factoryOptions,
@@ -93,7 +103,7 @@ async function createModule(
         .setTitle('Monolith auctions API')
         .setVersion('1.0');
     const auctionContext = await createModule(
-        AuctionContextModule.forRoot(),
+        AuctionContextModule.forRoot({ eventBusCoordinator }),
         '/AuctionContext',
         express,
         factoryOptions,
