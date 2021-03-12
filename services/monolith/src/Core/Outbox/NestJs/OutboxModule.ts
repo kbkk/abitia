@@ -2,11 +2,9 @@ import { EntityManager } from '@mikro-orm/core';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule, ModuleMetadata, Provider } from '@nestjs/common';
 
-import { EVENT_BUS, EventBus } from '../../EventBus';
-import { Logger, LOGGER } from '../../Logger';
-import { MikroOrmOutbox } from '../MikroOrm/MikroOrmOutbox';
-import { MikroOrmOutboxWorker } from '../MikroOrm/MikroOrmOutboxWorker';
-import { OutboxMessageEntity } from '../MikroOrm/OutboxMessageEntity';
+import { EventBus } from '../../EventBus';
+import { Logger } from '../../Logger';
+import { MikroOrmOutbox, MikroOrmOutboxWorker, OutboxMessageEntity } from '../MikroOrm';
 
 import { OUTBOX } from './constants';
 
