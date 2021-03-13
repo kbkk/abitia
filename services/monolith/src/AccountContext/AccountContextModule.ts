@@ -16,6 +16,7 @@ import { SqliteAccountRepository } from './Repositories/SqliteAccountRepository'
 import { ConfirmAccountService } from './Services/ConfirmAccountService';
 import { CreateAccountService } from './Services/CreateAccountService';
 import { CreateAuthTokenService } from './Services/CreateAuthTokenService';
+import { SuspendAccountService } from './Services/SuspendAccountService';
 
 interface AccountContextModuleOptions {
     mikroOrmOptions?: MikroOrmModuleSyncOptions;
@@ -58,6 +59,7 @@ export class AccountContextModule {
             providers: [
                 RegisterOutboxWorker,
                 AccountContextGateway,
+                SuspendAccountService,
                 CreateAuthTokenService,
                 ConfirmAccountService,
                 CreateAccountService,
