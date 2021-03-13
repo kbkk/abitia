@@ -24,7 +24,10 @@ export class Account {
     public readonly confirmationCode?: string;
 
     @Property({ type: 'boolean' })
-    public readonly confirmed: boolean;
+    public readonly confirmed: boolean = false;
+
+    @Property({ type: 'boolean' })
+    public readonly suspended: boolean = false;
 
     private constructor(
         id: AccountId,
@@ -34,7 +37,6 @@ export class Account {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.confirmed = false;
     }
 
     public async updatePassword(password: string): Promise<void> {
@@ -47,6 +49,10 @@ export class Account {
 
     public markAsConfirmed(): void {
         (this.confirmed as boolean) = true;
+    }
+
+    public suspend(): void {
+        (this.suspended as boolean) = true;
     }
 
     public static async create(
