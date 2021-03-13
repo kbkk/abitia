@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
+import { EventBusCompositeCoordinator } from '../../../Core/EventBus';
 import { AuctionContextModule } from '../../AuctionContextModule';
 import { createTestToken, createTestConfig } from '../utils';
 
@@ -13,6 +14,7 @@ describe('AuctionContext Integration Tests', () => {
     beforeAll(async () => {
         const ctxModule = AuctionContextModule.forRoot({
             configFactory: createTestConfig,
+            eventBusCoordinator: new EventBusCompositeCoordinator(),
         });
         const moduleRef = await Test.createTestingModule({
             imports: [ctxModule],
