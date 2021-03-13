@@ -55,6 +55,10 @@ export class Account {
         (this.suspended as boolean) = true;
     }
 
+    public isActive(): boolean {
+        return this.confirmed && !this.suspended;
+    }
+
     public static async create(
         id: AccountId,
         email: string,
