@@ -41,6 +41,7 @@ describe('Auction', () => {
             seller: 'testSeller',
             type: 'buy-it-now',
             bids: expect.any(Collection),
+            status: 'open',
         });
     });
 
@@ -78,6 +79,14 @@ describe('Auction', () => {
             const run = (): void => auction.placeBid(createBid(999));
 
             expect(run).toThrow('The placed bid should be higher than auction starting price (1000)');
+        });
+
+        it('should be able to a bid on ended auction', () => {
+            auction.cancel();
+
+            const run = (): void => auction.placeBid(createBid(1000));
+
+            expect(run).toThrow('Cannot place a bid, the auction has ended');
         });
     });
 });

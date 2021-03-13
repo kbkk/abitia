@@ -7,6 +7,7 @@ import { Bid } from './Bid';
 export type AuctionId = string & { __brand: 'AuctionId' }
 
 export type AuctionTypes = 'buy-it-now' | 'auction';
+export type AuctionStatus = 'open' | 'ended' | 'cancelled';
 
 class PlaceBidError extends Error {}
 
@@ -35,6 +36,9 @@ export class Auction {
         orderBy: { createdAt: QueryOrder.DESC },
     })
     public readonly bids = new Collection<Bid>(this);
+
+    @Property({ type: 'string' })
+    public readonly status: AuctionStatus = 'open';
 
     @Property({ type: 'Date' })
     public readonly createdAt: Date;
@@ -79,15 +83,19 @@ export class Auction {
     }
 
     public placeBid(newBid: Bid): void {
+        if(this.status !== 'open') {
+            throw new PlaceBidError(
+                'Cannot place a bid, the auction has ended',
+            );
+        }
+
         const bids = this.bids.getItems();
         const [highestBid] = bids;
 
-        if(highestBid) {
-            if (highestBid.price >= newBid.price) {
-                throw new PlaceBidError(
-                    `The placed bid should be higher than highest bid (${highestBid.price})`,
-                );
-            }
+        if(highestBid && highestBid.price >= newBid.price) {
+            throw new PlaceBidError(
+                `The placed bid should be higher than highest bid (${highestBid.price})`,
+            );
         }
 
         if(this.startingPrice > newBid.price) {
@@ -97,6 +105,10 @@ export class Auction {
         }
 
         this.bids.add(newBid);
+    }
+
+    public cancel(): void {
+        (this.status as string) = 'cancelled';
     }
 
     public incrementVersion(): void {
