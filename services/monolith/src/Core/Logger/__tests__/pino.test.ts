@@ -3,7 +3,7 @@ import { Writable } from 'stream';
 import { PinoLogger } from '../PinoLogger';
 import { pinoFactory } from '../pinoFactory';
 
-const writeMock = jest.fn();
+const writeMock = jest.fn().mockImplementation((chunk, encoding, cb) => cb());
 
 const testStream = new Writable({
     write: writeMock,
@@ -14,7 +14,11 @@ const pino = pinoFactory({ prettyPrint: false }, testStream);
 const pinoLogger = new PinoLogger(pino);
 
 beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
+});
+
+afterAll(() => {
+    testStream.end();
 });
 
 class CustomError extends Error {
@@ -52,6 +56,8 @@ it('should serialize errors with additional properties', () => {
     const error = new CustomError('customError');
 
     pinoLogger.info('some message', { error });
+
+    expect(writeMock).toHaveBeenCalled();
 
     const log = JSON.parse(writeMock.mock.calls[0][0].toString());
 
