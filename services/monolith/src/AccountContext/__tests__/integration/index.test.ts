@@ -1,9 +1,9 @@
-import { MikroORM } from '@mikro-orm/core';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
-import { EventBusCompositeCoordinator } from '../../../Core/EventBus';
+import { EVENT_BUS, EventBusCompositeCoordinator } from '../../../Core/EventBus';
+import { runMikroOrmMigrations, waitMs } from '../../../Core/Testing';
 import { AccountContextModule } from '../../AccountContextModule';
 import { AccountContextConfig } from '../../Configs/AccountContextConfig';
 import { ACCOUNT_REPOSITORY, AccountRepository } from '../../Repositories/AccountRepository';
@@ -16,13 +16,15 @@ describe('Tests', () => {
     let accountRepository: AccountRepository;
 
     beforeAll(async () => {
+        const eventBusCoordinator = new EventBusCompositeCoordinator();
+
         const moduleRef = await Test.createTestingModule({
             imports: [
                 AccountContextModule.forRoot({
                     mikroOrmOptions: {
                         dbName: ':memory:',
                     },
-                    eventBusCoordinator: new EventBusCompositeCoordinator(),
+                    eventBusCoordinator,
                 }),
             ],
         })
@@ -31,17 +33,18 @@ describe('Tests', () => {
             .compile();
 
         app = moduleRef.createNestApplication();
+
+        await runMikroOrmMigrations(app);
+
+        eventBusCoordinator.registerChild(app.get(EVENT_BUS));
+
         await app.init();
 
         accountRepository = app.get(ACCOUNT_REPOSITORY);
     });
 
     beforeEach(async () => {
-        // todo: write test util for app bootstrap
-        const orm = app.get(MikroORM);
-        const generator = orm.getSchemaGenerator();
-        await generator.dropSchema();
-        await generator.createSchema();
+        await runMikroOrmMigrations(app);
     });
 
     it('Should be able to create an account (POST /accounts)', async () => {
@@ -62,6 +65,8 @@ describe('Tests', () => {
             .send({ email: 'jakub@example.com', password: 'LITT UP' })
             .expect(201);
 
+        await waitMs(250);
+
         const { id, confirmationCode } = (await accountRepository.findById(createdAccount.id))!;
 
         const { body } = await request(app.getHttpServer())
@@ -81,6 +86,8 @@ describe('Tests', () => {
             .post('/accounts')
             .send(credentials)
             .expect(201);
+
+        await waitMs(250);
 
         const { id, confirmationCode } = (await accountRepository.findById(createdAccount.id))!;
 

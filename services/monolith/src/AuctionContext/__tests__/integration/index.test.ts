@@ -1,9 +1,9 @@
-import { MikroORM } from '@mikro-orm/core';
 import { INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import * as request from 'supertest';
 
 import { EventBusCompositeCoordinator } from '../../../Core/EventBus';
+import { runMikroOrmMigrations } from '../../../Core/Testing';
 import { AuctionContextModule } from '../../AuctionContextModule';
 import { createTestToken, createTestConfig } from '../utils';
 
@@ -22,15 +22,12 @@ describe('AuctionContext Integration Tests', () => {
             .compile();
 
         app = moduleRef.createNestApplication();
+        await runMikroOrmMigrations(app);
         await app.init();
     });
 
     beforeEach(async () => {
-        // todo: write test util for app bootstrap
-        const orm = app.get(MikroORM);
-        const generator = orm.getSchemaGenerator();
-        await generator.dropSchema();
-        await generator.createSchema();
+        await runMikroOrmMigrations(app);
     });
 
     it('POST /auctions - Should create an auction', async () => {
@@ -41,13 +38,14 @@ describe('AuctionContext Integration Tests', () => {
             .send({ item: 'testItem', startingPrice: 2137 })
             .expect(201);
 
-        expect(body).toEqual({
+        expect(body).toMatchObject({
             createdAt: expect.any(String),
             id: expect.any(String),
             item: 'testItem',
             startingPrice: 2137,
             seller: accountId,
             type: 'buy-it-now',
+            bids: [],
         });
     });
 

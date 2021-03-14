@@ -8,6 +8,7 @@ import { OutboxMessageEntity } from '../OutboxMessageEntity';
 const entityManagerMock = {
     persistAndFlush: jest.fn(),
     find: jest.fn(),
+    clear: jest.fn(),
     fork: () => entityManagerMock,
 } as unknown as jest.Mocked<EntityManager>;
 
@@ -50,10 +51,16 @@ async function waitUntil({ condition, timeout = 5000, repeatEvery = 1000 }): Pro
     };
 
     return new Promise((resolve, reject) => {
-        setTimeout(() => reject(new Error('waitUntil condition not met in time')), timeout);
+        const timeoutId = setTimeout(
+            () => reject(new Error('waitUntil condition not fulfilled in time')),
+            timeout,
+        );
 
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        poll(resolve);
+        poll(() => {
+            clearTimeout(timeoutId);
+            return resolve();
+        });
     });
 }
 
