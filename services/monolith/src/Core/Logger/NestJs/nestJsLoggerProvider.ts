@@ -1,6 +1,5 @@
-import * as pinoFactory from 'pino';
-
 import { PinoLogger } from '../PinoLogger';
+import { pinoFactory } from '../pinoFactory';
 
 export const LOGGER = 'LOGGER';
 export const PINO_INSTANCE = 'PINO_INSTANCE';
@@ -15,11 +14,6 @@ export const nestJsLoggerProvider = [
     },
     {
         provide: PINO_INSTANCE,
-        useFactory: () => {
-            const isProd = process.env.NODE_ENV === 'production';
-            const pino = pinoFactory(isProd ? {} : { prettyPrint: true });
-
-            return pino;
-        },
+        useFactory: () => pinoFactory(),
     },
 ];

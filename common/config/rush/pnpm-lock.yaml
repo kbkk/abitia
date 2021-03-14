@@ -16,6 +16,7 @@ dependencies:
   '@types/node': 14.14.25
   '@types/node-fetch': 2.5.8
   '@types/pino': 6.3.5
+  '@types/pino-std-serializers': 2.4.1
   '@types/supertest': 2.0.10
   '@types/uuid': 8.3.0
   '@typescript-eslint/eslint-plugin': 4.15.0_3d284fbfd72dee80211a015474bb836f
@@ -29,6 +30,7 @@ dependencies:
   node-fetch: 2.6.0
   pino: 6.11.1
   pino-pretty: 4.5.0
+  pino-std-serializers: 3.2.0
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 6.6.3
@@ -6948,6 +6950,7 @@ packages:
       '@types/node': 14.14.25
       '@types/node-fetch': 2.5.8
       '@types/pino': 6.3.5
+      '@types/pino-std-serializers': 2.4.1
       '@types/supertest': 2.0.10
       '@types/uuid': 8.3.0
       bcrypt: 5.0.0
@@ -6958,6 +6961,7 @@ packages:
       node-fetch: 2.6.1
       pino: 6.11.1
       pino-pretty: 4.5.0
+      pino-std-serializers: 3.2.0
       reflect-metadata: 0.1.13
       rimraf: 3.0.2
       rxjs: 6.6.3
@@ -6971,7 +6975,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-kuisrtXGt1WmlDP2eBLSJ/T3NdbW2iIdDSMmf0gfKasajz88scFq0wMit90lo3XS5NjpfBvZB3M2pZZPGQZwzg==
+      integrity: sha512-7tLEyXYOIdSmmDx3Yu55jLG7Sq2H6aWRehoaSGzvQRYYI4zVYU6vXsRvw0GdaodZar2f6cHboiPx9r+h51fJGg==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7024,6 +7028,7 @@ specifiers:
   '@types/node': ~14.14.25
   '@types/node-fetch': ~2.5.8
   '@types/pino': ~6.3.5
+  '@types/pino-std-serializers': ~2.4.1
   '@types/supertest': ~2.0.10
   '@types/uuid': ~8.3.0
   '@typescript-eslint/eslint-plugin': 4.15.0
@@ -7037,6 +7042,7 @@ specifiers:
   node-fetch: ~2.6.0
   pino: ~6.11.1
   pino-pretty: ~4.5.0
+  pino-std-serializers: ~3.2.0
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
   rxjs: ^6.6.3
