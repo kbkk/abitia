@@ -13,6 +13,7 @@ jobs:
       - name: Setup
         run: |
           node common/scripts/install-run-rush.js install
+          node common/scripts/install-run-rush.js build
 
           # todo: iterate over services and packages dir
           cd services/monolith
