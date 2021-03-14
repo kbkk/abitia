@@ -2,7 +2,10 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
-import { nestJsLoggerProvider } from '../Core/Logger';
+import { EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
+import { Logger, LOGGER, nestJsLoggerProvider } from '../Core/Logger';
+import { intermediateModule } from '../Core/NestJs';
+import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox';
 
 import { AuctionContextConfig } from './Configs/AuctionContextConfig';
 import { AuctionController } from './Controllers/AuctionController';
@@ -11,35 +14,25 @@ import { SqliteAuctionRepository } from './Repositories/SqliteAuctionRepository'
 import { CreateAuctionService } from './Services/CreateAuctionService';
 import { PlaceAuctionBidService } from './Services/PlaceAuctionBidService';
 
-export class AuctionContextConfigModule {
-    public static forRoot(factory?: () => AuctionContextConfig): DynamicModule {
-        return {
-            module: AuctionContextConfigModule,
-            global: true,
-            providers: [
-                {
-                    provide: AuctionContextConfig,
-                    useFactory: factory ?? AuctionContextConfig.fromEnv,
-                },
-            ],
-            exports: [
-                AuctionContextConfig,
-            ],
-        };
-    }
-}
-
 type AuctionContextModuleOptions = {
     configFactory?: () => AuctionContextConfig
+    eventBusCoordinator: EventBusCompositeCoordinator,
 }
 
 export class AuctionContextModule {
-    public static forRoot(options?: AuctionContextModuleOptions): DynamicModule {
-        const configModule = AuctionContextConfigModule.forRoot(options?.configFactory);
+    public static forRoot(options: AuctionContextModuleOptions): DynamicModule {
+        const configModule = intermediateModule({
+            provide: AuctionContextConfig,
+            useFactory: options?.configFactory ?? AuctionContextConfig.fromEnv,
+        });
+        const loggerModule = intermediateModule(nestJsLoggerProvider);
+        const eventBusModule = intermediateModule(nestJsInMemoryEventBusProvider, loggerModule);
 
         return {
             module: AuctionContextModule,
             imports: [
+                loggerModule,
+                eventBusModule,
                 AccountAuthModule.registerAsync({
                     imports: [configModule],
                     useFactory: (config: AuctionContextConfig) => ({
@@ -47,9 +40,17 @@ export class AuctionContextModule {
                     }),
                     inject: [AuctionContextConfig],
                 }),
+                OutboxModule.withMikroOrmAsync({
+                    imports: [loggerModule],
+                    useFactory: (logger: Logger) => ({
+                        logger,
+                        eventBus: options.eventBusCoordinator,
+                    }),
+                    inject: [LOGGER],
+                }),
                 MikroOrmModule.forRoot({
-                    entities: ['../../dist/AuctionContext/Entities/*.js'],
-                    entitiesTs: ['../../src/AuctionContext/Entities/*.ts'],
+                    entities: ['../../dist/AuctionContext/Entities/*.js', OutboxMessageEntity],
+                    entitiesTs: ['../../src/AuctionContext/Entities/*.ts', OutboxMessageEntity],
                     dbName: 'auction-context.sqlite3',
                     type: 'sqlite',
                     baseDir: __dirname,
@@ -60,9 +61,9 @@ export class AuctionContextModule {
                 AuctionController,
             ],
             providers: [
+                RegisterOutboxWorker,
                 PlaceAuctionBidService,
                 CreateAuctionService,
-                ...nestJsLoggerProvider,
                 {
                     provide: AUCTION_REPOSITORY,
                     useClass: SqliteAuctionRepository,

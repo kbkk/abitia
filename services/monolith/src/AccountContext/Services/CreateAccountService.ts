@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 
-import { EVENT_BUS, EventBus } from '../../Core/EventBus';
 import { LOGGER, Logger } from '../../Core/Logger';
+import { OUTBOX, Outbox } from '../../Core/Outbox';
 import { CreateAccountDto } from '../Dto/CreateAccountDto';
 import { Account, newAccountId } from '../Entities/Account';
 import { AccountCreatedEvent } from '../Events/AccountCreatedEvent';
@@ -11,8 +11,8 @@ export class CreateAccountService {
     public constructor(
         @Inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(EVENT_BUS)
-        private readonly eventBus: EventBus,
+        @Inject(OUTBOX)
+        private readonly outbox: Outbox,
         @Inject(LOGGER)
         private readonly logger: Logger,
     ) {
@@ -21,11 +21,12 @@ export class CreateAccountService {
     public async execute(dto: CreateAccountDto): Promise<Account> {
         const account = await Account.create(newAccountId(), dto.email, dto.password);
 
-        await this.accountRepository.save(account);
+        const event = new AccountCreatedEvent(account.id);
+        await this.outbox.send(event);
 
-        this.eventBus.publish(
-            new AccountCreatedEvent(account.id),
-        );
+        // todo: careful, account save must be after outbox send
+        // move em.flush away from repository to fix this
+        await this.accountRepository.save(account);
 
         this.logger.info(`Created account ${account.id}`);
 

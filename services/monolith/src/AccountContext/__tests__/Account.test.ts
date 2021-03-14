@@ -1,4 +1,4 @@
-import { InMemoryEventBus } from '../../Core/EventBus/InMemoryEventBus';
+import { TestOutbox } from '../../Core/Outbox/Testing';
 import { TestLogger } from '../../Core/Testing';
 import { InMemoryAccountRepository } from '../Repositories/InMemoryAccountRepository';
 import { CreateAccountService } from '../Services/CreateAccountService';
@@ -6,7 +6,8 @@ import { CreateAccountService } from '../Services/CreateAccountService';
 describe('Account', () => {
     it('should create an account',async () => {
         const repo = new InMemoryAccountRepository();
-        const svc = new CreateAccountService(repo, new InMemoryEventBus(), new TestLogger());
+        const outbox = new TestOutbox();
+        const svc = new CreateAccountService(repo, outbox, new TestLogger());
 
         const result = await svc.execute({
             email: 'jakub@test.pl',
@@ -21,5 +22,6 @@ describe('Account', () => {
             confirmed: false,
             password: expect.any(String),
         });
+        expect(outbox.sentEvents).toHaveLength(1);
     });
 });
