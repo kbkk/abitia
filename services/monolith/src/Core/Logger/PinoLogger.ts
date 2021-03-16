@@ -1,5 +1,7 @@
 import { Logger as PinoInstance } from 'pino';
 
+import { tracingStorage } from '../OpenTracing/tracingStorage';
+
 import { Logger } from './Logger';
 
 /**
@@ -28,10 +30,13 @@ export class PinoLogger implements Logger {
     }
 
     private _doLog(logType: string, message: string, obj?: Record<string, unknown>): void {
-        if(obj) {
-            this.pino[logType](obj, message);
-        } else {
-            this.pino[logType](message);
-        }
+        const tracingStore = tracingStorage.getStore() ?? {};
+
+        const logObj = {
+            ...tracingStore,
+            ...obj,
+        };
+
+        this.pino[logType](logObj, message);
     }
 }

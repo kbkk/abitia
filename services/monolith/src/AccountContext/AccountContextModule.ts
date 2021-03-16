@@ -1,9 +1,11 @@
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { DynamicModule, Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { LOGGER, Logger, NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
 import { intermediateModule } from '../Core/NestJs';
+import { OpenTracingInterceptor } from '../Core/OpenTracing';
 import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox/';
 
 import { AccountContextGateway } from './AccountContextGateway';
@@ -62,6 +64,10 @@ export class AccountContextModule {
                 ConfirmAccountService,
                 CreateAccountService,
                 SendAccountCreatedEmail,
+                {
+                    provide: APP_INTERCEPTOR,
+                    useClass: OpenTracingInterceptor,
+                },
                 {
                     provide: ACCOUNT_REPOSITORY,
                     useClass: SqliteAccountRepository,
