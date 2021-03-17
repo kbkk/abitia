@@ -1,6 +1,6 @@
 import { Logger as PinoInstance } from 'pino';
 
-import { tracingStorage } from '../OpenTracing/tracingStorage';
+import { getActiveSpan } from '../OpenTracing';
 
 import { Logger } from './Logger';
 
@@ -30,10 +30,12 @@ export class PinoLogger implements Logger {
     }
 
     private _doLog(logType: string, message: string, obj?: Record<string, unknown>): void {
-        const tracingStore = tracingStorage.getStore() ?? {};
+        const spanContext = getActiveSpan();
 
         const logObj = {
-            ...tracingStore,
+            traceId: spanContext?.traceId,
+            spanId: spanContext?.spanId,
+            traceFlags: spanContext?.traceFlags,
             ...obj,
         };
 
