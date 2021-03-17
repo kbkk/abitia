@@ -1,4 +1,7 @@
+import { context, SpanKind, SpanStatusCode } from '@opentelemetry/api';
+
 import { Logger } from '../Logger';
+import { tracer } from '../OpenTracing';
 
 import { Event } from './Event';
 import { EventBus, EventBusSubscriber } from './EventBus';
@@ -22,10 +25,18 @@ export class InMemoryEventBus implements EventBus {
         const eventSubscribers = this.subscribers[event.constructor.name] ?? [];
 
         for(const subscriber of eventSubscribers) {
+            const span = tracer.startSpan('event-handler', {
+                kind: SpanKind.CONSUMER,
+            }, context.active());
+            span.setAttribute('event.name', event.name);
             try {
                 await subscriber(event);
+                span.setStatus({ code: SpanStatusCode.OK });
             } catch (error) {
                 this.logger?.error(`Failed to run subscriber for event ${event.name}`, error);
+                span.setStatus({ code: SpanStatusCode.ERROR, message: error?.message });
+            } finally {
+                span.end();
             }
         }
     }

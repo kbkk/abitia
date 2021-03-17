@@ -2,6 +2,7 @@ import { EntityManager } from '@mikro-orm/core';
 
 import { Event } from '../../EventBus';
 import { Logger } from '../../Logger';
+import { getActiveSpan } from '../../OpenTracing';
 import { Outbox } from '../Outbox';
 
 import { newOutboxMessageId, OutboxMessageEntity } from './OutboxMessageEntity';
@@ -29,10 +30,11 @@ export class MikroOrmOutbox implements Outbox {
             this.logger?.info(`Persisting event ${event.name}`);
         }
 
+        const tracingContext = getActiveSpan();
         const message = new OutboxMessageEntity(
             newOutboxMessageId(),
             event.name,
-            JSON.stringify(event),
+            JSON.stringify({ tracingContext, event }),
         );
 
         this.em.persist(message);

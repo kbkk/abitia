@@ -1,24 +1,31 @@
 import { EntityManager } from '@mikro-orm/core';
+import { context, ROOT_CONTEXT, setSpanContext, SpanKind } from '@opentelemetry/api';
 
 import { Event, EventBus } from '../../EventBus';
 import { Logger } from '../../Logger';
+import { tracer } from '../../OpenTracing';
 
 import { OutboxMessageEntity } from './OutboxMessageEntity';
 
 const sleep = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 
-const adaptMessageToEvent = (message: OutboxMessageEntity): Event => {
-    const payload = JSON.parse(message.eventPayload);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const adaptMessageToEvent = (eventName: string, event: any): Event => {
+    Object.defineProperty(event, 'name', {
+        value: eventName,
+        enumerable: false,
+        writable: false,
+    });
 
-    Object.defineProperty(payload, 'constructor', {
+    Object.defineProperty(event, 'constructor', {
         value: {
-            name: message.eventName,
+            name: eventName,
         },
         enumerable: false,
         writable: false,
     });
 
-    return payload;
+    return event;
 };
 
 type MikroOrmOutboxWorkerOptions = {
@@ -81,12 +88,25 @@ export class MikroOrmOutboxWorker {
         }
 
         for(const message of messages) {
-            const event = adaptMessageToEvent(message);
+            const payload = JSON.parse(message.eventPayload);
+            const rootCtx = setSpanContext(ROOT_CONTEXT, payload.tracingContext);
 
-            this.eventBus.publish(event);
+            await context.with(rootCtx, async () => {
+                const span = tracer.startSpan('outbox-worker', {
+                    kind: SpanKind.CONSUMER,
+                });
 
-            message.markAsProcessed();
-            await this.em.persistAndFlush(message);
+                const event = adaptMessageToEvent(message.eventName, payload.event);
+
+                span.setAttribute('event.name', event.name);
+
+                this.eventBus.publish(event);
+
+                message.markAsProcessed();
+                await this.em.persistAndFlush(message);
+
+                span.end();
+            });
         }
     }
 }
