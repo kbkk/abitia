@@ -1,6 +1,4 @@
-import { getSpanContext, SpanContext } from '@opentelemetry/api';
-
-import { contextManager } from '../../telemetry';
+import { getSpanContext, SpanContext, context } from '@opentelemetry/api';
 
 export const getActiveSpan = (): SpanContext | undefined =>
-    getSpanContext(contextManager.active());
+    getSpanContext(context.active());
