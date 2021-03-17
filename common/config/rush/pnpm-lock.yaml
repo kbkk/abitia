@@ -6,6 +6,7 @@ dependencies:
   '@nestjs/platform-express': 7.6.11_@nestjs+core@7.6.11
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
   '@opentelemetry/api': 1.0.0-rc.0
+  '@opentelemetry/context-async-hooks': 0.18.0
   '@opentelemetry/instrumentation': 0.18.0
   '@opentelemetry/node': 0.18.0
   '@opentelemetry/plugin-express': 0.14.0
@@ -7079,6 +7080,7 @@ packages:
       '@nestjs/swagger': 4.7.13_81a1937ed9aace8fb18846d898b8f16a
       '@nestjs/testing': 7.6.11_ed6e60f1b18d44b976a1a0f51d940b9c
       '@opentelemetry/api': 1.0.0-rc.0
+      '@opentelemetry/context-async-hooks': 0.18.0
       '@opentelemetry/instrumentation': 0.18.0
       '@opentelemetry/node': 0.18.0
       '@opentelemetry/plugin-express': 0.14.0
@@ -7115,7 +7117,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-FuEZCu6VDmzV5Ad9FrFXqGpweLdUqRiMvoJqfHacGd2RxdHUPAJ+RWBEj0UpwkdclZxE/D9A4qPKkBH0VrXhJw==
+      integrity: sha512-1v2sGriK4J5bXlfn3NtlAdphduYaX6GujvUcCJ9djMbE6jK1IOBUFJ3qbWBCao2vy8t86B136DNGABzSh4FMRA==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7158,6 +7160,7 @@ specifiers:
   '@nestjs/platform-express': ^7.5.1
   '@nestjs/testing': ~7.6.11
   '@opentelemetry/api': ~1.0.0-rc.0
+  '@opentelemetry/context-async-hooks': ~0.18.0
   '@opentelemetry/instrumentation': ~0.18.0
   '@opentelemetry/node': ~0.18.0
   '@opentelemetry/plugin-express': ~0.14.0

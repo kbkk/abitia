@@ -1,13 +1,18 @@
+import { AsyncLocalStorageContextManager } from '@opentelemetry/context-async-hooks';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { NodeTracerProvider } from '@opentelemetry/node';
 import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/tracing';
 
-const provider = new NodeTracerProvider({
-});
+const provider = new NodeTracerProvider();
 
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
-provider.register();
+const contextManager = new AsyncLocalStorageContextManager();
+contextManager.enable();
+
+provider.register({
+    contextManager,
+});
 
 registerInstrumentations({
     tracerProvider: provider,
@@ -24,3 +29,7 @@ registerInstrumentations({
 });
 
 console.log('OpenTelemetry initialized');
+
+export {
+    contextManager,
+};
