@@ -1,3 +1,4 @@
+import './telemetry';
 import { once } from 'events';
 import * as path from 'path';
 
