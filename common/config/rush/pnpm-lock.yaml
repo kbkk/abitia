@@ -7,6 +7,7 @@ dependencies:
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
   '@opentelemetry/api': 1.0.0-rc.0
   '@opentelemetry/context-async-hooks': 0.18.0
+  '@opentelemetry/exporter-zipkin': 0.18.0
   '@opentelemetry/instrumentation': 0.18.0
   '@opentelemetry/node': 0.18.0
   '@opentelemetry/plugin-express': 0.14.0
@@ -954,6 +955,17 @@ packages:
       node: '>=8.5.0'
     resolution:
       integrity: sha512-Kg+LBIAPK70tEtpIAdZomkUmbABK+EwfnjFfvJ1rVZ8e0NApDx14Sq92RbGDIf67TK5mBgIvvY27W+ic354UZQ==
+  /@opentelemetry/exporter-zipkin/0.18.0:
+    dependencies:
+      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/core': 0.18.0
+      '@opentelemetry/resources': 0.18.0
+      '@opentelemetry/tracing': 0.18.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-hDP7jPwUXS9i5W0LKW7nLqEEauEeGsphEHXM2ANWk+iR8oIVIlYFPSzF9KuoqTzuZhPQl7mRzmXjzxacr/6SsA==
   /@opentelemetry/instrumentation/0.18.0:
     dependencies:
       '@opentelemetry/api': 0.18.1
@@ -7081,6 +7093,7 @@ packages:
       '@nestjs/testing': 7.6.11_ed6e60f1b18d44b976a1a0f51d940b9c
       '@opentelemetry/api': 1.0.0-rc.0
       '@opentelemetry/context-async-hooks': 0.18.0
+      '@opentelemetry/exporter-zipkin': 0.18.0
       '@opentelemetry/instrumentation': 0.18.0
       '@opentelemetry/node': 0.18.0
       '@opentelemetry/plugin-express': 0.14.0
@@ -7117,7 +7130,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-1v2sGriK4J5bXlfn3NtlAdphduYaX6GujvUcCJ9djMbE6jK1IOBUFJ3qbWBCao2vy8t86B136DNGABzSh4FMRA==
+      integrity: sha512-8W2+4KcSxhHvlbzcjeBLLbFsAwWfqPE80YUAQLKO2DWibvBWSI878X+1lvsvDCN6lEseQPHYB9VMthTNy2uRLQ==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7161,6 +7174,7 @@ specifiers:
   '@nestjs/testing': ~7.6.11
   '@opentelemetry/api': ~1.0.0-rc.0
   '@opentelemetry/context-async-hooks': ~0.18.0
+  '@opentelemetry/exporter-zipkin': ~0.18.0
   '@opentelemetry/instrumentation': ~0.18.0
   '@opentelemetry/node': ~0.18.0
   '@opentelemetry/plugin-express': ~0.14.0
