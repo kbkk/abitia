@@ -9,8 +9,6 @@ contextManager.enable();
 
 const provider = new NodeTracerProvider();
 
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-
 provider.register({ contextManager });
 
 context.setGlobalContextManager(contextManager);
@@ -32,3 +30,7 @@ registerInstrumentations({
 });
 
 console.log('OpenTelemetry initialized');
+
+export {
+    provider,
+};

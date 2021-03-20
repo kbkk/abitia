@@ -1,4 +1,6 @@
-import './telemetry';
+// open telemetry doesn't register express.js handlers if import is not on top
+// eslint-disable-next-line import/order
+import { provider as otelProvider } from './telemetry';
 import { once } from 'events';
 import * as path from 'path';
 
@@ -9,12 +11,15 @@ import { AbstractHttpAdapter } from '@nestjs/core';
 import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SimpleSpanProcessor } from '@opentelemetry/tracing';
 import { config as configureDotenv } from 'dotenv';
 
 import { AccountContextModule } from './AccountContext/AccountContextModule';
 import { AuctionContextModule } from './AuctionContext/AuctionContextModule';
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator } from './Core/EventBus';
-import { NestJsLoggerAdapter } from './Core/Logger';
+import { NestJsLoggerAdapter, PinoLogger } from './Core/Logger';
+import { pinoFactory } from './Core/Logger/pinoFactory';
+import { LoggerSpanExporter } from './Core/OpenTracing';
 
 patchNestjsSwagger();
 
@@ -85,6 +90,10 @@ async function createModule(
         console.error('Failed to load the .env file');
         throw error;
     }
+
+    const logger = new PinoLogger(pinoFactory());
+    const spanExporter = new LoggerSpanExporter(logger);
+    otelProvider.addSpanProcessor(new SimpleSpanProcessor(spanExporter));
 
     const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
