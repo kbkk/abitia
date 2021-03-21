@@ -1,3 +1,4 @@
+import * as E from '../../Core/Fp/Either';
 import { TestOutbox } from '../../Core/Outbox/Testing';
 import { TestLogger } from '../../Core/Testing';
 import { InMemoryAccountRepository } from '../Repositories/InMemoryAccountRepository';
@@ -14,7 +15,9 @@ describe('Account', () => {
             password: 'niebieski8',
         });
 
-        const createdAccount = await repo.findById(result.id);
+        E.assertRight(result);
+
+        const createdAccount = await repo.findById(result.right.id);
 
         expect(createdAccount).toEqual({
             id: expect.any(String),

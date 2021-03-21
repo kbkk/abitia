@@ -9,12 +9,14 @@ export type AccountId = string & { __brand: 'AccountId' }
 
 const hashPassword = (password: string): Promise<string> => bcrypt.hash(password, SALT_ROUNDS);
 
+export class AccountWithThisEmailAlreadyExistsError extends Error {}
+
 @Entity()
 export class Account {
     @PrimaryKey({ type: 'string' })
     public readonly id: AccountId;
 
-    @Property({ type: 'string' })
+    @Property({ type: 'string', unique: true })
     public readonly email: string;
 
     @Property({ type: 'string' })
