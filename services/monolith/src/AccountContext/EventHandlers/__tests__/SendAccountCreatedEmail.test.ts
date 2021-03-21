@@ -40,4 +40,13 @@ describe('SendAccountCreatedEmail', () => {
 
         expect(updatedAccount?.confirmationCode).toHaveLength(32);
     });
+
+    it('should throw if account does not exist', async () => {
+        const event = new AccountCreatedEvent(newAccountId());
+
+        // eslint-disable-next-line dot-notation
+        await expect(() => handler['handle'](event))
+            .rejects
+            .toThrowError(/^Could not find account/);
+    });
 });

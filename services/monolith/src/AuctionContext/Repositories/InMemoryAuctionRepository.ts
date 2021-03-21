@@ -25,10 +25,4 @@ export class InMemoryAuctionRepository implements AuctionRepository {
 
         return Promise.resolve(auction);
     }
-
-    public findLatest(amount = 10): Promise<Auction[]> {
-        const auctions = this.auctions.slice(-5);
-
-        return Promise.resolve(auctions);
-    }
 }
