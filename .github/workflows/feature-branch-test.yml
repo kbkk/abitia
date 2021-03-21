@@ -14,7 +14,8 @@ jobs:
         run: |
           node common/scripts/install-run-rush.js install
           node common/scripts/install-run-rush.js build
-
+      - name: Build and test
+        run: |
           # todo: iterate over services and packages dir
           cd services/monolith
 
