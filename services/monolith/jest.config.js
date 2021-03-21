@@ -18,7 +18,7 @@ module.exports = {
         }
     },
     'collectCoverageFrom' : ['src/**/*.{js,jsx,tsx,ts}', '!**/node_modules/**', '!**/vendor/**'],
-    'coverageReporters': ['text', 'html'],
+    'coverageReporters': ['text', ['text', { file: './report.txt' }], 'html'],
     'testEnvironment': 'node',
     'moduleNameMapper': {
         '^jose/(.*)$': '<rootDir>/node_modules/jose/dist/node/cjs/$1'
