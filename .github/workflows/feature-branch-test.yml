@@ -14,10 +14,41 @@ jobs:
         run: |
           node common/scripts/install-run-rush.js install
           node common/scripts/install-run-rush.js build
-
+      - name: Build and test
+        run: |
           # todo: iterate over services and packages dir
           cd services/monolith
 
           npm run build
 
-          npm run test
+          npm run test:coverage
+      - name: Collect coverage
+        if: always()
+        id: collect-coverage
+        run: |
+          cd services/monolith
+
+          text=$(tail -n +2 ./coverage/report.txt)
+          text="${text//'%'/'%25'}"
+          text="${text//$'\n'/'%0A'}"
+          text="${text//$'\r'/'%0D'}"
+          echo "::set-output name=text::$text"
+      - uses: jwalton/gh-find-current-pr@v1
+        if: always()
+        id: finder
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: marocchino/sticky-pull-request-comment@v2
+        if: always()
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.finder.outputs.pr }}
+          message: |
+            Coverage for commit ${{ github.sha }}:
+
+            <details>
+              <summary>Click to see coverage log</summary>
+
+              ${{ steps.collect-coverage.outputs.text }}
+
+            </details>

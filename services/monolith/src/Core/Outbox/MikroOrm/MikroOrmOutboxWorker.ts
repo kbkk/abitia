@@ -55,6 +55,7 @@ export class MikroOrmOutboxWorker {
                 this.processingPromise = this.processMessages();
                 await this.processingPromise;
             } catch (error) {
+                /* istanbul ignore next */
                 this.logger?.error('Failed to process outbox messages', { error });
             }
 
@@ -76,6 +77,7 @@ export class MikroOrmOutboxWorker {
             processedAt: null,
         }, { limit: 5 });
 
+        /* istanbul ignore if  */
         if(this.options.debug && messages.length) {
             this.logger?.debug(`Processing ${messages.length} outbox messages`);
         }
