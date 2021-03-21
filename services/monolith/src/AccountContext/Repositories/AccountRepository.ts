@@ -1,7 +1,8 @@
-import { Account } from '../Entities/Account';
+import * as E from '../../Core/Fp/Either';
+import { Account, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
 
 export interface AccountRepository {
-    save(newAccount: Account): Promise<void>;
+    save(newAccount: Account): Promise<E.Either<AccountWithThisEmailAlreadyExistsError, undefined>>;
 
     findById(id: string): Promise<Account | undefined>;
 

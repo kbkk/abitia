@@ -1,20 +1,27 @@
-import { Account } from '../Entities/Account';
+import * as E from '../../Core/Fp/Either';
+import { Account, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
 
 import { AccountRepository } from './AccountRepository';
 
 export class InMemoryAccountRepository implements AccountRepository {
     private accounts: Account[] = [];
 
-    public save(newAccount: Account): Promise<void> {
+    public async save(newAccount: Account): Promise<E.Either<AccountWithThisEmailAlreadyExistsError, undefined>> {
         const existingIndex = this.accounts.findIndex(account => account.id === newAccount.id);
 
         if (existingIndex !== -1) {
             this.accounts[existingIndex] = newAccount;
         } else {
+            const exists = !!(await this.findByEmail(newAccount.email));
+
+            if(exists) {
+                return E.left(new AccountWithThisEmailAlreadyExistsError());
+            }
+
             this.accounts.push(newAccount);
         }
 
-        return Promise.resolve();
+        return E.right(undefined);
     }
 
     // todo: id: AccountId
