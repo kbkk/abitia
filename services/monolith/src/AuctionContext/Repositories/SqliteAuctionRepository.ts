@@ -1,4 +1,4 @@
-import { EntityManager, LockMode } from '@mikro-orm/core';
+import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
 import { Auction } from '../Entities/Auction';
