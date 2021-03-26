@@ -92,9 +92,12 @@ async function createModule(
         throw error;
     }
 
-    const logger = new PinoLogger(pinoFactory());
-    const spanExporter = new LoggerSpanExporter(logger);
-    otelProvider.addSpanProcessor(new SimpleSpanProcessor(spanExporter));
+    const isProd = process.env.NODE_ENV === 'production';
+    if(!isProd) {
+        const logger = new PinoLogger(pinoFactory());
+        const spanExporter = new LoggerSpanExporter(logger);
+        otelProvider.addSpanProcessor(new SimpleSpanProcessor(spanExporter));
+    }
 
     const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
