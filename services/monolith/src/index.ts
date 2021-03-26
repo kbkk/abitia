@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 // open telemetry doesn't register express.js handlers if import is not on top
 // eslint-disable-next-line import/order
 import { provider as otelProvider } from './telemetry';

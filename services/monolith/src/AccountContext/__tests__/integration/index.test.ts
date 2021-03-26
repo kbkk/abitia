@@ -59,6 +59,23 @@ describe('Tests', () => {
         });
     });
 
+    it('Should not be able to multiple accounts with same email (POST /accounts)', async () => {
+        await request(app.getHttpServer())
+            .post('/accounts')
+            .send({ email: 'jakub@example.com', password: 'LITT UP' })
+            .expect(201);
+
+        const { body } = await request(app.getHttpServer())
+            .post('/accounts')
+            .send({ email: 'jakub@example.com', password: 'LITT UP' })
+            .expect(409);
+
+        expect(body).toEqual({
+            statusCode: 409,
+            message: 'Account with this email address already exists',
+        });
+    });
+
     it('Should be able to confirm created account (GET /accounts/:accountId/confirm)', async () => {
         const { body: createdAccount } = await request(app.getHttpServer())
             .post('/accounts')

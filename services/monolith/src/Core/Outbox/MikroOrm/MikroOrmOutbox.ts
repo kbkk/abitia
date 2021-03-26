@@ -25,8 +25,8 @@ export class MikroOrmOutbox implements Outbox {
     }
 
     public send(event: Event): Promise<void> {
+        /* istanbul ignore if  */
         if(this.options.debug) {
-
             this.logger?.info(`Persisting event ${event.name}`);
         }
 
