@@ -1,4 +1,6 @@
 dependencies:
+  '@aws/otel-aws-xray-id-generator': 0.13.1
+  '@aws/otel-aws-xray-propagator': 0.13.0
   '@mikro-orm/core': 4.4.2_@mikro-orm+sqlite@4.4.2
   '@mikro-orm/nestjs': 4.2.0_1b5398639b57f63400336f42f56eb406
   '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
@@ -7,6 +9,7 @@ dependencies:
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
   '@opentelemetry/api': 1.0.0-rc.0
   '@opentelemetry/context-async-hooks': 0.18.0
+  '@opentelemetry/exporter-collector-grpc': 0.18.0
   '@opentelemetry/exporter-zipkin': 0.18.0
   '@opentelemetry/instrumentation': 0.18.0
   '@opentelemetry/node': 0.18.0
@@ -50,6 +53,22 @@ dependencies:
   zod: 3.0.0-alpha.4
 lockfileVersion: 5.2
 packages:
+  /@aws/otel-aws-xray-id-generator/0.13.1:
+    dependencies:
+      '@opentelemetry/core': 0.13.0
+    dev: false
+    resolution:
+      integrity: sha512-ca75WEyWBgYyO6SAj67vVflZGFnE/H+/t+VXEYbrfD2F4e6GoQIcHsV6pN1RyQrykHo8ztOz1JIRMm73b3CsOA==
+  /@aws/otel-aws-xray-propagator/0.13.0:
+    dependencies:
+      '@opentelemetry/api': 0.13.0
+      '@opentelemetry/context-base': 0.13.0
+      '@opentelemetry/core': 0.13.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-TE3eJuRwoXc8ihkoPDw4+AnihmGXm7O8RiQxLVWfNfKoThmRZ+LZ6laUe5NiELdr0MZn9hqUo/sHrSskFRduaA==
   /@babel/code-frame/7.10.1:
     dependencies:
       '@babel/highlight': 7.10.1
@@ -377,6 +396,15 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
+  /@grpc/proto-loader/0.5.6:
+    dependencies:
+      lodash.camelcase: 4.3.0
+      protobufjs: 6.10.2
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-DT14xgw3PSzPxwS13auTEwxhMMOoz33DPUKNtmYK/QYbBSpLXJy78FGGs5yVoxVobEqPm4iW9MOIoz0A3bLTRQ==
   /@hapi/bourne/2.0.0:
     dev: false
     resolution:
@@ -926,6 +954,14 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-5MGIP1Bb97yiRBLeHdfgDaMnoKE5+IOhUvE3FGRqiTMjun0cDt35gY4k5+w5pmqpcHFkt0/ih25YTKjF0tJLHg==
+  /@opentelemetry/api/0.13.0:
+    dependencies:
+      '@opentelemetry/context-base': 0.13.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-3F5zuMBhL1cQIGTFGuuGofS9/2bfhoJxT9sWLfHtx7A/vN6HSA6YiotPjWFK/aTiLjZA4YYnIjeA3di151xJrw==
   /@opentelemetry/api/0.18.1:
     dev: false
     engines:
@@ -946,6 +982,22 @@ packages:
       node: '>=8.1.0'
     resolution:
       integrity: sha512-PD1aHXyniFtZIXbLuCr+KaZiufrGJPuEZ6eMZggQRi7+AC3alAfAVRz88sLmeR49pd7lRRFiKzymzVqJRMEmjw==
+  /@opentelemetry/context-base/0.13.0:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-y4qNA0JA9ab0B0ppnOokAxzJDplBWCLdTVJrH8a8SMiWubkuGOIGJpe3ZoJzPLrg3BWKZ9CIk9vHiyBFYgYgWg==
+  /@opentelemetry/core/0.13.0:
+    dependencies:
+      '@opentelemetry/api': 0.13.0
+      '@opentelemetry/context-base': 0.13.0
+      semver: 7.3.2
+    dev: false
+    engines:
+      node: '>=8.5.0'
+    resolution:
+      integrity: sha512-SFHr4uRnSSWqTLu1J1hadn92aGoGVb2WrPHvOgNIttSKYkUXNVyABO1pdtUN2AHE4/YBmk9eLwTUqwmFjVfZWQ==
   /@opentelemetry/core/0.18.0:
     dependencies:
       '@opentelemetry/api': 0.18.1
@@ -955,6 +1007,34 @@ packages:
       node: '>=8.5.0'
     resolution:
       integrity: sha512-Kg+LBIAPK70tEtpIAdZomkUmbABK+EwfnjFfvJ1rVZ8e0NApDx14Sq92RbGDIf67TK5mBgIvvY27W+ic354UZQ==
+  /@opentelemetry/exporter-collector-grpc/0.18.0:
+    dependencies:
+      '@grpc/proto-loader': 0.5.6
+      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/core': 0.18.0
+      '@opentelemetry/exporter-collector': 0.18.0
+      '@opentelemetry/metrics': 0.18.0
+      '@opentelemetry/resources': 0.18.0
+      '@opentelemetry/tracing': 0.18.0
+      grpc: 1.24.6
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-fmZdlt+Y7nHb9VhfgAT2/+4sVGXIo6dNoAVTqE2orWmpI7bzzFYydmSTOM43XMByEjqJrONHV8l8NtCWHWvc3w==
+  /@opentelemetry/exporter-collector/0.18.0:
+    dependencies:
+      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/api-metrics': 0.18.0
+      '@opentelemetry/core': 0.18.0
+      '@opentelemetry/metrics': 0.18.0
+      '@opentelemetry/resources': 0.18.0
+      '@opentelemetry/tracing': 0.18.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-AMurbTrkhIDy+hCs7Iz3MdhRCUbhzQC3rUOIDwusnUDBOah7zD9OLm/6yS529jrYNfljzxHjeczV0oOsu9AcKQ==
   /@opentelemetry/exporter-zipkin/0.18.0:
     dependencies:
       '@opentelemetry/api': 0.18.1
@@ -976,6 +1056,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-YFrCnSWS9jJLChg5I8g7EuvpWqPZGa2EXyO8KwRJApuLPCqJSBkcymYieedWNupS0FAXntocpIb/b0SEVaZbEg==
+  /@opentelemetry/metrics/0.18.0:
+    dependencies:
+      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/api-metrics': 0.18.0
+      '@opentelemetry/core': 0.18.0
+      '@opentelemetry/resources': 0.18.0
+      lodash.merge: 4.6.2
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-BH1P97bY6ZHBPNlW/0gV+Bc384Gqpu0KOdKWy2ZcntxGemhZ+byguL1AlqqS5ip+AaoCvgAmaY7JzuXq7YKo4A==
   /@opentelemetry/node/0.18.0:
     dependencies:
       '@opentelemetry/api': 0.18.1
@@ -1037,6 +1129,49 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-k7UAebuHBLPafS8rnkpZqNuM8nfwOg6OCmppekCMxdQzkuZS1attgelqyEIlX6NYh46DndyZ7BxBkiXF4S0Xwg==
+  /@protobufjs/aspromise/1.1.2:
+    dev: false
+    resolution:
+      integrity: sha1-m4sMxmPWaafY9vXQiToU00jzD78=
+  /@protobufjs/base64/1.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-AZkcAA5vnN/v4PDqKyMR5lx7hZttPDgClv83E//FMNhR2TMcLUhfRUBHCmSl0oi9zMgDDqRUJkSxO3wm85+XLg==
+  /@protobufjs/codegen/2.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-YyFaikqM5sH0ziFZCN3xDC7zeGaB/d0IUb9CATugHWbd1FRFwWwt4ld4OYMPWu5a3Xe01mGAULCdqhMlPl29Jg==
+  /@protobufjs/eventemitter/1.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-NVy8mLr61ZePntCV85diHx0Ga3A=
+  /@protobufjs/fetch/1.1.0:
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/inquire': 1.1.0
+    dev: false
+    resolution:
+      integrity: sha1-upn7WYYUr2VwDBYZ/wbUVLDYTEU=
+  /@protobufjs/float/1.0.2:
+    dev: false
+    resolution:
+      integrity: sha1-Xp4avctz/Ap8uLKR33jIy9l7h9E=
+  /@protobufjs/inquire/1.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-/yAOPnzyQp4tyvwRQIKOjMY48Ik=
+  /@protobufjs/path/1.1.2:
+    dev: false
+    resolution:
+      integrity: sha1-bMKyDFya1q0NzP0hynZz2Nf79o0=
+  /@protobufjs/pool/1.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-Cf0V8tbTq/qbZbw2ZQbWrXhG/1Q=
+  /@protobufjs/utf8/1.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
   /@rushstack/eslint-patch/1.0.6:
     dev: false
     resolution:
@@ -1093,6 +1228,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-W98JrE0j2K78swW4ukqMleo8R7h/pFETjM2DQ90MF6XK2i4LO4W3gQ71Lt4w3bfm2EvVSyWHplECvB5sK22yFQ==
+  /@types/bytebuffer/5.0.42:
+    dependencies:
+      '@types/long': 4.0.1
+      '@types/node': 14.14.25
+    dev: false
+    resolution:
+      integrity: sha512-lEgKojWUAc/MG2t649oZS5AfYFP2xRNPoDuwDBlBMjHXd8MaGPgFgtCXUK7inZdBOygmVf10qxc1Us8GXC96aw==
   /@types/color-name/1.1.1:
     dev: false
     resolution:
@@ -1161,6 +1303,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+  /@types/long/4.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
   /@types/mime/1.3.2:
     dev: false
     resolution:
@@ -1172,6 +1318,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fbjI6ja0N5ZA8TV53RUqzsKNkl9fv8Oj3T7zxW7FGv1GSH7gwJaNF8dzCjrqKaxKeUpTz4yT1DaJFq/omNpGfw==
+  /@types/node/13.13.48:
+    dev: false
+    resolution:
+      integrity: sha512-z8wvSsgWQzkr4sVuMEEOvwMdOQjiRY2Y/ZW4fDfjfe3+TfQrZqFKOthBgk2RnVEmtOKrkwdZ7uTvsxTBLjKGDQ==
   /@types/node/14.14.25:
     dev: false
     resolution:
@@ -1587,6 +1737,13 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-gBlRZV0VSmfPIeWfuuy56XZMvbVfbEUnOXUvt3F/eUUUSyzlgLxhEX4YAEpxNAogRGehPSnfXyPtYyKAhkzQhQ==
+  /ascli/1.0.1:
+    dependencies:
+      colour: 0.7.1
+      optjs: 3.2.2
+    dev: false
+    resolution:
+      integrity: sha1-vPpZdKYvGOgcq660lzKrSoj5Brw=
   /asn1/0.2.4:
     dependencies:
       safer-buffer: 2.1.2
@@ -1844,6 +2001,14 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-bCpiLvz0fFe7vh4qnDetNseSVFM=
+  /bytebuffer/5.0.1:
+    dependencies:
+      long: 3.2.0
+    dev: false
+    engines:
+      node: '>=0.8'
+    resolution:
+      integrity: sha1-WC7qSxqHO20CCkjVjfhfC7ps/d0=
   /bytes/3.1.0:
     dev: false
     engines:
@@ -1872,6 +2037,12 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
+  /camelcase/2.1.1:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-fB0W1nmhu+WcoCys7PsBHiAfWh8=
   /camelcase/5.0.0:
     dev: false
     engines:
@@ -1950,6 +2121,14 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-qOhPa/Fj7s6TY8H8esGu5QNpMMQxz79h+urzrNYN6mn+9BnxlDGf5QZ+XeCDsxSjPqsSR56XOZOJmpeurnLMeg==
+  /cliui/3.2.0:
+    dependencies:
+      string-width: 1.0.2
+      strip-ansi: 3.0.1
+      wrap-ansi: 2.1.0
+    dev: false
+    resolution:
+      integrity: sha1-EgYBU3qRbSmUD5NNo7SNWFo5IT0=
   /cliui/6.0.0:
     dependencies:
       string-width: 4.2.0
@@ -2016,6 +2195,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-puCDz0CzydiSYOrnXpz/PKd69zRrribezjtE9yd4zvytoRc8+RY/KJPvtPFKZS3E3wP6neGyMe0vOTlHO5L3Pw==
+  /colour/0.7.1:
+    dev: false
+    engines:
+      node: '>=0.8'
+    resolution:
+      integrity: sha1-nLFpkX7F0SwHNtPoaFdG3xyt93g=
   /combined-stream/1.0.8:
     dependencies:
       delayed-stream: 1.0.0
@@ -3262,6 +3447,20 @@ packages:
     optional: true
     resolution:
       integrity: sha1-8QdIy+dq+WS3yWyTxrzCivEgwIE=
+  /grpc/1.24.6:
+    dependencies:
+      '@types/bytebuffer': 5.0.42
+      lodash.camelcase: 4.3.0
+      lodash.clone: 4.5.0
+      nan: 2.14.2
+      node-pre-gyp: 0.16.0
+      protobufjs: 5.0.3
+    dev: false
+    engines:
+      node: '>=4'
+    requiresBuild: true
+    resolution:
+      integrity: sha512-BtifKdClMYU0ZEo0Pdr2WV9ZH54AoEdIcp2BfJkh87g2R3HoNPLYKHRYefw/ByxrCdVDTAy3hkraFISpqsRcrw==
   /har-schema/2.0.0:
     dev: false
     engines:
@@ -3484,6 +3683,12 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-Ju0Bz/cEia55xDwUWEa8+olFpCiQoypjnQySseKtmjNrnps3P+xfpUmGr90T7yjlVJmOtybRvPXhKMbHr+fWnw==
+  /invert-kv/1.0.0:
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-EEqOSqym09jNFXqO+L+rLXo//bY=
   /ip-regex/2.1.0:
     dev: false
     engines:
@@ -4464,6 +4669,14 @@ packages:
         optional: true
     resolution:
       integrity: sha512-kAt58lRwjzqwedApKF7luYPa7HsLb0oDiczwKrkZcekIzTmSow5YGK149S2C8HjH63R3NcOBo9+1rjvWnC1Paw==
+  /lcid/1.0.0:
+    dependencies:
+      invert-kv: 1.0.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-MIrMr6C8SDo4Z7S28rlQYlHRuDU=
   /leven/2.1.0:
     dev: false
     engines:
@@ -4541,6 +4754,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==
+  /lodash.camelcase/4.3.0:
+    dev: false
+    resolution:
+      integrity: sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
+  /lodash.clone/4.5.0:
+    dev: false
+    resolution:
+      integrity: sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=
   /lodash.merge/4.6.2:
     dev: false
     resolution:
@@ -4553,6 +4774,16 @@ packages:
     dev: false
     resolution:
       integrity: sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+  /long/3.2.0:
+    dev: false
+    engines:
+      node: '>=0.6'
+    resolution:
+      integrity: sha1-2CG3E4yhy1gcFymQ7xTbIAtcR0s=
+  /long/4.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
   /make-dir/3.1.0:
     dependencies:
       semver: 6.3.0
@@ -4765,6 +4996,10 @@ packages:
       node: '>= 0.10.0'
     resolution:
       integrity: sha512-xY8pX7V+ybyUpbYMxtjM9KAiD9ixtg5/JkeKUTD6xilfDv0vzzOFcCp4Ljb1UU3tSOM3VTZtKo63OmzOrGi3Cg==
+  /nan/2.14.2:
+    dev: false
+    resolution:
+      integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
   /nanomatch/1.2.13:
     dependencies:
       arr-diff: 4.0.0
@@ -4901,6 +5136,23 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-7QcZa8/fpaU/BKenjcaeFF9hLz2+7S9AqyXFhlH/rilsQ/hPZKK32RtR5EQHJElgu+q5RfbJ34KriI79UWaorA==
+  /node-pre-gyp/0.16.0:
+    dependencies:
+      detect-libc: 1.0.3
+      mkdirp: 0.5.5
+      needle: 2.6.0
+      nopt: 4.0.3
+      npm-packlist: 1.4.8
+      npmlog: 4.1.2
+      rc: 1.2.8
+      rimraf: 2.6.3
+      semver: 5.7.1
+      tar: 4.4.13
+    deprecated: 'Please upgrade to @mapbox/node-pre-gyp: the non-scoped node-pre-gyp package is deprecated and only the @mapbox scoped package will recieve updates in the future'
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-4efGA+X/YXAHLi1hN8KaPrILULaUn2nWecFrn1k2I+99HpoyvcOGEbtcOxpDiUwPF2ZANMJDh32qwOUPenuR1g==
   /nopt/3.0.6:
     dependencies:
       abbrev: 1.1.1
@@ -5139,12 +5391,24 @@ packages:
       node: '>= 0.8.0'
     resolution:
       integrity: sha512-74RlY5FCnhq4jRxVUPKDaRwrVNXMqsGsiW6AJw4XK8hmtm10wC0ypZBLw5IIp85NZMr91+qd1RvvENwg7jjRFw==
+  /optjs/3.2.2:
+    dev: false
+    resolution:
+      integrity: sha1-aabOicRCpEQDFBrS+bNwvVu29O4=
   /os-homedir/1.0.2:
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-/7xJiDNuDoM94MFox+8VISGqf7M=
+  /os-locale/1.4.0:
+    dependencies:
+      lcid: 1.0.0
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-IPnxeuKe00XoveWDsT0gCYA8FNk=
   /os-tmpdir/1.0.2:
     dev: false
     engines:
@@ -5468,6 +5732,38 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-awZAKrk3vN6CroQukBL+R9051a4R3zCZBlJm/HBfrSZ8iTpYix3VX1vU4mveiLpiwmOJT4wokTF9m6HUk4KqWQ==
+  /protobufjs/5.0.3:
+    dependencies:
+      ascli: 1.0.1
+      bytebuffer: 5.0.1
+      glob: 7.1.6
+      yargs: 3.32.0
+    dev: false
+    engines:
+      node: '>=0.8'
+    hasBin: true
+    resolution:
+      integrity: sha512-55Kcx1MhPZX0zTbVosMQEO5R6/rikNXd9b6RQK4KSPcrSIIwoXTtebIczUrXlwaSrbz4x8XUVThGPob1n8I4QA==
+  /protobufjs/6.10.2:
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/long': 4.0.1
+      '@types/node': 13.13.48
+      long: 4.0.0
+    dev: false
+    hasBin: true
+    requiresBuild: true
+    resolution:
+      integrity: sha512-27yj+04uF6ya9l+qfpH187aqEzfCF4+Uit0I9ZBQVqK09hk/SQzKa2MUqUpXaVa7LOFRg1TSSr3lVxGOk6c0SQ==
   /proxy-addr/2.0.6:
     dependencies:
       forwarded: 0.1.2
@@ -6958,12 +7254,28 @@ packages:
     dev: false
     resolution:
       integrity: sha512-QGkOQc8XL6Bt5PwnsExKBPuMKBxnGxWWW3fU55Xt4feHozMUhdUMaBCk290qpm/wG5u/RSKzwdAC4i51YigihA==
+  /window-size/0.1.4:
+    dev: false
+    engines:
+      node: '>= 0.10.0'
+    hasBin: true
+    resolution:
+      integrity: sha1-+OGqHuWlPsW/FR/6CXQqatdpeHY=
   /word-wrap/1.2.3:
     dev: false
     engines:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==
+  /wrap-ansi/2.1.0:
+    dependencies:
+      string-width: 1.0.2
+      strip-ansi: 3.0.1
+    dev: false
+    engines:
+      node: '>=0.10.0'
+    resolution:
+      integrity: sha1-2Pw9KE3QV5T+hJc8rs3Rz4JP3YU=
   /wrap-ansi/6.2.0:
     dependencies:
       ansi-styles: 4.2.1
@@ -7015,6 +7327,10 @@ packages:
       node: '>=0.4'
     resolution:
       integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
+  /y18n/3.2.2:
+    dev: false
+    resolution:
+      integrity: sha512-uGZHXkHnhF0XeeAPgnKfPv1bgKAYyVvmNL1xlKsPYZPaIHxGti2hHqvOCQv71XMsLxu1QjergkqogUnms5D3YQ==
   /y18n/4.0.0:
     dev: false
     resolution:
@@ -7056,6 +7372,18 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-aePbxDmcYW++PaqBsJ+HYUFwCdv4LVvdnhBy78E57PIor8/OVvhMrADFFEDh8DHDFRv/O9i3lPhsENjO7QX0+A==
+  /yargs/3.32.0:
+    dependencies:
+      camelcase: 2.1.1
+      cliui: 3.2.0
+      decamelize: 1.2.0
+      os-locale: 1.4.0
+      string-width: 1.0.2
+      window-size: 0.1.4
+      y18n: 3.2.2
+    dev: false
+    resolution:
+      integrity: sha1-AwiOnr+edWtpdRYR0qXvWRSCyZU=
   /yn/3.1.1:
     dev: false
     engines:
@@ -7083,6 +7411,8 @@ packages:
     version: 0.0.0
   file:projects/monolith-service.tgz:
     dependencies:
+      '@aws/otel-aws-xray-id-generator': 0.13.1
+      '@aws/otel-aws-xray-propagator': 0.13.0
       '@mikro-orm/core': 4.4.2_@mikro-orm+sqlite@4.4.2
       '@mikro-orm/nestjs': 4.2.0_f16047f1be058b4f78bced1d248b322a
       '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
@@ -7093,6 +7423,7 @@ packages:
       '@nestjs/testing': 7.6.11_ed6e60f1b18d44b976a1a0f51d940b9c
       '@opentelemetry/api': 1.0.0-rc.0
       '@opentelemetry/context-async-hooks': 0.18.0
+      '@opentelemetry/exporter-collector-grpc': 0.18.0
       '@opentelemetry/exporter-zipkin': 0.18.0
       '@opentelemetry/instrumentation': 0.18.0
       '@opentelemetry/node': 0.18.0
@@ -7130,7 +7461,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-8W2+4KcSxhHvlbzcjeBLLbFsAwWfqPE80YUAQLKO2DWibvBWSI878X+1lvsvDCN6lEseQPHYB9VMthTNy2uRLQ==
+      integrity: sha512-Gdf/T9rf3Jh9pPGLtxKVnYZuMYf0yo2aVjrs5X9L8QCbP2xSeDBAN/mEm18rwdmErrXspFn7grV3OsPG1qvSWA==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7166,6 +7497,8 @@ packages:
     version: 0.0.0
 registry: ''
 specifiers:
+  '@aws/otel-aws-xray-id-generator': ~0.13.1
+  '@aws/otel-aws-xray-propagator': ~0.13.0
   '@mikro-orm/core': ~4.4.2
   '@mikro-orm/nestjs': ~4.2.0
   '@mikro-orm/sqlite': ~4.4.2
@@ -7174,6 +7507,7 @@ specifiers:
   '@nestjs/testing': ~7.6.11
   '@opentelemetry/api': ~1.0.0-rc.0
   '@opentelemetry/context-async-hooks': ~0.18.0
+  '@opentelemetry/exporter-collector-grpc': ~0.18.0
   '@opentelemetry/exporter-zipkin': ~0.18.0
   '@opentelemetry/instrumentation': ~0.18.0
   '@opentelemetry/node': ~0.18.0
