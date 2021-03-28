@@ -1,11 +1,13 @@
 import { AwsXRayIdGenerator } from '@aws/otel-aws-xray-id-generator';
 import { AWSXRayPropagator } from '@aws/otel-aws-xray-propagator';
-import { context, trace, propagation } from '@opentelemetry/api';
+import { context, diag, DiagConsoleLogger, DiagLogLevel, propagation, trace } from '@opentelemetry/api';
 import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks';
 import { CollectorTraceExporter } from '@opentelemetry/exporter-collector-grpc';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { NodeTracerProvider } from '@opentelemetry/node';
 import { SimpleSpanProcessor } from '@opentelemetry/tracing';
+
+diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.VERBOSE);
 
 const contextManager = new AsyncHooksContextManager();
 contextManager.enable();
