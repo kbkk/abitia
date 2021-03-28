@@ -34,7 +34,7 @@
     "jose": "~3.6.2",
     "dotenv": "~8.2.0",
     "pino-std-serializers": "~3.2.0",
-    "@opentelemetry/api": "~1.0.0-rc.0",
+    "@opentelemetry/api": "~0.18.0",
     "@opentelemetry/node": "~0.18.0",
     "@opentelemetry/tracing": "~0.18.0",
     "@opentelemetry/plugin-http": "~0.18.0",

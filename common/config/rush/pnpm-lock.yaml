@@ -7,7 +7,7 @@ dependencies:
   '@nestjs/core': 7.6.11_6084d9907887ddaa2cd60f6f8e89001f
   '@nestjs/platform-express': 7.6.11_@nestjs+core@7.6.11
   '@nestjs/testing': 7.6.11_5493a482b6326ce7617b54c4270e8fab
-  '@opentelemetry/api': 1.0.0-rc.0
+  '@opentelemetry/api': 0.18.1
   '@opentelemetry/context-async-hooks': 0.18.0
   '@opentelemetry/exporter-collector-grpc': 0.18.0
   '@opentelemetry/exporter-zipkin': 0.18.0
@@ -968,12 +968,6 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-pKNxHe3AJ5T2N5G3AlT9gx6FyF5K2FS9ZNc+FipC+f1CpVF/EY+JHTJ749dnM2kWIgZTbDJFiGMuc0FYjNSCOg==
-  /@opentelemetry/api/1.0.0-rc.0:
-    dev: false
-    engines:
-      node: '>=8.0.0'
-    resolution:
-      integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==
   /@opentelemetry/context-async-hooks/0.18.0:
     dependencies:
       '@opentelemetry/api': 0.18.1
@@ -7421,7 +7415,7 @@ packages:
       '@nestjs/platform-express': 7.6.11_10f9c32d5705e6d2dea73f1d25c08abc
       '@nestjs/swagger': 4.7.13_81a1937ed9aace8fb18846d898b8f16a
       '@nestjs/testing': 7.6.11_ed6e60f1b18d44b976a1a0f51d940b9c
-      '@opentelemetry/api': 1.0.0-rc.0
+      '@opentelemetry/api': 0.18.1
       '@opentelemetry/context-async-hooks': 0.18.0
       '@opentelemetry/exporter-collector-grpc': 0.18.0
       '@opentelemetry/exporter-zipkin': 0.18.0
@@ -7461,7 +7455,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-Gdf/T9rf3Jh9pPGLtxKVnYZuMYf0yo2aVjrs5X9L8QCbP2xSeDBAN/mEm18rwdmErrXspFn7grV3OsPG1qvSWA==
+      integrity: sha512-4BuIDuXAnBzchdVW5f7F0q89AJuQzoHeWgJ6WeJ+CXyOkzM6OfUmxDA0ER2smj0eY6VJNyP7nmItAanTjJGXYg==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7505,7 +7499,7 @@ specifiers:
   '@nestjs/core': ^7.5.1
   '@nestjs/platform-express': ^7.5.1
   '@nestjs/testing': ~7.6.11
-  '@opentelemetry/api': ~1.0.0-rc.0
+  '@opentelemetry/api': ~0.18.0
   '@opentelemetry/context-async-hooks': ~0.18.0
   '@opentelemetry/exporter-collector-grpc': ~0.18.0
   '@opentelemetry/exporter-zipkin': ~0.18.0
