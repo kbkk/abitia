@@ -1,6 +1,7 @@
 dependencies:
   '@aws/otel-aws-xray-id-generator': 0.13.1
   '@aws/otel-aws-xray-propagator': 0.13.0
+  '@google-cloud/opentelemetry-cloud-trace-exporter': 0.9.0_a09f87e482fe7678b8e24cc0cdb7988d
   '@mikro-orm/core': 4.4.2_@mikro-orm+sqlite@4.4.2
   '@mikro-orm/nestjs': 4.2.0_1b5398639b57f63400336f42f56eb406
   '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
@@ -396,6 +397,34 @@ packages:
       node: ^10.12.0 || >=12.0.0
     resolution:
       integrity: sha512-1JTKgrOKAHVivSvOYw+sJOunkBjUOvjqWk1DPja7ZFhIS2mX/4EgTT8M7eTK9jrKhL/FvXXEbQwIs3pg1xp3dg==
+  /@google-cloud/opentelemetry-cloud-trace-exporter/0.9.0_a09f87e482fe7678b8e24cc0cdb7988d:
+    dependencies:
+      '@grpc/grpc-js': 1.2.12
+      '@grpc/proto-loader': 0.5.6
+      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/tracing': 0.18.0
+      google-auth-library: 7.0.3
+      google-proto-files: 2.4.0
+    dev: false
+    engines:
+      node: '>=10'
+    peerDependencies:
+      '@opentelemetry/api': ^0.18.0
+      '@opentelemetry/core': ^0.18.0
+      '@opentelemetry/resources': ^0.18.0
+      '@opentelemetry/tracing': ^0.18.0
+    resolution:
+      integrity: sha512-4tFC7dgLQIxeq/9jTqMLmoWJBn/72Hn5Eth60HJTsMNd/0oDV7+hdki2z0WS/0cc+bPthCpoppHCrWw1DYpTbw==
+  /@grpc/grpc-js/1.2.12:
+    dependencies:
+      '@types/node': 14.14.25
+      google-auth-library: 6.1.6
+      semver: 6.3.0
+    dev: false
+    engines:
+      node: ^8.13.0 || >=10.10.0
+    resolution:
+      integrity: sha512-+gPCklP1eqIgrNPyzddYQdt9+GvZqPlLpIjIo+TveE+gbtp74VV1A2ju8ExeO8ma8f7MbpaGZx/KJPYVWL9eDw==
   /@grpc/proto-loader/0.5.6:
     dependencies:
       lodash.camelcase: 4.3.0
@@ -1503,6 +1532,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
+  /abort-controller/3.0.0:
+    dependencies:
+      event-target-shim: 5.0.1
+    dev: false
+    engines:
+      node: '>=6.5'
+    resolution:
+      integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
   /accepts/1.3.7:
     dependencies:
       mime-types: 2.1.27
@@ -1547,6 +1584,14 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
+  /agent-base/6.0.2:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
   /ajv/6.12.6:
     dependencies:
       fast-deep-equal: 3.1.1
@@ -1731,6 +1776,12 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-gBlRZV0VSmfPIeWfuuy56XZMvbVfbEUnOXUvt3F/eUUUSyzlgLxhEX4YAEpxNAogRGehPSnfXyPtYyKAhkzQhQ==
+  /arrify/2.0.1:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-3duEwti880xqi4eAMN8AyR4a0ByT90zoYdLlevfrvU43vb0YZwZVfxOgxWrLXXXpyugL0hNZc9G6BiB5B3nUug==
   /ascli/1.0.1:
     dependencies:
       colour: 0.7.1
@@ -1890,6 +1941,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==
+  /base64-js/1.5.1:
+    dev: false
+    resolution:
+      integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
   /bcrypt-pbkdf/1.0.2:
     dependencies:
       tweetnacl: 0.14.5
@@ -1906,6 +1961,10 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-jB0yCBl4W/kVHM2whjfyqnxTmOHkCX4kHEa5nYKSoGeYe8YrjTYTc87/6bwt1g8cmV0QrbhKriETg9jWtcREhg==
+  /bignumber.js/9.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA==
   /block-stream/0.0.9:
     dependencies:
       inherits: 2.0.4
@@ -1982,6 +2041,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==
+  /buffer-equal-constant-time/1.0.1:
+    dev: false
+    resolution:
+      integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=
   /buffer-from/1.1.1:
     dev: false
     resolution:
@@ -2562,6 +2625,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-OoOpBOVDUyh4dMVkt1SThoSamMk=
+  /ecdsa-sig-formatter/1.0.11:
+    dependencies:
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==
   /ee-first/1.1.1:
     dev: false
     resolution:
@@ -2873,6 +2942,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+  /event-target-shim/5.0.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
   /exec-sh/0.3.4:
     dev: false
     resolution:
@@ -3062,6 +3137,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Utm6CdzT+6xsDk2m8S6uL8VHxNwI6Jub+e9NYTcAms28T84pTa25GJQV9j0CY0N1rM8hK4x6grpF2BQf+2qwVA==
+  /fast-text-encoding/1.0.3:
+    dev: false
+    resolution:
+      integrity: sha512-dtm4QZH9nZtcDt8qJiOH9fcQd1NAgi+K1O2DbE6GG1PPCK/BWfOH3idCTRQ4ImXRUOyopDEgDEnVEE7Y/2Wrig==
   /fastq/1.8.0:
     dependencies:
       reusify: 1.0.4
@@ -3314,6 +3393,27 @@ packages:
     dev: false
     resolution:
       integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=
+  /gaxios/4.2.0:
+    dependencies:
+      abort-controller: 3.0.0
+      extend: 3.0.2
+      https-proxy-agent: 5.0.0
+      is-stream: 2.0.0
+      node-fetch: 2.6.1
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-Ms7fNifGv0XVU+6eIyL9LB7RVESeML9+cMvkwGS70xyD6w2Z80wl6RiqiJ9k1KFlJCUTQqFFc8tXmPQfSKUe8g==
+  /gcp-metadata/4.2.1:
+    dependencies:
+      gaxios: 4.2.0
+      json-bigint: 1.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-tSk+REe5iq/N+K+SK1XjZJUrFPuDqGZVzCy2vocIHIGmPlTGsa8owXMJwGkrXr73NO0AzhPW4MF2DEHz7P2AVw==
   /gensync/1.0.0-beta.2:
     dev: false
     engines:
@@ -3432,6 +3532,56 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-2ZThXDvvV8fYFRVIxnrMQBipZQDr7MxKAmQK1vujaj9/7eF0efG7BPUKJ7jP7G5SLF37xKDXvO4S/KKLj/Z0og==
+  /google-auth-library/6.1.6:
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.3
+      gaxios: 4.2.0
+      gcp-metadata: 4.2.1
+      gtoken: 5.2.1
+      jws: 4.0.0
+      lru-cache: 6.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-Q+ZjUEvLQj/lrVHF/IQwRo6p3s8Nc44Zk/DALsN+ac3T4HY/g/3rrufkgtl+nZ1TW7DNAw5cTChdVp4apUXVgQ==
+  /google-auth-library/7.0.3:
+    dependencies:
+      arrify: 2.0.1
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      fast-text-encoding: 1.0.3
+      gaxios: 4.2.0
+      gcp-metadata: 4.2.1
+      gtoken: 5.2.1
+      jws: 4.0.0
+      lru-cache: 6.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-6wJNYqY1QUr5I2lWaUkkzOT2b9OCNhNQrdFOt/bsBbGb7T7NCdEvrBsXraUm+KTUGk2xGlQ7m9RgUd4Llcw8NQ==
+  /google-p12-pem/3.0.3:
+    dependencies:
+      node-forge: 0.10.0
+    dev: false
+    engines:
+      node: '>=10'
+    hasBin: true
+    resolution:
+      integrity: sha512-wS0ek4ZtFx/ACKYF3JhyGe5kzH7pgiQ7J5otlumqR9psmWMYc+U9cErKlCYVYHoUaidXHdZ2xbo34kB+S+24hA==
+  /google-proto-files/2.4.0:
+    dependencies:
+      protobufjs: 6.10.2
+      walkdir: 0.4.1
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-M5u56EsADOnplBUHTBzqBcCtPNPoGtBBXefjtA7mt3KDsOnlRM75fwrW2rsPS3Am2vrf9I0/NlI0E3nKWo/Ipg==
   /graceful-fs/4.2.4:
     dev: false
     resolution:
@@ -3455,6 +3605,16 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-BtifKdClMYU0ZEo0Pdr2WV9ZH54AoEdIcp2BfJkh87g2R3HoNPLYKHRYefw/ByxrCdVDTAy3hkraFISpqsRcrw==
+  /gtoken/5.2.1:
+    dependencies:
+      gaxios: 4.2.0
+      google-p12-pem: 3.0.3
+      jws: 4.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-OY0BfPKe3QnMsY9MzTHTSKn+Vl2l1CcLe6BwDEQj00mbbkl5nyQ/7EUREstg4fQNZ8iYE7br4JJ7TdKeDOPWmw==
   /har-schema/2.0.0:
     dev: false
     engines:
@@ -3595,6 +3755,15 @@ packages:
       npm: '>=1.3.7'
     resolution:
       integrity: sha1-muzZJRFHcvPZW2WmCruPfBj7rOE=
+  /https-proxy-agent/5.0.0:
+    dependencies:
+      agent-base: 6.0.2
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-EkYm5BcKUGiduxzSt3Eppko+PiNWNEpa4ySk9vTC6wDsQJW9rHSa+UhGNJoRYp7bz6Ht1eaRIa6QaJqO5rCFbA==
   /human-signals/1.1.1:
     dev: false
     engines:
@@ -4532,6 +4701,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
+  /json-bigint/1.0.0:
+    dependencies:
+      bignumber.js: 9.0.1
+    dev: false
+    resolution:
+      integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==
   /json-parse-even-better-errors/2.3.1:
     dev: false
     resolution:
@@ -4591,6 +4766,21 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
+  /jwa/2.0.0:
+    dependencies:
+      buffer-equal-constant-time: 1.0.1
+      ecdsa-sig-formatter: 1.0.11
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-jrZ2Qx916EA+fq9cEAeCROWPTfCwi1IVHqT2tapuqLEVVDKFDENFw1oL+MwrTvH6msKxsd1YTDVw6uKEcsrLEA==
+  /jws/4.0.0:
+    dependencies:
+      jwa: 2.0.0
+      safe-buffer: 5.2.1
+    dev: false
+    resolution:
+      integrity: sha512-KDncfTmOZoOMTFG4mBlG0qUIOlc03fmzH+ru6RgYVZhPkyiy/92Owlt/8UEN+a4TXR1FQetfIpJE8ApdvdVxTg==
   /kind-of/3.2.2:
     dependencies:
       is-buffer: 1.1.6
@@ -4778,6 +4968,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==
+  /lru-cache/6.0.0:
+    dependencies:
+      yallist: 4.0.0
+    dev: false
+    engines:
+      node: '>=10'
+    resolution:
+      integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   /make-dir/3.1.0:
     dependencies:
       semver: 6.3.0
@@ -5053,6 +5251,12 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+  /node-forge/0.10.0:
+    dev: false
+    engines:
+      node: '>= 6.0.0'
+    resolution:
+      integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==
   /node-gyp/3.8.0:
     dependencies:
       fstream: 1.0.12
@@ -7184,6 +7388,12 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-4tzD0mF8iSiMiNs30BiLO3EpfGLZUT2MSX/G+o7ZywDzliWQ3OPtTZ0PTC3B3ca1UAf4cJMHB+2Bf56EriJuRA==
+  /walkdir/0.4.1:
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-3eBwRyEln6E1MSzcxcVpQIhRG8Q1jLvEqRmCZqS3dsfXEDR/AhOF4d+jHg1qvDCpYaVRZjENPQyrVxAkQqxPgQ==
   /walker/1.0.7:
     dependencies:
       makeerror: 1.0.11
@@ -7333,6 +7543,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==
+  /yallist/4.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
   /yargs-parser/18.1.3:
     dependencies:
       camelcase: 5.3.1
@@ -7407,6 +7621,7 @@ packages:
     dependencies:
       '@aws/otel-aws-xray-id-generator': 0.13.1
       '@aws/otel-aws-xray-propagator': 0.13.0
+      '@google-cloud/opentelemetry-cloud-trace-exporter': 0.9.0_a09f87e482fe7678b8e24cc0cdb7988d
       '@mikro-orm/core': 4.4.2_@mikro-orm+sqlite@4.4.2
       '@mikro-orm/nestjs': 4.2.0_f16047f1be058b4f78bced1d248b322a
       '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
@@ -7455,7 +7670,7 @@ packages:
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-4BuIDuXAnBzchdVW5f7F0q89AJuQzoHeWgJ6WeJ+CXyOkzM6OfUmxDA0ER2smj0eY6VJNyP7nmItAanTjJGXYg==
+      integrity: sha512-dXNMvoGYZa/ontsqO44sA0gm6LaDFT4vL0le+jWYi1CCYLHsIlEsW0PU94hT8BPUoOHa1lPRKbQYdAR02XO/zQ==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -7493,6 +7708,7 @@ registry: ''
 specifiers:
   '@aws/otel-aws-xray-id-generator': ~0.13.1
   '@aws/otel-aws-xray-propagator': ~0.13.0
+  '@google-cloud/opentelemetry-cloud-trace-exporter': ~0.9.0
   '@mikro-orm/core': ~4.4.2
   '@mikro-orm/nestjs': ~4.2.0
   '@mikro-orm/sqlite': ~4.4.2

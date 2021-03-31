@@ -1,13 +1,12 @@
-import { AwsXRayIdGenerator } from '@aws/otel-aws-xray-id-generator';
-import { AWSXRayPropagator } from '@aws/otel-aws-xray-propagator';
-import { context, diag, DiagConsoleLogger, DiagLogLevel, propagation, trace } from '@opentelemetry/api';
+import { TraceExporter } from '@google-cloud/opentelemetry-cloud-trace-exporter';
+import { context, trace } from '@opentelemetry/api';
 import { AsyncHooksContextManager } from '@opentelemetry/context-async-hooks';
-import { CollectorTraceExporter } from '@opentelemetry/exporter-collector-grpc';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { NodeTracerProvider } from '@opentelemetry/node';
-import { SimpleSpanProcessor } from '@opentelemetry/tracing';
+import { BatchSpanProcessor } from '@opentelemetry/tracing';
 
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.VERBOSE);
+
+// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.VERBOSE);
 
 const contextManager = new AsyncHooksContextManager();
 contextManager.enable();
@@ -21,19 +20,13 @@ contextManager.enable();
 //     ),
 // );
 
-propagation.setGlobalPropagator(new AWSXRayPropagator());
-// create a provider for activating and tracking with AWS IdGenerator
-const tracerConfig = {
-    idGenerator: new AwsXRayIdGenerator(),
-};
-const provider = new NodeTracerProvider(tracerConfig);
-// add OTLP exporter
-const otlpExporter = new CollectorTraceExporter({
-    serviceName: 'monolith',
-    // port configured in the Collector config, defaults to 55680
-    url: 'localhost:4317',
+const provider = new NodeTracerProvider();
+
+const gcpExporter = new TraceExporter({
+    keyFile: './service_account_key.json',
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(otlpExporter));
+
+provider.addSpanProcessor(new BatchSpanProcessor(gcpExporter));
 
 provider.register({ contextManager });
 
