@@ -1,7 +1,3 @@
-import { log } from 'util';
-
-import { Type } from '@mikro-orm/core';
-
 import { TestLogger, waitMs } from '../../Testing';
 import { Event } from '../Event';
 import { InMemoryEventBus } from '../InMemoryEventBus';
