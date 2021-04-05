@@ -1,7 +1,8 @@
-import { EntityManager } from '@mikro-orm/core';
+import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
-import { Account } from '../Entities/Account';
+import * as E from '../../Core/Fp/Either';
+import { Account, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
 
 import { AccountRepository } from './AccountRepository';
 
@@ -12,9 +13,19 @@ export class SqliteAccountRepository implements AccountRepository {
     ) {
     }
 
-    public async save(newAccount: Account): Promise<void> {
-        await this.em.persist(newAccount);
-        await this.em.flush();
+    public async save(newAccount: Account): Promise<E.Either<AccountWithThisEmailAlreadyExistsError, undefined>> {
+        try {
+            await this.em.persist(newAccount);
+            await this.em.flush();
+        } catch (error) {
+            if(error instanceof UniqueConstraintViolationException) {
+                return E.left(new AccountWithThisEmailAlreadyExistsError());
+            }
+
+            throw error;
+        }
+
+        return E.right(undefined);
     }
 
     // todo: id: AccountId

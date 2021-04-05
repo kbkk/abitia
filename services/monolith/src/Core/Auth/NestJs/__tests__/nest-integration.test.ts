@@ -60,6 +60,20 @@ describe('AuthModule Nest Integration Test', () => {
         await app.close();
     });
 
+    it('Should return HTTP 403 if no token is provided', () => {
+        const expected = {
+            statusCode: 403,
+            message: 'Missing Authorization header',
+            error: 'Forbidden',
+        };
+
+        return request(app.getHttpServer())
+            .get('/guarded')
+            .send()
+            .expect(403)
+            .expect(expected);
+    });
+
     it('Should return HTTP 403 if invalid token is provided', () => {
         const expected = {
             statusCode: 403,

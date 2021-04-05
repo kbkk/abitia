@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "TypeScript tsconfig.json for @abitia",
   "scripts": {
+    "build": "exit 0"
   },
   "author": "Jakub Kisielewski",
   "license": "MIT"

@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix"
   },
@@ -31,7 +32,8 @@
     "@nestjs/swagger": "~4.7.13",
     "swagger-ui-express": "~4.1.6",
     "jose": "~3.6.2",
-    "dotenv": "~8.2.0"
+    "dotenv": "~8.2.0",
+    "pino-std-serializers": "~3.2.0"
   },
   "devDependencies": {
     "@abitia/eslint-config": "~1.1.0",
@@ -50,6 +52,7 @@
     "@types/supertest": "~2.0.10",
     "@types/bcrypt": "~3.0.0",
     "@types/pino": "~6.3.5",
-    "@types/express": "~4.17.11"
+    "@types/express": "~4.17.11",
+    "@types/pino-std-serializers": "~2.4.1"
   }
 }

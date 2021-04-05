@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { once } from 'events';
 import * as path from 'path';
 
