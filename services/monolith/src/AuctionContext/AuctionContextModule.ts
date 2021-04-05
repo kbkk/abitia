@@ -9,6 +9,7 @@ import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core
 
 import { AuctionContextConfig } from './Configs/AuctionContextConfig';
 import { AuctionController } from './Controllers/AuctionController';
+import { AccountSuspendedEventHandler } from './EventHandlers/AccountSuspendedEventHandler';
 import { AUCTION_REPOSITORY } from './Repositories/AuctionRepository';
 import { SqliteAuctionRepository } from './Repositories/SqliteAuctionRepository';
 import { CreateAuctionService } from './Services/CreateAuctionService';
@@ -62,6 +63,7 @@ export class AuctionContextModule {
             ],
             providers: [
                 RegisterOutboxWorker,
+                AccountSuspendedEventHandler,
                 PlaceAuctionBidService,
                 CreateAuctionService,
                 {

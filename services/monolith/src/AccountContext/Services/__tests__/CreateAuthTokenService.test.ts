@@ -82,4 +82,20 @@ describe('CreateAuthTokenService', () => {
         expect(result.success).toBe(false);
         expect(result.message).toBe('Invalid credentials');
     });
+
+    it('should fail with "Please confirm the account first" if account is suspended',async () => {
+        // todo: differentiate message, perhaps should be "The account is suspended"
+        account.markAsConfirmed();
+        account.suspend();
+
+        const result = await service.execute({
+            email: 'it-does-not-exist@example.com',
+            password: 'niebieski8',
+        }) as CreateAuthTokenResultFailure;
+
+        expect(account.confirmed).toBe(true);
+        expect(account.suspended).toBe(true);
+        expect(result.success).toBe(false);
+        expect(result.message).toBe('Invalid credentials');
+    });
 });

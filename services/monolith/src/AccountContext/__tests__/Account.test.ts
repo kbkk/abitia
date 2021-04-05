@@ -24,6 +24,7 @@ describe('Account', () => {
             email: 'jakub@test.pl',
             confirmed: false,
             password: expect.any(String),
+            suspended: false,
         });
         expect(outbox.sentEvents).toHaveLength(1);
     });

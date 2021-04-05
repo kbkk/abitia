@@ -23,4 +23,14 @@ export class SqliteAuctionRepository implements AuctionRepository {
 
         return auction;
     }
+
+    public async findOpenByAccountId(accountId: string): Promise<Auction[]> {
+        const auctions = await this.em.find(
+            Auction,
+            { seller: accountId, status: 'open' },
+            ['bids'],
+        );
+
+        return auctions;
+    }
 }

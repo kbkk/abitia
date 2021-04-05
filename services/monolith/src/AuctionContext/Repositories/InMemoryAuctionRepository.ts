@@ -25,4 +25,18 @@ export class InMemoryAuctionRepository implements AuctionRepository {
 
         return Promise.resolve(auction);
     }
+
+    public findOpenByAccountId(accountId: string): Promise<Auction[]> {
+        const auctions = this.auctions.filter(
+            auction => auction.seller === accountId && auction.status === 'open',
+        );
+
+        return Promise.resolve(auctions);
+    }
+
+    public findLatest(amount = 10): Promise<Auction[]> {
+        const auctions = this.auctions.slice(-5);
+
+        return Promise.resolve(auctions);
+    }
 }

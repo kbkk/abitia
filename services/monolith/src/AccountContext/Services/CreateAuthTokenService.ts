@@ -39,7 +39,7 @@ export class CreateAuthTokenService {
             };
         }
 
-        if(!account.confirmed) {
+        if(!account.isActive()) {
             return {
                 success: false,
                 message: 'Please confirm the account first',
