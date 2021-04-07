@@ -1,5 +1,7 @@
 import { Logger as PinoInstance } from 'pino';
 
+import { getActiveSpan } from '../OpenTracing';
+
 import { Logger } from './Logger';
 
 /**
@@ -28,10 +30,15 @@ export class PinoLogger implements Logger {
     }
 
     private _doLog(logType: string, message: string, obj?: Record<string, unknown>): void {
-        if(obj) {
-            this.pino[logType](obj, message);
-        } else {
-            this.pino[logType](message);
-        }
+        const spanContext = getActiveSpan();
+
+        const logObj = {
+            traceId: spanContext?.traceId,
+            spanId: spanContext?.spanId,
+            traceFlags: spanContext?.traceFlags,
+            ...obj,
+        };
+
+        this.pino[logType](logObj, message);
     }
 }

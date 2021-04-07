@@ -26,6 +26,6 @@ it('should serialize and persist the event', async () => {
         id: expect.any(String),
         createdAt: expect.any(Date),
         eventName: 'DummyEvent',
-        eventPayload: JSON.stringify(event),
+        eventPayload: JSON.stringify({ event }),
     } as OutboxMessageEntity);
 });

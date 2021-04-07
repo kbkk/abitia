@@ -1,0 +1,6 @@
+version: "3.8"
+services:
+  zipkin:
+    image: openzipkin/zipkin-slim:2.23.2
+    ports:
+      - '9411:9411'
