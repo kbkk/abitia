@@ -1,5 +1,6 @@
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { DynamicModule, Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { LOGGER, Logger, NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';

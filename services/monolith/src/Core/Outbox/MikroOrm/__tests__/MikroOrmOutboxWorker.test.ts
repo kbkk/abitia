@@ -20,7 +20,7 @@ const eventBusMock = {
 const dummyMessage = new OutboxMessageEntity(
     'test-id',
     'TestEvent',
-    JSON.stringify({ prop1: 'test' }),
+    JSON.stringify({ event: { prop1: 'test' } }),
 );
 
 const logger = new TestLogger();
