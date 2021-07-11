@@ -39,7 +39,6 @@ dependencies:
   ts-jest: 26.5.1_jest@26.6.3
   ts-node: 9.1.1
   uuid: 8.3.2
-  zod: 3.0.0-alpha.4
 lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.10.1:
@@ -6915,6 +6914,10 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
+  /zod/3.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-4DBG6siN02ooPB1yvEEqoe32maHzKEdGgtQ2HEz6FnFtgTjwZtzJ3ScuiDgtssWfDyLnQ3MvtSj6ff5ANL4STw==
   /zod/3.0.0-alpha.4:
     dev: false
     resolution:
@@ -6995,7 +6998,7 @@ packages:
       jest: 26.6.3_ts-node@9.1.1
       ts-jest: 26.5.1_jest@26.6.3+typescript@4.1.5
       typescript: 4.1.5
-      zod: 3.0.0-alpha.4
+      zod: 3.0.0
     dev: false
     id: file:projects/zod-dto.tgz
     name: '@rush-temp/zod-dto'
@@ -7006,7 +7009,7 @@ packages:
       swagger-ui-express: '*'
       ts-node: '*'
     resolution:
-      integrity: sha512-tvyr/qk9BB5sUZVlNpzyC9SLFP1Wu31WA1knM0aKcDx9610sDvU4Gkjzyk5992mZldo2ZqmV8VstD3xm26TfVw==
+      integrity: sha512-vH18Ty4ENvet8k6r3UAqyAyskzA9nA+ik96CXIkpawkdX3dzD7t6RQG+ey7B5XmuHzgsikrwyFwISLMOVC2heA==
       tarball: file:projects/zod-dto.tgz
     version: 0.0.0
 registry: ''
@@ -7051,4 +7054,3 @@ specifiers:
   ts-jest: ~26.5.1
   ts-node: ~9.1.1
   uuid: ~8.3.2
-  zod: 3.0.0-alpha.4

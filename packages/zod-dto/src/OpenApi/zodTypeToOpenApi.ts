@@ -1,4 +1,15 @@
-import { ZodDef, ZodTypeAny, ZodTypeDef, ZodTypes } from 'zod';
+import {
+    ZodArray, ZodBigInt, ZodBoolean, ZodDefault,
+    ZodEnum,
+    ZodLiteral,
+    ZodNullable, ZodNumber,
+    ZodObject,
+    ZodOptional, ZodString,
+    ZodTransformer, ZodTuple,
+    ZodTypeAny,
+    ZodTypeDef,
+    ZodUnion,
+} from 'zod';
 
 import { OpenApiBuilderProperties } from './types';
 
@@ -12,7 +23,7 @@ export interface ZodTypeDefOpenApi extends ZodTypeDef {
 }
 
 export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
-    const zodDef = zodType._def as ZodDef;
+    const zodDef = zodType._def;
 
     const openApiElement = (element: OpenApiElement): OpenApiElement => {
         return {
@@ -22,8 +33,8 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
         };
     };
 
-    switch(zodDef.t) {
-    case ZodTypes.object: {
+    switch(zodType.constructor.name) {
+    case ZodObject.name: {
         const shape = zodDef.shape();
         const shapeKeys = Object.keys(shape);
         const properties = {};
@@ -39,24 +50,25 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
             properties,
         });
     }
-    case ZodTypes.optional: {
+    case ZodDefault.name:
+    case ZodOptional.name: {
         return openApiElement({
             ...zodTypeToOpenApi(zodDef.innerType),
             required: false,
         });
     }
-    case ZodTypes.nullable: {
+    case ZodNullable.name: {
         return openApiElement({
             ...zodTypeToOpenApi(zodDef.innerType),
             nullable: true,
         });
     }
-    case ZodTypes.transformer: {
+    case ZodTransformer.name: {
         return openApiElement({
             ...zodTypeToOpenApi(zodDef.schema),
         });
     }
-    case ZodTypes.enum: {
+    case ZodEnum.name: {
         const enumValues = zodDef.values;
 
         return openApiElement({
@@ -64,7 +76,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
             enum: enumValues,
         });
     }
-    case ZodTypes.literal: {
+    case ZodLiteral.name: {
         const { value } = zodDef;
 
         return openApiElement({
@@ -72,14 +84,14 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
             enum: [value],
         });
     }
-    case ZodTypes.union: {
+    case ZodUnion.name: {
         const { options } = zodDef;
 
         return openApiElement({
             oneOf: options.map(item => zodTypeToOpenApi(item)),
         } as unknown as OpenApiElement);
     }
-    case ZodTypes.tuple: {
+    case ZodTuple.name: {
         // Switch to OpenAPI 3.1 once supported by swagger ui https://stackoverflow.com/questions/57464633/
 
         const { items } = zodDef;
@@ -93,7 +105,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
             maxItems: items.length,
         });
     }
-    case ZodTypes.array: {
+    case ZodArray.name: {
         const { type } = zodDef;
 
         const items = type ? zodTypeToOpenApi(type) : {};
@@ -103,15 +115,30 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
             items,
         });
     }
-    case ZodTypes.bigint: {
+    case ZodBigInt.name: {
         return openApiElement({
             type: 'integer',
             format: 'int64',
         });
     }
+    case ZodString.name: {
+        return openApiElement({
+            type: 'string',
+        });
+    }
+    case ZodNumber.name: {
+        return openApiElement({
+            type: 'number',
+        });
+    }
+    case ZodBoolean.name: {
+        return openApiElement({
+            type: 'boolean',
+        });
+    }
     default: {
         return openApiElement({
-            type: zodDef.t,
+            type: 'string',
         });
     }
     }
