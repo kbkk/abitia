@@ -9,7 +9,7 @@ import { createTestToken, createTestConfig } from '../utils';
 
 describe('AuctionContext Integration Tests', () => {
     let app: INestApplication;
-    const accountId = 'c0ffee12-aaaa-bbbb-cccc-ddddeeeeffff';
+    const accountId = 'c0ffee12-aaaa-4bbb-bccc-ddddeeeeffff';
 
     beforeAll(async () => {
         const ctxModule = AuctionContextModule.forRoot({
