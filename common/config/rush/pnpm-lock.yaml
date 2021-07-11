@@ -41,6 +41,16 @@ dependencies:
   uuid: 8.3.2
 lockfileVersion: 5.2
 packages:
+  /@abitia/zod-dto/0.1.1_4a38da594f1f07a80b1c988f55bf8032:
+    dependencies:
+      '@nestjs/common': 7.6.12_0c773f197e7bb0df0bedc332ad8bc35d
+      '@nestjs/swagger': 4.7.13_81a1937ed9aace8fb18846d898b8f16a
+    dev: false
+    peerDependencies:
+      '@nestjs/common': 7.x
+      '@nestjs/swagger': 4.7.x
+    resolution:
+      integrity: sha512-+zUDNXMXt/eytqYDJXpBETZ7zuZtHno4wKFKIP9bGgrTzdxLgbWIHK1V/bvvcztJbDKp7lpjOMxSFsCP01mEtw==
   /@babel/code-frame/7.10.1:
     dependencies:
       '@babel/highlight': 7.10.1
@@ -6914,14 +6924,14 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-Ux4ygGWsu2c7isFWe8Yu1YluJmqVhxqK2cLXNQA5AcC3QfbGNpM7fu0Y8b/z16pXLnFxZYvWhd3fhBY9DLmC6Q==
-  /zod/3.0.0:
+  /zod/3.0.2:
     dev: false
     resolution:
-      integrity: sha512-4DBG6siN02ooPB1yvEEqoe32maHzKEdGgtQ2HEz6FnFtgTjwZtzJ3ScuiDgtssWfDyLnQ3MvtSj6ff5ANL4STw==
-  /zod/3.0.0-alpha.4:
+      integrity: sha512-a+9VrxBi5CWBFq2LO5aNgbAaIRzPpBLbH4qGjSFeKd/ClLAXZq1dNFLTe9N1VDUBKxqXgHVkMlyp5MtSJylJww==
+  /zod/3.5.1:
     dev: false
     resolution:
-      integrity: sha512-pOtx1/JRT4NQ3K0wlnVAFDMY6Kvsb0xIMZvAaVzZBDUFKUS6OgZtrztcpI5NqCB4KMexcbgXgKxgpOpia9SFSw==
+      integrity: sha512-Gg9GTai0iDHowuYM9VNhdFMmesgt44ufzqaE5CPHshpuK5fCzbibdqCnrWuYH6ZmOn/N+BlGmwZtVSijhKmhKw==
   file:projects/eslint-config.tgz_eslint@7.20.0:
     dependencies:
       '@rushstack/eslint-patch': 1.0.6
@@ -6939,6 +6949,7 @@ packages:
     version: 0.0.0
   file:projects/monolith-service.tgz:
     dependencies:
+      '@abitia/zod-dto': 0.1.1_4a38da594f1f07a80b1c988f55bf8032
       '@mikro-orm/core': 4.4.2_@mikro-orm+sqlite@4.4.2
       '@mikro-orm/nestjs': 4.2.0_f16047f1be058b4f78bced1d248b322a
       '@mikro-orm/sqlite': 4.4.2_@mikro-orm+core@4.4.2
@@ -6974,11 +6985,11 @@ packages:
       ts-node: 9.1.1_typescript@4.1.5
       typescript: 4.1.5
       uuid: 8.3.2
-      zod: 3.0.0-alpha.4
+      zod: 3.5.1
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-7tLEyXYOIdSmmDx3Yu55jLG7Sq2H6aWRehoaSGzvQRYYI4zVYU6vXsRvw0GdaodZar2f6cHboiPx9r+h51fJGg==
+      integrity: sha512-Pdcq14UWFQuTCAU281RCGArjegw0H4oKdfU+crTSKdhJ0uPFnBRqE0IIEaHT44F7ebOr/OlGX+0W50Vap1Hp6Q==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
@@ -6998,7 +7009,7 @@ packages:
       jest: 26.6.3_ts-node@9.1.1
       ts-jest: 26.5.1_jest@26.6.3+typescript@4.1.5
       typescript: 4.1.5
-      zod: 3.0.0
+      zod: 3.0.2
     dev: false
     id: file:projects/zod-dto.tgz
     name: '@rush-temp/zod-dto'
@@ -7009,7 +7020,7 @@ packages:
       swagger-ui-express: '*'
       ts-node: '*'
     resolution:
-      integrity: sha512-vH18Ty4ENvet8k6r3UAqyAyskzA9nA+ik96CXIkpawkdX3dzD7t6RQG+ey7B5XmuHzgsikrwyFwISLMOVC2heA==
+      integrity: sha512-8HBUf/Ka2poK/XOmknGAy3qaswkt3sNdXy4cFQ9Jafa1DlD15ouiM/z2bDMJ6xbpkmkysZcArIBGg1J6/dG1KQ==
       tarball: file:projects/zod-dto.tgz
     version: 0.0.0
 registry: ''
