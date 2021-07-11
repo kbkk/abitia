@@ -1,12 +1,22 @@
 import * as z from 'zod';
 
+/**
+ * ZodType is a very complex interface describing not just public properties but private ones as well
+ * causing the interface to change fairly often among versions
+ *
+ * Since we're interested in the main subset of Zod functionality (type infering + parsing) this type is introduced
+ * to achieve the most compatibility.
+ */
+export type CompatibleZodType = Pick<z.ZodType<unknown>, '_input' | '_output' | 'parse' | 'safeParse'>;
+export type CompatibleZodInfer<T extends CompatibleZodType> = T['_output'];
+
 export type ZodDtoStatic<T> = {
     new (): T;
-    zodSchema: z.ZodType<unknown>;
+    zodSchema: CompatibleZodType;
     create(input: unknown): T;
 };
 
-export const createZodDto = <T extends z.ZodType<unknown>>(zodSchema: T): ZodDtoStatic<z.infer<T>> => {
+export const createZodDto = <T extends CompatibleZodType>(zodSchema: T): ZodDtoStatic<CompatibleZodInfer<T>> => {
     class SchemaHolderClass {
         public static zodSchema = zodSchema;
 
