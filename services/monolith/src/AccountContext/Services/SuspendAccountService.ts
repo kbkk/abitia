@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { inject, injectable } from 'inversify';
 
 import { LOGGER, Logger } from '../../Core/Logger';
 import { OUTBOX, Outbox } from '../../Core/Outbox';
@@ -12,13 +12,14 @@ export type SuspendAccountResult = {
     message: string;
 }
 
+@injectable()
 export class SuspendAccountService {
     public constructor(
-        @Inject(ACCOUNT_REPOSITORY)
+        @inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(OUTBOX)
+        @inject(OUTBOX)
         private readonly outbox: Outbox,
-        @Inject(LOGGER)
+        @inject(LOGGER)
         private readonly logger: Logger,
     ) {
     }

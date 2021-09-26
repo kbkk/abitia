@@ -1,5 +1,6 @@
 import { Inject } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { inject, injectable } from 'inversify';
 import SignJWT from 'jose/jwt/sign';
 
 import { LOGGER, Logger } from '../../Core/Logger';
@@ -19,11 +20,12 @@ export type CreateAuthTokenResultFailure = {
 
 export type CreateAuthTokenResult = CreateAuthTokenResultSuccess | CreateAuthTokenResultFailure;
 
+@injectable()
 export class CreateAuthTokenService {
     public constructor(
-        @Inject(ACCOUNT_REPOSITORY)
+        @inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(LOGGER)
+        @inject(LOGGER)
         private readonly logger: Logger,
         private readonly config: AccountContextConfig,
     ) {

@@ -1,13 +1,14 @@
-import { ZodValidationPipe } from '@abitia/zod-dto';
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, UsePipes } from '@nestjs/common';
+import { Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { FastifyRequest } from 'fastify';
+import { injectable } from 'inversify';
 
 import * as E from '../../Core/Fp/Either';
+import { ConfirmAccountEmailQueryDto } from '../Dto/ConfirmAccountEmailDto';
 import { CreateAccountDto } from '../Dto/CreateAccountDto';
 import { ConfirmAccountService } from '../Services/ConfirmAccountService';
 import { CreateAccountService } from '../Services/CreateAccountService';
 
-@Controller()
-@UsePipes(ZodValidationPipe)
+@injectable()
 export class AccountController {
     public constructor(
         private readonly createAccountService: CreateAccountService,
@@ -17,8 +18,9 @@ export class AccountController {
 
     @Post('/accounts')
     public async createAccount(
-        @Body() dto: CreateAccountDto,
-    ): Promise<{id: string; email: string;}> {
+        request: FastifyRequest,
+    ): Promise<{ id: string; email: string; }> {
+        const dto = CreateAccountDto.create(request.body);
         const result = await this.createAccountService.execute(dto);
 
         return E.match(
@@ -40,10 +42,12 @@ export class AccountController {
 
     @Get('/accounts/:accountId/confirm')
     public async confirmAccountEmail(
-        @Param('accountId') accountId,
-        @Query('code') confirmationCode,
-    ): Promise<{success: boolean}> {
-        const result = await this.confirmAccountService.execute(accountId, confirmationCode);
+        request: FastifyRequest,
+    ): Promise<{ success: boolean }> {
+        const { accountId } = request.params as any;
+        const { code } = ConfirmAccountEmailQueryDto.create(request.query);
+
+        const result = await this.confirmAccountService.execute(accountId, code);
 
         return result;
     }

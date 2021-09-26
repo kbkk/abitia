@@ -1,12 +1,12 @@
 import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/core';
-import { Injectable } from '@nestjs/common';
+import { injectable } from 'inversify';
 
 import * as E from '../../Core/Fp/Either';
 import { Account, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
 
 import { AccountRepository } from './AccountRepository';
 
-@Injectable()
+@injectable()
 export class SqliteAccountRepository implements AccountRepository {
     public constructor(
         private readonly em: EntityManager,
