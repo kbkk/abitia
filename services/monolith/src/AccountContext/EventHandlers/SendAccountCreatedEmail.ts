@@ -1,20 +1,20 @@
 import * as crypto from 'crypto';
 
-import { Inject, Injectable } from '@nestjs/common';
+import { inject, injectable } from 'inversify';
 
 import { EVENT_BUS, EventBus } from '../../Core/EventBus';
 import { Logger, LOGGER } from '../../Core/Logger';
 import { AccountCreatedEvent } from '../Events/AccountCreatedEvent';
 import { ACCOUNT_REPOSITORY, AccountRepository } from '../Repositories/AccountRepository';
 
-@Injectable()
+@injectable()
 export class SendAccountCreatedEmail {
     public constructor(
-        @Inject(EVENT_BUS)
+        @inject(EVENT_BUS)
         private readonly eventBus: EventBus,
-        @Inject(ACCOUNT_REPOSITORY)
+        @inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(LOGGER)
+        @inject(LOGGER)
         private readonly logger: Logger,
     ) {
         this.eventBus.subscribe(AccountCreatedEvent, this.handle.bind(this));

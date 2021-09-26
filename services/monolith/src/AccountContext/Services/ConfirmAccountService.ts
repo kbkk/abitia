@@ -1,4 +1,5 @@
 import { Inject } from '@nestjs/common';
+import { inject, injectable } from 'inversify';
 
 import { EVENT_BUS, EventBus } from '../../Core/EventBus';
 import { AccountId } from '../Entities/Account';
@@ -11,11 +12,12 @@ export type ConfirmAccountResult = {
     message: string;
 }
 
+@injectable()
 export class ConfirmAccountService {
     public constructor(
-        @Inject(ACCOUNT_REPOSITORY)
+        @inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(EVENT_BUS)
+        @inject(EVENT_BUS)
         private readonly eventBus: EventBus,
     ) {
     }

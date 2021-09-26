@@ -1,4 +1,4 @@
-import { Inject } from '@nestjs/common';
+import { inject, injectable } from 'inversify';
 
 import * as E from '../../Core/Fp/Either';
 import { LOGGER, Logger } from '../../Core/Logger';
@@ -9,7 +9,6 @@ import { AccountCreatedEvent } from '../Events/AccountCreatedEvent';
 import { ACCOUNT_REPOSITORY, AccountRepository } from '../Repositories/AccountRepository';
 
 
-
 export type CreateAccountResult = E.Either<{
     message: string;
 }, {
@@ -17,13 +16,14 @@ export type CreateAccountResult = E.Either<{
     email: string;
 }>
 
+@injectable()
 export class CreateAccountService {
     public constructor(
-        @Inject(ACCOUNT_REPOSITORY)
+        @inject(ACCOUNT_REPOSITORY)
         private readonly accountRepository: AccountRepository,
-        @Inject(OUTBOX)
+        @inject(OUTBOX)
         private readonly outbox: Outbox,
-        @Inject(LOGGER)
+        @inject(LOGGER)
         private readonly logger: Logger,
     ) {
     }
@@ -41,7 +41,7 @@ export class CreateAccountService {
         return E.match(
             saveResult,
             (error) => {
-                if(error instanceof AccountWithThisEmailAlreadyExistsError) {
+                if (error instanceof AccountWithThisEmailAlreadyExistsError) {
                     return E.left({
                         message: 'Account with this email address already exists',
                     });
