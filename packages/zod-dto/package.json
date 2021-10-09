@@ -1,6 +1,6 @@
 {
   "name": "@abitia/zod-dto",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Create DTO classes out of Zod's schema definitions",
   "scripts": {
     "build": "tsc",
