@@ -7117,10 +7117,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-a+9VrxBi5CWBFq2LO5aNgbAaIRzPpBLbH4qGjSFeKd/ClLAXZq1dNFLTe9N1VDUBKxqXgHVkMlyp5MtSJylJww==
-  /zod/3.5.1:
+  /zod/3.9.8:
     dev: false
     resolution:
-      integrity: sha512-Gg9GTai0iDHowuYM9VNhdFMmesgt44ufzqaE5CPHshpuK5fCzbibdqCnrWuYH6ZmOn/N+BlGmwZtVSijhKmhKw==
+      integrity: sha512-pTNhdJd45PPOBpdxO8x00Tv+HhknYGx3WdgFQndazp+G1Gd2Cxf81L5yMfCIIcd/SA3VqrcTv/G4bFcr+DsZhA==
   file:projects/eslint-config.tgz_eslint@7.20.0:
     dependencies:
       '@rushstack/eslint-patch': 1.0.6
@@ -7177,11 +7177,11 @@ packages:
       tsyringe: 4.6.0
       typescript: 4.1.5
       uuid: 8.3.2
-      zod: 3.5.1
+      zod: 3.9.8
     dev: false
     name: '@rush-temp/monolith-service'
     resolution:
-      integrity: sha512-OvohvQXqf1oMZje62H0lBNOmBqfcZIlaGtoWN3sPAJDAjPtsEhjZlCj78duMS5Ph8Z0r/b/mmyAgzNnERt3dvg==
+      integrity: sha512-JvpIq0NHabb6tvb5ymCBWV38dHP1RYiNP0+1SLfqRn5lAc/OYUUS9Ousd8kQq6Dyu6i8kmMxbyBi/5SIOkNFKA==
       tarball: file:projects/monolith-service.tgz
     version: 0.0.0
   file:projects/tsconfig.tgz:
