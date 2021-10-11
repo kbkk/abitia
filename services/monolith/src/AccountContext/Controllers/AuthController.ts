@@ -1,30 +1,25 @@
 import { UnauthorizedException } from '@nestjs/common';
-import { FastifyRequest } from 'fastify';
-import { injectable } from 'inversify';
 
+import { createRoute } from '../../Core/Http';
+import { withInject } from '../../Core/Inversify/Inject';
 import { CreateAuthTokenDto } from '../Dto/CreateAuthTokenDto';
 import { CreateAuthTokenService } from '../Services/CreateAuthTokenService';
 
-@injectable()
-export class AuthController {
-    public constructor(
-        private readonly createAuthTokenService: CreateAuthTokenService,
-    ) {
-    }
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const createAuthTokenController = createRoute({
+    path: '/accounts/me/tokens',
+    method: 'post',
+    body: CreateAuthTokenDto,
+    handler: withInject(CreateAuthTokenService)(createAuthTokenService =>
+        async ({ body }) => {
+            const result = await createAuthTokenService.execute(body);
 
-    public async createAccount(
-        request: FastifyRequest,
-        // @Body() dto: CreateAuthTokenDto,
-    ): Promise<{ token: string; }> {
-        const dto = CreateAuthTokenDto.create(request.body);
-        const result = await this.createAuthTokenService.execute(dto);
+            if (!result.success) {
+                throw new UnauthorizedException(result.message);
+            }
 
-        if (!result.success) {
-            throw new UnauthorizedException(result.message);
-        }
-
-        return {
-            token: result.token,
-        };
-    }
-}
+            return {
+                token: result.token,
+            };
+        }),
+});

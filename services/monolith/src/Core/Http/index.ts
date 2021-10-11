@@ -1,17 +1,20 @@
 import { ZodDtoStatic } from '@abitia/zod-dto';
 import { FastifyInstance } from 'fastify';
+import { interfaces } from 'inversify';
+
+import Container = interfaces.Container;
 
 type DtoInstance = unknown;
 
 export type RouteHandler<TBody extends DtoInstance, TQuery extends DtoInstance> =
-    (input: { body: TBody, query: TQuery }) => void;
+    (input: { body: TBody, query: TQuery, params: any }) => void;
 
 export interface RouteDefinition<TBody extends DtoInstance, TQuery extends DtoInstance> {
     path: string;
     method: 'get' | 'post' | 'all';
     body?: ZodDtoStatic<TBody>;
     query?: ZodDtoStatic<TQuery>;
-    handler: RouteHandler<TBody, TQuery>;
+    handler: (container: Container) => RouteHandler<TBody, TQuery>;
 }
 
 export function createRoute<TBody extends DtoInstance,
@@ -49,7 +52,9 @@ function validateDto(dto: undefined | ZodDtoStatic<unknown>, value: unknown): Va
     return { success: true, value };
 }
 
-export function registerRoute(fastify: FastifyInstance, def: RouteDefinition<any, any>) {
+export function registerRoute(fastify: FastifyInstance, container: Container, def: RouteDefinition<any, any>) {
+    const handler = def.handler(container);
+
     fastify[def.method](
         def.path,
         async (request, reply) => {
@@ -72,9 +77,10 @@ export function registerRoute(fastify: FastifyInstance, def: RouteDefinition<any
             const bodyDto = bodyValidationResult.value;
             const queryDto = bodyValidationResult.value;
 
-            return def.handler({
+            return handler({
                 body: bodyDto,
                 query: queryDto,
+                params: request.params,
             });
         },
     );

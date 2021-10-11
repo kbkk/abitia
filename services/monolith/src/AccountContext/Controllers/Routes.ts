@@ -3,15 +3,11 @@ import { Container } from 'inversify';
 
 import { registerRoute } from '../../Core/Http';
 
-import { AccountController } from './AccountController';
-import { createAuthTokenController } from './TestController';
+import { confirmAccountController, createAccountController } from './AccountController';
+import { createAuthTokenController } from './AuthController';
 
-export function registerRoutes(fastify: FastifyInstance, container: Container) {
-    const accountController = container.get(AccountController);
-
-    // fastify.post('/accounts/me/tokenss', authController.createAccount.bind(authController));
-    registerRoute(fastify, createAuthTokenController(container));
-
-    fastify.post('/accounts', accountController.createAccount.bind(accountController));
-    fastify.get('/accounts/:accountId/confirm', accountController.confirmAccountEmail.bind(accountController));
+export function registerRoutes(fastify: FastifyInstance, container: Container): void {
+    registerRoute(fastify, container, createAuthTokenController);
+    registerRoute(fastify, container, createAccountController);
+    registerRoute(fastify, container, confirmAccountController);
 }
