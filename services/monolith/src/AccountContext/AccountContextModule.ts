@@ -8,8 +8,6 @@ import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core
 
 import { AccountContextGateway } from './AccountContextGateway';
 import { AccountContextConfig } from './Configs/AccountContextConfig';
-import { AccountController } from './Controllers/AccountController';
-import { AuthController } from './Controllers/AuthController';
 import { SendAccountCreatedEmail } from './EventHandlers/SendAccountCreatedEmail';
 import { ACCOUNT_REPOSITORY } from './Repositories/AccountRepository';
 import { SqliteAccountRepository } from './Repositories/SqliteAccountRepository';
@@ -53,8 +51,6 @@ export class AccountContextModule {
                 }),
             ],
             controllers: [
-                AccountController,
-                AuthController,
             ],
             providers: [
                 RegisterOutboxWorker,

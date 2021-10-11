@@ -8,8 +8,6 @@ import { LOGGER, nestJsLoggerProvider } from '../Core/Logger';
 import { MikroOrmOutbox, MikroOrmOutboxWorker, OUTBOX, OutboxMessageEntity } from '../Core/Outbox';
 
 import { AccountContextConfig } from './Configs/AccountContextConfig';
-import { AccountController } from './Controllers/AccountController';
-import { AuthController } from './Controllers/AuthController';
 import { registerRoutes } from './Controllers/Routes';
 import { SendAccountCreatedEmail } from './EventHandlers/SendAccountCreatedEmail';
 import { ACCOUNT_REPOSITORY } from './Repositories/AccountRepository';
@@ -73,10 +71,6 @@ export class AccountContextFactory {
                     { debug: outboxDebug },
                 ),
             );
-
-        // Controllers
-        container.bind(AccountController).toSelf();
-        container.bind(AuthController).toSelf();
 
         // Event Handlers
         container.bind(SendAccountCreatedEmail).toSelf();
