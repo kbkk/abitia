@@ -20,10 +20,9 @@ export const patchNestjsSwagger = (
 
         const openApiDef = zodTypeToOpenApi(type.zodSchema);
 
-        schemas.push({
-            [type.name]: openApiDef,
-        });
+        schemas[type.name] = openApiDef;
 
         return type.name;
     };
+    SchemaObjectFactory.prototype.__zodDtoPatched = true;
 };
