@@ -17,7 +17,8 @@ export const createAccountController = createRoute({
     method: 'post',
     body: CreateAuthTokenDto,
     handler: withInject(CreateAccountService)(createAccountService =>
-        async ({ body }) => {
+        async ({ body, reply }) => {
+            reply.code(201);
             const dto = CreateAccountDto.create(body);
             const result = await createAccountService.execute(dto);
 
@@ -42,12 +43,12 @@ export const createAccountController = createRoute({
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const confirmAccountController = createRoute({
     path: '/accounts/:accountId/confirm',
-    method: 'post',
-    body: CreateAuthTokenDto,
+    method: 'get',
+    query: ConfirmAccountEmailQueryDto,
     handler: withInject(ConfirmAccountService)(confirmAccountService =>
         async ({ params, query }) => {
             const { accountId } = params;
-            const { code } = ConfirmAccountEmailQueryDto.create(query);
+            const { code } = query;
 
             const result = await confirmAccountService.execute(accountId, code);
 

@@ -16,12 +16,13 @@ import { AccountContextFactory } from './AccountContext/AccountContextFactory';
 
     const server = fastify();
 
+    const accountContextFactory = new AccountContextFactory({});
+
     await server.register(async instance => {
-        await AccountContextFactory.create({}, instance);
+        await accountContextFactory.run(instance);
     }, {
         prefix: '/AccountContext',
     });
-
 
     await server.listen(3000);
 })();

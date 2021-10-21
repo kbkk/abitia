@@ -19,7 +19,7 @@ export function adapt(container: Container, nestProviders: Provider | Provider[]
                         .map(injectToken => container.get(injectToken));
 
                     return provider.useFactory(...params);
-                })).inTransientScope();
+                })).inSingletonScope();
             } else {
                 throw new Error('Nest.js provider could not be adapted to Inversify.');
             }

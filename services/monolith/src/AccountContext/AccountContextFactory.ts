@@ -1,6 +1,7 @@
 import { EntityManager, MikroORM } from '@mikro-orm/core';
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
-import { BindingScopeEnum, Container } from 'inversify';
+import { FastifyInstance } from 'fastify';
+import { AsyncContainerModule, BindingScopeEnum, Container } from 'inversify';
 
 import { EVENT_BUS, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { adapt } from '../Core/Inversify/InversifyNestJsAdapter';
@@ -24,21 +25,15 @@ export interface AccountContextModuleOptions {
 }
 
 export class AccountContextFactory {
-    public static async create({ mikroOrmOptions, eventBusCoordinator } : AccountContextModuleOptions, fastify: any): Promise<void> {
+    public readonly container: Container;
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public readonly asyncModules: Map<object, AsyncContainerModule> = new Map();
+
+    public constructor({ mikroOrmOptions, eventBusCoordinator } : AccountContextModuleOptions) {
         const container = new Container({
             defaultScope: BindingScopeEnum.Singleton,
         });
         const outboxDebug = true;
-
-        const orm = await MikroORM.init({
-            entities: ['../../dist/AccountContext/Entities', OutboxMessageEntity],
-            entitiesTs: ['../../src/AccountContext/Entities', OutboxMessageEntity],
-            dbName: 'account-context.sqlite3',
-            type: 'sqlite',
-            baseDir: __dirname,
-            ...mikroOrmOptions,
-            tsNode: typeof jest !== 'undefined',
-        });
 
         // TODO: add request scope middleware for MikroORM
 
@@ -48,7 +43,24 @@ export class AccountContextFactory {
         container.bind(AccountContextConfig).toDynamicValue(AccountContextConfig.fromEnv);
 
         // ORM
-        container.bind(EntityManager).toConstantValue(orm.em);
+        const ormModule = new AsyncContainerModule(async (bind) => {
+            const orm = await MikroORM.init({
+                entities: ['../../dist/AccountContext/Entities', OutboxMessageEntity],
+                entitiesTs: ['../../src/AccountContext/Entities', OutboxMessageEntity],
+                dbName: 'account-context.sqlite3',
+                type: 'sqlite',
+                baseDir: __dirname,
+                ...mikroOrmOptions,
+                tsNode: typeof jest !== 'undefined',
+            });
+
+            bind(MikroORM).toConstantValue(orm);
+        });
+        this.asyncModules.set(MikroORM, ormModule);
+        container.bind(EntityManager).toDynamicValue((context => {
+            const orm = context.container.get(MikroORM);
+            return orm.em;
+        })).inSingletonScope();
 
         // Outbox
         container
@@ -84,17 +96,22 @@ export class AccountContextFactory {
         // Repositories
         container.bind(ACCOUNT_REPOSITORY).to(SqliteAccountRepository);
 
-        // Start sequence
+        this.container = container;
+    }
+
+    public async run(fastify: FastifyInstance): Promise<void> {
+        await this.container.loadAsync(...this.asyncModules.values());
+        const orm = this.container.get(MikroORM);
         // TODO: add shutdown sequence & refactor nicely
         await orm.getSchemaGenerator().ensureDatabase();
         await orm.getSchemaGenerator().updateSchema();
+        this.container.get(SendAccountCreatedEmail);
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        container.get(MikroOrmOutboxWorker).start();
-        container.get(SendAccountCreatedEmail);
+        this.container.get(MikroOrmOutboxWorker).start();
 
         registerRoutes(
             fastify,
-            container,
+            this.container,
         );
     }
 }

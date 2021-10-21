@@ -11,7 +11,8 @@ export const createAuthTokenController = createRoute({
     method: 'post',
     body: CreateAuthTokenDto,
     handler: withInject(CreateAuthTokenService)(createAuthTokenService =>
-        async ({ body }) => {
+        async ({ body, reply }) => {
+            reply.code(201);
             const result = await createAuthTokenService.execute(body);
 
             if (!result.success) {

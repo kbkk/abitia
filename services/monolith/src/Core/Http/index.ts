@@ -1,5 +1,5 @@
 import { ZodDtoStatic } from '@abitia/zod-dto';
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyReply } from 'fastify';
 import { interfaces } from 'inversify';
 
 import Container = interfaces.Container;
@@ -7,7 +7,7 @@ import Container = interfaces.Container;
 type DtoInstance = unknown;
 
 export type RouteHandler<TBody extends DtoInstance, TQuery extends DtoInstance> =
-    (input: { body: TBody, query: TQuery, params: any }) => void;
+    (input: { body: TBody, query: TQuery, params: any, reply: FastifyReply }) => unknown;
 
 export interface RouteDefinition<TBody extends DtoInstance, TQuery extends DtoInstance> {
     path: string;
@@ -66,7 +66,7 @@ export function registerRoute(fastify: FastifyInstance, container: Container, de
                 return;
             }
 
-            const queryValidationResult = validateDto(def.body, request.body);
+            const queryValidationResult = validateDto(def.query, request.query);
             if (!queryValidationResult.success) {
                 await reply.status(422).send({
                     message: queryValidationResult.message,
@@ -75,12 +75,13 @@ export function registerRoute(fastify: FastifyInstance, container: Container, de
             }
 
             const bodyDto = bodyValidationResult.value;
-            const queryDto = bodyValidationResult.value;
+            const queryDto = queryValidationResult.value;
 
             return handler({
                 body: bodyDto,
                 query: queryDto,
                 params: request.params,
+                reply,
             });
         },
     );

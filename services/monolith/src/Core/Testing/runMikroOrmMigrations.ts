@@ -1,8 +1,10 @@
 import { MikroORM } from '@mikro-orm/core';
-import { INestApplication } from '@nestjs/common';
+import { interfaces } from 'inversify';
 
-export const runMikroOrmMigrations = async (app: INestApplication): Promise<void> => {
-    const orm = app.get(MikroORM);
+import Container = interfaces.Container;
+
+export const runMikroOrmMigrations = async (container: Container): Promise<void> => {
+    const orm = container.get(MikroORM);
     const generator = orm.getSchemaGenerator();
     await generator.dropSchema();
     await generator.createSchema();
