@@ -35,7 +35,6 @@ export class AccountContextModule {
                 loggerModule,
                 eventBusModule,
                 OutboxModule.withMikroOrmAsync({
-                    imports: [loggerModule,  eventBusModule],
                     useFactory: (eventBus: EventBus, logger: Logger) => ({
                         logger,
                         eventBus: eventBusCoordinator,

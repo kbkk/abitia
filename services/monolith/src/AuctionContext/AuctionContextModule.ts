@@ -34,15 +34,14 @@ export class AuctionContextModule {
             imports: [
                 loggerModule,
                 eventBusModule,
+                configModule,
                 AccountAuthModule.registerAsync({
-                    imports: [configModule],
                     useFactory: (config: AuctionContextConfig) => ({
                         jwtSecret: config.jwtSecretKey,
                     }),
                     inject: [AuctionContextConfig],
                 }),
                 OutboxModule.withMikroOrmAsync({
-                    imports: [loggerModule],
                     useFactory: (logger: Logger) => ({
                         logger,
                         eventBus: options.eventBusCoordinator,
