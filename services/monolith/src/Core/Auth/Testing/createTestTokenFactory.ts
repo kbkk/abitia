@@ -1,4 +1,4 @@
-import SignJWT from 'jose/jwt/sign';
+import { SignJWT } from 'jose';
 
 export const createTestTokenFactory =
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type

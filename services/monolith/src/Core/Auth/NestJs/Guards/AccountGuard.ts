@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException, Inject } from '@nestjs/common';
-import jwtVerify from 'jose/jwt/verify';
+import { jwtVerify } from 'jose';
 
 import { AuthModuleConfig, tokenPayloadSchema } from '../../types';
 import { AUTH_MODULE_CONFIG } from '../constants';

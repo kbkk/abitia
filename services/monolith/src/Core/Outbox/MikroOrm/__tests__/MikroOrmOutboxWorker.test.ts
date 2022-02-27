@@ -82,7 +82,7 @@ it('should continue processing if an error occurred', async () => {
     await worker.stop();
 
     expect(logger.error).toHaveBeenCalledTimes(1);
-    expect(logger.error).toHaveBeenCalledWith('Failed to process outbox messages', { error });
+    expect(logger.error).toHaveBeenCalledWith('Failed to process outbox messages', error);
 });
 
 

@@ -56,7 +56,7 @@ export class MikroOrmOutboxWorker {
                 await this.processingPromise;
             } catch (error) {
                 /* istanbul ignore next */
-                this.logger?.error('Failed to process outbox messages', { error });
+                this.logger?.error('Failed to process outbox messages', error);
             }
 
             // Check again, no point in wasting time when stopped
@@ -68,7 +68,12 @@ export class MikroOrmOutboxWorker {
 
     public async stop(): Promise<void> {
         this.running = false;
-        await this.processingPromise;
+        try {
+            await this.processingPromise;
+        } catch (error) {
+            /* istanbul ignore next */
+            this.logger?.error('Failed to process outbox messages', error);
+        }
     }
 
     private async processMessages(): Promise<void> {
