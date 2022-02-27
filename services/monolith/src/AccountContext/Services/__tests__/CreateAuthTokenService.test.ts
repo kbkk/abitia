@@ -1,4 +1,4 @@
-import jwtVerify from 'jose/jwt/verify';
+import { jwtVerify } from 'jose';
 
 import { TestLogger } from '../../../Core/Testing';
 import { AccountContextConfig } from '../../Configs/AccountContextConfig';

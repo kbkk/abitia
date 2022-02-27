@@ -1,12 +1,12 @@
-import * as pino from 'pino';
+import * as Pino from 'pino';
 import { err } from 'pino-std-serializers';
 
 export const pinoFactory = (
-    optionsOverrides?: pino.LoggerOptions,
-    stream?: pino.DestinationStream,
-): pino.Logger => {
+    optionsOverrides?: Pino.LoggerOptions,
+    stream?: Pino.DestinationStream,
+): Pino.Logger => {
     const isProd = process.env.NODE_ENV === 'production';
-    return pino(
+    return Pino.pino(
         {
             ...isProd ? {} : { prettyPrint: true },
             serializers: {

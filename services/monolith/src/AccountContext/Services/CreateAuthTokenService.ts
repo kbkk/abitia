@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import SignJWT from 'jose/jwt/sign';
+import { SignJWT } from 'jose';
 
 import { LOGGER, Logger } from '../../Core/Logger';
 import { AccountContextConfig } from '../Configs/AccountContextConfig';
