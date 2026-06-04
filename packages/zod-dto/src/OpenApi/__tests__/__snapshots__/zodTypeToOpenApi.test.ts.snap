@@ -1,31 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should serialize a complex schema 1`] = `
-Object {
-  "properties": Object {
-    "arr": Object {
-      "items": Object {
+{
+  "properties": {
+    "arr": {
+      "items": {
         "required": true,
         "type": "string",
       },
       "required": true,
       "type": "array",
     },
-    "item": Object {
+    "item": {
       "required": true,
       "type": "string",
     },
-    "kekity": Object {
-      "oneOf": Array [
-        Object {
-          "enum": Array [
+    "kekity": {
+      "oneOf": [
+        {
+          "enum": [
             "kek",
           ],
           "required": true,
           "type": "string",
         },
-        Object {
-          "enum": Array [
+        {
+          "enum": [
             "topkek",
           ],
           "required": true,
@@ -34,9 +34,9 @@ Object {
       ],
       "required": true,
     },
-    "obj": Object {
-      "properties": Object {
-        "uuid": Object {
+    "obj": {
+      "properties": {
+        "uuid": {
           "required": true,
           "type": "string",
         },
@@ -44,21 +44,21 @@ Object {
       "required": true,
       "type": "object",
     },
-    "price": Object {
+    "price": {
       "required": true,
       "type": "number",
     },
-    "testTuple": Object {
-      "items": Object {
-        "oneOf": Array [
-          Object {
+    "testTuple": {
+      "items": {
+        "oneOf": [
+          {
             "required": true,
             "type": "string",
           },
-          Object {
-            "properties": Object {
-              "name": Object {
-                "enum": Array [
+          {
+            "properties": {
+              "name": {
+                "enum": [
                   "Rudy",
                 ],
                 "required": true,
@@ -68,18 +68,18 @@ Object {
             "required": true,
             "type": "object",
           },
-          Object {
-            "items": Object {
-              "oneOf": Array [
-                Object {
-                  "enum": Array [
+          {
+            "items": {
+              "oneOf": [
+                {
+                  "enum": [
                     "blue",
                   ],
                   "required": true,
                   "type": "string",
                 },
-                Object {
-                  "enum": Array [
+                {
+                  "enum": [
                     "red",
                   ],
                   "required": true,
@@ -98,8 +98,8 @@ Object {
       "required": true,
       "type": "array",
     },
-    "type": Object {
-      "enum": Array [
+    "type": {
+      "enum": [
         "buy-it-now",
         "auctions",
       ],

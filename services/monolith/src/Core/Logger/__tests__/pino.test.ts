@@ -9,7 +9,7 @@ const testStream = new Writable({
     write: writeMock,
 });
 
-const pino = pinoFactory({ prettyPrint: false }, testStream);
+const pino = pinoFactory({}, testStream);
 
 const pinoLogger = new PinoLogger(pino);
 
