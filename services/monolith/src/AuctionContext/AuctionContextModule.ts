@@ -54,6 +54,7 @@ export class AuctionContextModule {
                     dbName: 'auction-context.sqlite3',
                     type: 'sqlite',
                     baseDir: __dirname,
+                    allowGlobalContext: true,
                     tsNode: typeof jest !== 'undefined',
                 }),
             ],

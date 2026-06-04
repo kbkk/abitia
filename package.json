@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/kbkk/abit#readme",
   "dependencies": {
-    "@microsoft/rush": "5.39.1"
+    "@microsoft/rush": "5.175.1"
   }
 }

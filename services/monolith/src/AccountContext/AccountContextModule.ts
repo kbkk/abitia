@@ -47,6 +47,7 @@ export class AccountContextModule {
                     dbName: 'account-context.sqlite3',
                     type: 'sqlite',
                     baseDir: __dirname,
+                    allowGlobalContext: true,
                     ...mikroOrmOptions,
                     tsNode: typeof jest !== 'undefined',
                 }),
