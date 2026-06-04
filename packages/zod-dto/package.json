@@ -16,7 +16,7 @@
   "devDependencies": {
     "@abitia/eslint-config": "~1.1.0",
     "@abitia/tsconfig": "~1.0.0",
-    "@nestjs/common": "^10.0.0",
+    "@nestjs/common": "^11.0.0",
     "@types/node": "~22.15.0",
     "eslint": "~7.20.0",
     "typescript": "~5.8.3",

@@ -42,7 +42,7 @@ const nestFactory = new MonolithNestFactory();
 const eventBusCoordinator = new EventBusCompositeCoordinator();
 
 async function createModule(
-    module: unknown,
+    module: any,
     httpPrefix: string,
     httpAdapter: AbstractHttpAdapter,
     factoryOptions: NestApplicationOptions,

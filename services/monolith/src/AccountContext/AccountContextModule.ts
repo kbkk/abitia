@@ -1,4 +1,5 @@
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
@@ -42,10 +43,10 @@ export class AccountContextModule {
                     inject: [EVENT_BUS, LOGGER],
                 }),
                 MikroOrmModule.forRoot({
+                    driver: SqliteDriver,
                     entities: ['../../dist/AccountContext/Entities', OutboxMessageEntity],
                     entitiesTs: ['../../src/AccountContext/Entities', OutboxMessageEntity],
                     dbName: 'account-context.sqlite3',
-                    type: 'sqlite',
                     baseDir: __dirname,
                     allowGlobalContext: true,
                     ...mikroOrmOptions,

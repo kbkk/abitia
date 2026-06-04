@@ -1,4 +1,5 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
@@ -49,10 +50,10 @@ export class AuctionContextModule {
                     inject: [LOGGER],
                 }),
                 MikroOrmModule.forRoot({
+                    driver: SqliteDriver,
                     entities: ['../../dist/AuctionContext/Entities/*.js', OutboxMessageEntity],
                     entitiesTs: ['../../src/AuctionContext/Entities/*.ts', OutboxMessageEntity],
                     dbName: 'auction-context.sqlite3',
-                    type: 'sqlite',
                     baseDir: __dirname,
                     allowGlobalContext: true,
                     tsNode: typeof jest !== 'undefined',
