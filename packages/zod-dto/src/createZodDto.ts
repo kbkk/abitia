@@ -12,8 +12,8 @@ export type CompatibleZodIssue = {
     path: (string | number)[];
 };
 export type CompatibleZodType = Pick<z.ZodType<unknown>, '_input' | '_output'> & {
-    parse: (...args) => unknown,
-    safeParse: (...args) => {
+    parse: (...args: any[]) => unknown,
+    safeParse: (...args: any[]) => {
         success: true;
         data: unknown;
     } | {

@@ -16,7 +16,7 @@ export class OutboxMessageEntity {
     public readonly eventPayload: string;
 
     @Property({ type: 'Date', nullable: true })
-    public readonly processedAt: Date;
+    public readonly processedAt!: Date;
 
     public constructor(
         id: string,

@@ -37,7 +37,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
     case ZodObject.name: {
         const shape = zodDef.shape();
         const shapeKeys = Object.keys(shape);
-        const properties = {};
+        const properties: Record<string, OpenApiElement> = {};
 
         for (const key of shapeKeys) {
             const propZodType = shape[key];
@@ -88,7 +88,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
         const { options } = zodDef;
 
         return openApiElement({
-            oneOf: options.map(item => zodTypeToOpenApi(item)),
+            oneOf: options.map((item: ZodTypeAny) => zodTypeToOpenApi(item)),
         } as unknown as OpenApiElement);
     }
     case ZodTuple.name: {
@@ -99,7 +99,7 @@ export const zodTypeToOpenApi = (zodType: ZodTypeAny): OpenApiElement => {
         return openApiElement({
             type: 'array',
             items: {
-                oneOf: items.map(item => zodTypeToOpenApi(item)),
+                oneOf: items.map((item: ZodTypeAny) => zodTypeToOpenApi(item)),
             },
             minItems: items.length,
             maxItems: items.length,

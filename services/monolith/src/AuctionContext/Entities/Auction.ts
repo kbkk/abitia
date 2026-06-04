@@ -44,10 +44,10 @@ export class Auction {
     public readonly createdAt: Date;
 
     @Property({ type: 'Date' })
-    public readonly updatedAt: Date;
+    public readonly updatedAt!: Date;
 
     @Property({ version: true })
-    public readonly version: number;
+    public readonly version!: number;
 
     private constructor(
         id: AuctionId,

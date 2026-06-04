@@ -7,7 +7,7 @@ export const PINO_INSTANCE = 'PINO_INSTANCE';
 export const nestJsLoggerProvider = [
     {
         provide: LOGGER,
-        useFactory: (pinoInstance) => {
+        useFactory: (pinoInstance: import('pino').Logger) => {
             return new PinoLogger(pinoInstance);
         },
         inject: [PINO_INSTANCE],

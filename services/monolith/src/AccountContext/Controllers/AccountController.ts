@@ -3,6 +3,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query, U
 
 import * as E from '../../Core/Fp/Either';
 import { CreateAccountDto } from '../Dto/CreateAccountDto';
+import { AccountId } from '../Entities/Account';
 import { ConfirmAccountService } from '../Services/ConfirmAccountService';
 import { CreateAccountService } from '../Services/CreateAccountService';
 
@@ -40,10 +41,10 @@ export class AccountController {
 
     @Get('/accounts/:accountId/confirm')
     public async confirmAccountEmail(
-        @Param('accountId') accountId,
-        @Query('code') confirmationCode,
+        @Param('accountId') accountId: string,
+        @Query('code') confirmationCode: string,
     ): Promise<{success: boolean}> {
-        const result = await this.confirmAccountService.execute(accountId, confirmationCode);
+        const result = await this.confirmAccountService.execute(accountId as AccountId, confirmationCode);
 
         return result;
     }

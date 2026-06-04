@@ -37,7 +37,7 @@ export class AuctionController {
 
     @Post('/auctions/:auctionId/bids')
     public async placeBid(
-        @Param('auctionId') auctionId,
+        @Param('auctionId') auctionId: string,
         @Body() dto: PlaceAuctionBidDto,
         @CurrentAccount() account: TokenPayload,
     ): Promise<{success: boolean;}> {

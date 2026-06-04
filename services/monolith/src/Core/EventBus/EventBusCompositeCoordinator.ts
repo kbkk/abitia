@@ -14,7 +14,7 @@ export class EventBusCompositeCoordinator implements EventBus {
         }
     }
 
-    public subscribe<T extends typeof Event>(event: T, subscriber: EventBusSubscriber<T>): void {
+    public subscribe<T extends typeof Event>(event: T, subscriber: EventBusSubscriber<InstanceType<T>>): void {
         throw new Error('subscribe() is not supported by EventBusCompositeCoordinator');
     }
 }

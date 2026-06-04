@@ -20,7 +20,7 @@ export class Bid {
     public readonly createdAt: Date;
 
     @ManyToOne('Auction')
-    public readonly auction: Auction;
+    public readonly auction!: Auction;
 
     private constructor(
         id: BidId,

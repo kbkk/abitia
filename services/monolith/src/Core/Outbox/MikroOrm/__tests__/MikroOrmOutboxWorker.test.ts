@@ -35,8 +35,8 @@ afterEach(async () => {
     await worker.stop();
 });
 
-async function waitUntil({ condition, timeout = 5000, repeatEvery = 1000 }): Promise<void> {
-    const poll = async (resolve): Promise<void> => {
+async function waitUntil({ condition, timeout = 5000, repeatEvery = 1000 }: { condition: () => Promise<boolean>; timeout?: number; repeatEvery?: number }): Promise<void> {
+    const poll = async (resolve: () => void): Promise<void> => {
         try {
             const result = await condition();
 
@@ -75,7 +75,7 @@ it('should continue processing if an error occurred', async () => {
     worker.start();
 
     await waitUntil({
-        condition: () => entityManagerMock.find.mock.calls.length > 2,
+        condition: async () => entityManagerMock.find.mock.calls.length > 2,
         repeatEvery: 100,
     });
 

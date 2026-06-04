@@ -15,7 +15,7 @@ export const patchNestjsSwagger = (
 
     const orgExploreModelSchema = SchemaObjectFactory.prototype.exploreModelSchema;
 
-    SchemaObjectFactory.prototype.exploreModelSchema = function(type, schemas, schemaRefsStack) {
+    SchemaObjectFactory.prototype.exploreModelSchema = function(type: any, schemas: any, schemaRefsStack: any) {
         if (this.isLazyTypeFunc(type)) {
             // eslint-disable-next-line @typescript-eslint/ban-types
             type = (type as Function)();

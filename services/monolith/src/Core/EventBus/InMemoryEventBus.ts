@@ -15,7 +15,7 @@ export class InMemoryEventBus implements EventBus {
         // Run subscribers in a fire&forget manner
         this
             ._runPublish(event)
-            .catch(error => this.logger?.error('Failed to run subscribers', error));
+            .catch(error => this.logger?.error('Failed to run subscribers', error as Record<string, unknown>));
     }
 
     private async _runPublish(event: Event): Promise<void> {
@@ -25,16 +25,16 @@ export class InMemoryEventBus implements EventBus {
             try {
                 await subscriber(event);
             } catch (error) {
-                this.logger?.error(`Failed to run subscriber for event ${event.name}`, error);
+                this.logger?.error(`Failed to run subscriber for event ${event.name}`, error as Record<string, unknown>);
             }
         }
     }
 
-    public subscribe<T extends typeof Event>(event: T, subscriber: EventBusSubscriber<T>): void {
+    public subscribe<T extends typeof Event>(event: T, subscriber: EventBusSubscriber<InstanceType<T>>): void {
         if(!this.subscribers[event.name]) {
             this.subscribers[event.name] = [];
         }
 
-        this.subscribers[event.name].push(subscriber);
+        this.subscribers[event.name].push(subscriber as EventBusSubscriber<unknown>);
     }
 }

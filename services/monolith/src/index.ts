@@ -29,8 +29,8 @@ export class MonolithNestFactory extends NestFactoryStatic {
 
         // createExceptionZone is private, force override
         // eslint-disable-next-line dot-notation
-        this['createExceptionZone'] = (receiver, prop) => {
-            return (...args) => {
+        this['createExceptionZone'] = (receiver: any, prop: string) => {
+            return (...args: any[]) => {
                 const result = receiver[prop!](...args);
                 return result;
             };
