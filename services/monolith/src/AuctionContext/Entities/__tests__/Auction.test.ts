@@ -1,4 +1,5 @@
 import { Collection, MikroORM } from '@mikro-orm/core';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 
 import { Auction, newAuctionId } from '../Auction';
 import { Bid, newBidId } from '../Bid';
@@ -10,11 +11,11 @@ describe('Auction', () => {
 
     beforeAll(async () => {
         const orm = await MikroORM.init({
+            driver: SqliteDriver,
             tsNode: true,
             baseDir: __dirname,
             entities: ['../*.js'],
             entitiesTs: ['../*.ts'],
-            type: 'sqlite',
             dbName: ':memory:',
         });
 

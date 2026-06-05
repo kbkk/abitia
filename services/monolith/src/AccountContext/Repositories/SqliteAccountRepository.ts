@@ -2,7 +2,7 @@ import { EntityManager, UniqueConstraintViolationException } from '@mikro-orm/co
 import { Injectable } from '@nestjs/common';
 
 import * as E from '../../Core/Fp/Either';
-import { Account, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
+import { Account, AccountId, AccountWithThisEmailAlreadyExistsError } from '../Entities/Account';
 
 import { AccountRepository } from './AccountRepository';
 
@@ -28,9 +28,8 @@ export class SqliteAccountRepository implements AccountRepository {
         return E.right(undefined);
     }
 
-    // todo: id: AccountId
     public async findById(id: string): Promise<Account | undefined> {
-        const account = await this.em.findOne(Account, { id }) ?? undefined;
+        const account = await this.em.findOne(Account, { id: id as AccountId }) ?? undefined;
 
         return account;
     }

@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/core';
 import { Injectable } from '@nestjs/common';
 
-import { Auction } from '../Entities/Auction';
+import {Auction, AuctionId} from '../Entities/Auction';
 
 import { AuctionRepository } from './AuctionRepository';
 
@@ -19,7 +19,7 @@ export class SqliteAuctionRepository implements AuctionRepository {
     }
 
     public async findById(id: string): Promise<Auction | undefined> {
-        const auction = await this.em.findOne(Auction, { id }, ['bids']) ?? undefined;
+        const auction = await this.em.findOne(Auction, { id: id as AuctionId }, { populate: ['bids'] }) ?? undefined;
 
         return auction;
     }
@@ -28,7 +28,7 @@ export class SqliteAuctionRepository implements AuctionRepository {
         const auctions = await this.em.find(
             Auction,
             { seller: accountId, status: 'open' },
-            ['bids'],
+            { populate: ['bids'] },
         );
 
         return auctions;

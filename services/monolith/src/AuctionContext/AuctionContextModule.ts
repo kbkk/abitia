@@ -1,10 +1,11 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { DynamicModule } from '@nestjs/common';
 
 import { AccountAuthModule } from '../Core/Auth';
 import { EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { Logger, LOGGER, nestJsLoggerProvider } from '../Core/Logger';
-import { intermediateModule } from '../Core/NestJs';
+import { provideGlobally } from '../Core/NestJs';
 import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox';
 
 import { AuctionContextConfig } from './Configs/AuctionContextConfig';
@@ -22,12 +23,12 @@ type AuctionContextModuleOptions = {
 
 export class AuctionContextModule {
     public static forRoot(options: AuctionContextModuleOptions): DynamicModule {
-        const configModule = intermediateModule({
+        const configModule = provideGlobally({
             provide: AuctionContextConfig,
             useFactory: options?.configFactory ?? AuctionContextConfig.fromEnv,
         });
-        const loggerModule = intermediateModule(nestJsLoggerProvider);
-        const eventBusModule = intermediateModule(nestJsInMemoryEventBusProvider, loggerModule);
+        const loggerModule = provideGlobally(nestJsLoggerProvider);
+        const eventBusModule = provideGlobally(nestJsInMemoryEventBusProvider, loggerModule);
 
         return {
             module: AuctionContextModule,
@@ -49,11 +50,12 @@ export class AuctionContextModule {
                     inject: [LOGGER],
                 }),
                 MikroOrmModule.forRoot({
+                    driver: SqliteDriver,
                     entities: ['../../dist/AuctionContext/Entities/*.js', OutboxMessageEntity],
                     entitiesTs: ['../../src/AuctionContext/Entities/*.ts', OutboxMessageEntity],
                     dbName: 'auction-context.sqlite3',
-                    type: 'sqlite',
                     baseDir: __dirname,
+                    allowGlobalContext: true,
                     tsNode: typeof jest !== 'undefined',
                 }),
             ],

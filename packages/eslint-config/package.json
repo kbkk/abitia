@@ -9,9 +9,9 @@
     "build": "exit 0"
   },
   "dependencies": {
-    "@rushstack/eslint-patch": "1.0.6",
-    "@typescript-eslint/eslint-plugin": "4.15.0",
-    "@typescript-eslint/parser": "4.15.0",
-    "eslint-plugin-import": "2.22.1"
+    "@rushstack/eslint-patch": "~1.10.0",
+    "@typescript-eslint/eslint-plugin": "~8.60.0",
+    "@typescript-eslint/parser": "~8.60.0",
+    "eslint-plugin-import": "~2.31.0"
   }
 }

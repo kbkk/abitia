@@ -1,4 +1,5 @@
 import { MikroORM } from '@mikro-orm/core';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { v4 as uuid } from 'uuid';
 
 import { TestLogger } from '../../../Core/Testing';
@@ -22,11 +23,11 @@ describe('PlaceAuctionBidService', () => {
     beforeAll(async () => {
         // todo: Move to test utils
         const orm = await MikroORM.init({
+            driver: SqliteDriver,
             tsNode: true,
             baseDir: __dirname,
             entities: ['../../Entities/*.js'],
             entitiesTs: ['../../Entities/*.ts'],
-            type: 'sqlite',
             dbName: ':memory:',
         });
 

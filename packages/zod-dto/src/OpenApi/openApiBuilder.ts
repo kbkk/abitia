@@ -15,7 +15,7 @@ export class OpenApiBuilder implements OpenApiBuilderMethods {
     public format = this.createPropertyHandler('format');
     public type = this.createPropertyHandler('type');
 
-    private createPropertyHandler(prop: keyof OpenApiBuilderMethods): (val) => this {
+    private createPropertyHandler(prop: keyof OpenApiBuilderMethods): (val: unknown) => this {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (val: any) => {
             this._def[prop] = val;
@@ -27,7 +27,8 @@ export class OpenApiBuilder implements OpenApiBuilderMethods {
         const _def = this._def;
 
         // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-        const enrichZodSchemaWithOpenApi = (fn) => (...args) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const enrichZodSchemaWithOpenApi = (fn: (...a: any[]) => any) => (...args: any[]) => {
             const result = fn(...args);
             if(result instanceof z.ZodType) {
                 (result._def as ZodTypeDefOpenApi).openApi = _def;
@@ -35,9 +36,10 @@ export class OpenApiBuilder implements OpenApiBuilderMethods {
             return result;
         };
 
-        const proxyHandler = {
-            get(target, name) {
-                const val = target[name];
+        const proxyHandler: ProxyHandler<typeof z> = {
+            get(target, name: string) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const val = (target as any)[name];
 
                 if(typeof val !== 'function') {
                     return val;

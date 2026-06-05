@@ -27,7 +27,7 @@ export class PinoLogger implements Logger {
         this._doLog('warn', message, obj);
     }
 
-    private _doLog(logType: string, message: string, obj?: Record<string, unknown>): void {
+    private _doLog(logType: 'debug' | 'error' | 'info' | 'warn', message: string, obj?: Record<string, unknown>): void {
         if(obj) {
             this.pino[logType](obj, message);
         } else {

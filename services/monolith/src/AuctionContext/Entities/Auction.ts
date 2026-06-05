@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid';
 
 import { Bid } from './Bid';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export type AuctionId = string & { __brand: 'AuctionId' }
 
 export type AuctionTypes = 'buy-it-now' | 'auction';
@@ -44,10 +43,10 @@ export class Auction {
     public readonly createdAt: Date;
 
     @Property({ type: 'Date' })
-    public readonly updatedAt: Date;
+    public readonly updatedAt!: Date;
 
     @Property({ version: true })
-    public readonly version: number;
+    public readonly version!: number;
 
     private constructor(
         id: AuctionId,

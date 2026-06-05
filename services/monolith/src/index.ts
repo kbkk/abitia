@@ -5,8 +5,7 @@ import * as path from 'path';
 import { patchNestjsSwagger } from '@abitia/zod-dto';
 import { MikroORM } from '@mikro-orm/core';
 import { INestApplication, NestApplicationOptions } from '@nestjs/common';
-import { AbstractHttpAdapter } from '@nestjs/core';
-import { NestFactoryStatic } from '@nestjs/core/nest-factory';
+import { AbstractHttpAdapter, NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config as configureDotenv } from 'dotenv';
@@ -17,38 +16,26 @@ import { EVENT_BUS, EventBus, EventBusCompositeCoordinator } from './Core/EventB
 import { NestJsLoggerAdapter } from './Core/Logger';
 
 patchNestjsSwagger();
-
-/**
- * Nest.js doesn't allow overwriting its ExceptionZone
- * The default exception zone kills the process in case any Error is thrown during the initialization process,
- * which doesn't fit us as e.g. INestApplication.get(<service>) throws if the requested <service> cannot be found.
- */
-export class MonolithNestFactory extends NestFactoryStatic {
-    public constructor() {
-        super();
-
-        // createExceptionZone is private, force override
-        // eslint-disable-next-line dot-notation
-        this['createExceptionZone'] = (receiver, prop) => {
-            return (...args) => {
-                const result = receiver[prop!](...args);
-                return result;
-            };
-        };
-    }
-}
-
-const nestFactory = new MonolithNestFactory();
 const eventBusCoordinator = new EventBusCompositeCoordinator();
 
-async function createModule(
-    module: unknown,
-    httpPrefix: string,
-    httpAdapter: AbstractHttpAdapter,
-    factoryOptions: NestApplicationOptions,
-    openApiDocBuilder: DocumentBuilder,
-): Promise<INestApplication> {
-    const nestApp = await nestFactory.create(module, httpAdapter, factoryOptions);
+interface CreateModuleOptions {
+    module: any;
+    httpPrefix: string;
+    httpAdapter: AbstractHttpAdapter;
+    factoryOptions: NestApplicationOptions;
+    openApiDocBuilder: DocumentBuilder;
+    useCustomLogger?: boolean;
+}
+
+async function createModule({
+    module,
+    httpPrefix,
+    httpAdapter,
+    factoryOptions,
+    openApiDocBuilder,
+    useCustomLogger = false,
+}: CreateModuleOptions): Promise<INestApplication> {
+    const nestApp = await NestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
 
     const orm = nestApp.get(MikroORM);
@@ -57,20 +44,13 @@ async function createModule(
     await generator.createSchema();
     await generator.updateSchema();
 
-    try {
+    if (useCustomLogger) {
         const logger = nestApp.get(NestJsLoggerAdapter);
         nestApp.useLogger(logger);
-    } catch (error) {
-        console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
     }
 
-    try {
-        const eventBus = nestApp.get<EventBus>(EVENT_BUS);
-
-        eventBusCoordinator.registerChild(eventBus);
-    } catch (error) {
-        console.log(`[${httpPrefix}] Failed to find EventBus, registration skipped.`);
-    }
+    const eventBus = nestApp.get<EventBus>(EVENT_BUS);
+    eventBusCoordinator.registerChild(eventBus);
 
     const document = SwaggerModule.createDocument(nestApp, openApiDocBuilder.build());
     SwaggerModule.setup(`${httpPrefix}/api`, nestApp, document);
@@ -89,31 +69,30 @@ async function createModule(
     const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
 
-    const accountOpenApi = new DocumentBuilder()
-        .setTitle('Monolith accounts API')
-        .setVersion('1.0');
-    const accountContext = await createModule(
-        AccountContextModule.forRoot({ eventBusCoordinator }),
-        '/AccountContext',
-        express,
+    const accountContext = await createModule({
+        module: AccountContextModule.forRoot({ eventBusCoordinator }),
+        httpPrefix: '/AccountContext',
+        httpAdapter: express,
         factoryOptions,
-        accountOpenApi,
-    );
+        openApiDocBuilder: new DocumentBuilder()
+            .setTitle('Monolith accounts API')
+            .setVersion('1.0'),
+        useCustomLogger: true,
+    });
 
-    const auctionsOpenApi = new DocumentBuilder()
-        .setTitle('Monolith auctions API')
-        .setVersion('1.0');
-    const auctionContext = await createModule(
-        AuctionContextModule.forRoot({ eventBusCoordinator }),
-        '/AuctionContext',
-        express,
+    const auctionContext = await createModule({
+        module: AuctionContextModule.forRoot({ eventBusCoordinator }),
+        httpPrefix: '/AuctionContext',
+        httpAdapter: express,
         factoryOptions,
-        auctionsOpenApi,
-    );
+        openApiDocBuilder: new DocumentBuilder()
+            .setTitle('Monolith auctions API')
+            .setVersion('1.0'),
+    });
 
-    // Todo: this may break.
-    // Initializing a single nest module registers a 404 handler and modules registered after that one
-    // will not register their controllers correctly https://github.com/nestjs/nest/issues/4269
+    // Each init() appends a 404 catch-all middleware to the shared Express instance
+    // (see ExpressAdapter.setNotFoundHandler). Sequential init would cause the first
+    // module's 404 handler to swallow the second module's routes.
     await Promise.all([
         accountContext.init(),
         auctionContext.init(),

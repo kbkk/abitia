@@ -6,16 +6,18 @@ export const pinoFactory = (
     stream?: Pino.DestinationStream,
 ): Pino.Logger => {
     const isProd = process.env.NODE_ENV === 'production';
-    return Pino.pino(
-        {
-            ...isProd ? {} : { prettyPrint: true },
-            serializers: {
-            // only keys named 'err' and 'error' will be passed to the error serializer
-                err,
-                error: err,
-            },
-            ...optionsOverrides,
+    const options: Pino.LoggerOptions = {
+        ...(!isProd && !stream ? { transport: { target: 'pino-pretty' } } : {}),
+        serializers: {
+            err,
+            error: err,
         },
-        stream!,
-    );
+        ...optionsOverrides,
+    };
+
+    if (stream) {
+        return Pino.pino(options, stream);
+    }
+
+    return Pino.pino(options);
 };

@@ -1,9 +1,10 @@
 import { MikroOrmModule, MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
+import { SqliteDriver } from '@mikro-orm/sqlite';
 import { DynamicModule, Module } from '@nestjs/common';
 
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { LOGGER, Logger, NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
-import { intermediateModule } from '../Core/NestJs';
+import { provideGlobally } from '../Core/NestJs';
 import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox/';
 
 import { AccountContextGateway } from './AccountContextGateway';
@@ -26,8 +27,8 @@ interface AccountContextModuleOptions {
 @Module({})
 export class AccountContextModule {
     public static forRoot({ mikroOrmOptions, eventBusCoordinator } : AccountContextModuleOptions): DynamicModule {
-        const loggerModule = intermediateModule(nestJsLoggerProvider);
-        const eventBusModule = intermediateModule(nestJsInMemoryEventBusProvider, loggerModule);
+        const loggerModule = provideGlobally(nestJsLoggerProvider);
+        const eventBusModule = provideGlobally(nestJsInMemoryEventBusProvider, loggerModule);
 
         return {
             module: AccountContextModule,
@@ -42,11 +43,12 @@ export class AccountContextModule {
                     inject: [EVENT_BUS, LOGGER],
                 }),
                 MikroOrmModule.forRoot({
+                    driver: SqliteDriver,
                     entities: ['../../dist/AccountContext/Entities', OutboxMessageEntity],
                     entitiesTs: ['../../src/AccountContext/Entities', OutboxMessageEntity],
                     dbName: 'account-context.sqlite3',
-                    type: 'sqlite',
                     baseDir: __dirname,
+                    allowGlobalContext: true,
                     ...mikroOrmOptions,
                     tsNode: typeof jest !== 'undefined',
                 }),
