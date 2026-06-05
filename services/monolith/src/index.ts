@@ -5,8 +5,7 @@ import * as path from 'path';
 import { patchNestjsSwagger } from '@abitia/zod-dto';
 import { MikroORM } from '@mikro-orm/core';
 import { INestApplication, NestApplicationOptions } from '@nestjs/common';
-import { AbstractHttpAdapter } from '@nestjs/core';
-import { NestFactoryStatic } from '@nestjs/core/nest-factory';
+import { AbstractHttpAdapter, NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config as configureDotenv } from 'dotenv';
@@ -17,28 +16,6 @@ import { EVENT_BUS, EventBus, EventBusCompositeCoordinator } from './Core/EventB
 import { NestJsLoggerAdapter } from './Core/Logger';
 
 patchNestjsSwagger();
-
-/**
- * Nest.js doesn't allow overwriting its ExceptionZone
- * The default exception zone kills the process in case any Error is thrown during the initialization process,
- * which doesn't fit us as e.g. INestApplication.get(<service>) throws if the requested <service> cannot be found.
- */
-export class MonolithNestFactory extends NestFactoryStatic {
-    public constructor() {
-        super();
-
-        // createExceptionZone is private, force override
-        // eslint-disable-next-line dot-notation
-        this['createExceptionZone'] = (receiver: any, prop: string) => {
-            return (...args: any[]) => {
-                const result = receiver[prop!](...args);
-                return result;
-            };
-        };
-    }
-}
-
-const nestFactory = new MonolithNestFactory();
 const eventBusCoordinator = new EventBusCompositeCoordinator();
 
 async function createModule(
@@ -48,7 +25,7 @@ async function createModule(
     factoryOptions: NestApplicationOptions,
     openApiDocBuilder: DocumentBuilder,
 ): Promise<INestApplication> {
-    const nestApp = await nestFactory.create(module, httpAdapter, factoryOptions);
+    const nestApp = await NestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
 
     const orm = nestApp.get(MikroORM);
@@ -86,7 +63,7 @@ async function createModule(
         throw error;
     }
 
-    const factoryOptions = { abortOnError: true };
+    const factoryOptions = { abortOnError: false };
     const express = new ExpressAdapter();
 
     const accountOpenApi = new DocumentBuilder()
@@ -111,9 +88,9 @@ async function createModule(
         auctionsOpenApi,
     );
 
-    // Todo: this may break.
-    // Initializing a single nest module registers a 404 handler and modules registered after that one
-    // will not register their controllers correctly https://github.com/nestjs/nest/issues/4269
+    // Each init() appends a 404 catch-all middleware to the shared Express instance
+    // (see ExpressAdapter.setNotFoundHandler). Sequential init would cause the first
+    // module's 404 handler to swallow the second module's routes.
     await Promise.all([
         accountContext.init(),
         auctionContext.init(),
