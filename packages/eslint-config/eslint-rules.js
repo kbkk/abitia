@@ -49,8 +49,7 @@ module.exports = {
             rules: {
                 // Force spaces before function parens
                 // RATIONALE: code style consistency
-                "space-before-function-paren": "off",
-                "@typescript-eslint/space-before-function-paren": ["error", {
+                "space-before-function-paren": ["error", {
                     "anonymous": "never",
                     "named": "never",
                     "asyncArrow": "always"
@@ -58,8 +57,7 @@ module.exports = {
 
                 // Leave a trailing comma
                 // RATIONALE: Better git diffs
-                "comma-dangle": "off",
-                "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+                "comma-dangle": ["error", "always-multiline"],
 
                 "import/order": [
                     "error",
@@ -72,8 +70,6 @@ module.exports = {
                 // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
                 "@typescript-eslint/adjacent-overload-signatures": "error",
 
-                // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-                //
                 // CONFIGURATION:     By default, these are banned: String, Boolean, Number, Object, Symbol
                 "@typescript-eslint/ban-types": [
                     "error",
@@ -101,9 +97,6 @@ module.exports = {
                         }
                     }
                 ],
-
-                // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-                "@typescript-eslint/naming-convention": ["error"],
 
                 // RATIONALE:         We require "x as number" instead of "<number>x" to avoid conflicts with JSX.
                 "@typescript-eslint/consistent-type-assertions": "error",
@@ -213,9 +206,7 @@ module.exports = {
                 "@typescript-eslint/no-use-before-define": "error",
 
                 // RATIONALE:         The require() API is generally obsolete.  Use "import" instead.
-                //
-                // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
-                "@typescript-eslint/no-var-requires": "error",
+                "@typescript-eslint/no-require-imports": "error",
 
                 // RATIONALE:         The "module" keyword is deprecated except when describing legacy libraries.
                 //
@@ -358,7 +349,7 @@ module.exports = {
                 "no-new-func": "error",
 
                 // RATIONALE:         Obsolete notation.
-                "no-new-object": "error",
+                "no-object-constructor": "error",
 
                 // RATIONALE:         Obsolete notation.
                 "no-new-wrappers": "error",
