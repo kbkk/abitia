@@ -18,13 +18,23 @@ import { NestJsLoggerAdapter } from './Core/Logger';
 patchNestjsSwagger();
 const eventBusCoordinator = new EventBusCompositeCoordinator();
 
-async function createModule(
-    module: any,
-    httpPrefix: string,
-    httpAdapter: AbstractHttpAdapter,
-    factoryOptions: NestApplicationOptions,
-    openApiDocBuilder: DocumentBuilder,
-): Promise<INestApplication> {
+interface CreateModuleOptions {
+    module: any;
+    httpPrefix: string;
+    httpAdapter: AbstractHttpAdapter;
+    factoryOptions: NestApplicationOptions;
+    openApiDocBuilder: DocumentBuilder;
+    useCustomLogger?: boolean;
+}
+
+async function createModule({
+    module,
+    httpPrefix,
+    httpAdapter,
+    factoryOptions,
+    openApiDocBuilder,
+    useCustomLogger = false,
+}: CreateModuleOptions): Promise<INestApplication> {
     const nestApp = await NestFactory.create(module, httpAdapter, factoryOptions);
     nestApp.setGlobalPrefix(httpPrefix);
 
@@ -34,20 +44,13 @@ async function createModule(
     await generator.createSchema();
     await generator.updateSchema();
 
-    try {
+    if (useCustomLogger) {
         const logger = nestApp.get(NestJsLoggerAdapter);
         nestApp.useLogger(logger);
-    } catch (error) {
-        console.log(`[${httpPrefix}] Failed to find NestJsLoggerAdapter, using default logger.`);
     }
 
-    try {
-        const eventBus = nestApp.get<EventBus>(EVENT_BUS);
-
-        eventBusCoordinator.registerChild(eventBus);
-    } catch (error) {
-        console.log(`[${httpPrefix}] Failed to find EventBus, registration skipped.`);
-    }
+    const eventBus = nestApp.get<EventBus>(EVENT_BUS);
+    eventBusCoordinator.registerChild(eventBus);
 
     const document = SwaggerModule.createDocument(nestApp, openApiDocBuilder.build());
     SwaggerModule.setup(`${httpPrefix}/api`, nestApp, document);
@@ -63,30 +66,29 @@ async function createModule(
         throw error;
     }
 
-    const factoryOptions = { abortOnError: false };
+    const factoryOptions = { abortOnError: true };
     const express = new ExpressAdapter();
 
-    const accountOpenApi = new DocumentBuilder()
-        .setTitle('Monolith accounts API')
-        .setVersion('1.0');
-    const accountContext = await createModule(
-        AccountContextModule.forRoot({ eventBusCoordinator }),
-        '/AccountContext',
-        express,
+    const accountContext = await createModule({
+        module: AccountContextModule.forRoot({ eventBusCoordinator }),
+        httpPrefix: '/AccountContext',
+        httpAdapter: express,
         factoryOptions,
-        accountOpenApi,
-    );
+        openApiDocBuilder: new DocumentBuilder()
+            .setTitle('Monolith accounts API')
+            .setVersion('1.0'),
+        useCustomLogger: true,
+    });
 
-    const auctionsOpenApi = new DocumentBuilder()
-        .setTitle('Monolith auctions API')
-        .setVersion('1.0');
-    const auctionContext = await createModule(
-        AuctionContextModule.forRoot({ eventBusCoordinator }),
-        '/AuctionContext',
-        express,
+    const auctionContext = await createModule({
+        module: AuctionContextModule.forRoot({ eventBusCoordinator }),
+        httpPrefix: '/AuctionContext',
+        httpAdapter: express,
         factoryOptions,
-        auctionsOpenApi,
-    );
+        openApiDocBuilder: new DocumentBuilder()
+            .setTitle('Monolith auctions API')
+            .setVersion('1.0'),
+    });
 
     // Each init() appends a 404 catch-all middleware to the shared Express instance
     // (see ExpressAdapter.setNotFoundHandler). Sequential init would cause the first
