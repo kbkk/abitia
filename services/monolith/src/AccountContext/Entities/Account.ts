@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 
 const SALT_ROUNDS = 12;
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export type AccountId = string & { __brand: 'AccountId' }
 
 const hashPassword = (password: string): Promise<string> => bcrypt.hash(password, SALT_ROUNDS);

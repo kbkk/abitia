@@ -71,7 +71,7 @@ module.exports = {
                 "@typescript-eslint/adjacent-overload-signatures": "error",
 
                 // CONFIGURATION:     By default, these are banned: String, Boolean, Number, Object, Symbol
-                "@typescript-eslint/ban-types": [
+                "@typescript-eslint/no-restricted-types": [
                     "error",
                     {
                         types: {

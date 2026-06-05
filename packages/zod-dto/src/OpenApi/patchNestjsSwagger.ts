@@ -10,14 +10,14 @@ function loadSchemaObjectFactory() {
 export const patchNestjsSwagger = (
     schemaObjectFactoryModule = loadSchemaObjectFactory(),
 ): void => {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/naming-convention
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { SchemaObjectFactory } = schemaObjectFactoryModule;
 
     const orgExploreModelSchema = SchemaObjectFactory.prototype.exploreModelSchema;
 
     SchemaObjectFactory.prototype.exploreModelSchema = function(type: any, schemas: any, schemaRefsStack: any) {
         if (this.isLazyTypeFunc(type)) {
-            // eslint-disable-next-line @typescript-eslint/ban-types
+            // eslint-disable-next-line @typescript-eslint/no-restricted-types
             type = (type as Function)();
         }
 

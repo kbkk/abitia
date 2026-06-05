@@ -3,7 +3,6 @@ import { v4 as uuid } from 'uuid';
 
 import type { Auction } from './Auction';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export type BidId = string & { __brand: 'BidId' }
 
 export type AuctionTypes = 'buy-it-now' | 'auction';
