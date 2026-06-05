@@ -4,7 +4,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 
 import { EVENT_BUS, EventBus, EventBusCompositeCoordinator, nestJsInMemoryEventBusProvider } from '../Core/EventBus';
 import { LOGGER, Logger, NestJsLoggerAdapter, nestJsLoggerProvider } from '../Core/Logger';
-import { intermediateModule } from '../Core/NestJs';
+import { provideGlobally } from '../Core/NestJs';
 import { OutboxMessageEntity, OutboxModule, RegisterOutboxWorker } from '../Core/Outbox/';
 
 import { AccountContextGateway } from './AccountContextGateway';
@@ -27,8 +27,8 @@ interface AccountContextModuleOptions {
 @Module({})
 export class AccountContextModule {
     public static forRoot({ mikroOrmOptions, eventBusCoordinator } : AccountContextModuleOptions): DynamicModule {
-        const loggerModule = intermediateModule(nestJsLoggerProvider);
-        const eventBusModule = intermediateModule(nestJsInMemoryEventBusProvider, loggerModule);
+        const loggerModule = provideGlobally(nestJsLoggerProvider);
+        const eventBusModule = provideGlobally(nestJsInMemoryEventBusProvider, loggerModule);
 
         return {
             module: AccountContextModule,

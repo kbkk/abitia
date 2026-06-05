@@ -1,1 +1,1 @@
-export * from './intermediateModule';
+export * from './provideGlobally';
